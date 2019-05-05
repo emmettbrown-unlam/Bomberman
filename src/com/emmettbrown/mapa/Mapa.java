@@ -22,18 +22,11 @@ public class Mapa {
 				} else if ((posicionValida(i, j)) && Math.random() >= 0.25) {///75% DE PROBABILIDAD DE CREAR UN OBSTACULO
 					conjuntoEntidades.put(new Ubicacion(i, j), new Obstaculo(i, j));
 				}
-
 			}
 		}
-
 	}
 
 	private boolean posicionValida(final int posX, final int posY) {
-
-//		if (posX % 2 != 0 || posY % 2 != 0) {
-//			return false;
-//		}
-
 		if (posX == 0 && posY == 0 || posX == 0 && posY == 1 || posX == 1 && posY == 0) {
 			return false;
 		}
@@ -52,6 +45,58 @@ public class Mapa {
 		}
 		return true;
 	}
+	
+	public boolean puedeMoverse(Ubicacion ubic) {
+		if (ubic.getPosX() < 0 || ubic.getPosX() >= Mapa.ANCHO) 
+			return false;
+		if (ubic.getPosY() < 0 || ubic.getPosY() >= Mapa.ALTO)
+			return false;
+		
+		return estaLibre(ubic);		
+	}
+	
+	public void moverBomberman(int numeroBomberman, String direccion) {
+		Ubicacion aux = listaBomberman[numeroBomberman-1].obtenerUbicacion().clone();
+		switch (direccion) {
+		case Bomberman.DERECHA:
+			aux.cambiarPosX(Bomberman.VELOCIDAD);
+			if(puedeMoverse(aux)) {
+				listaBomberman[numeroBomberman-1].moverDer();
+				
+			}
+			System.out.println(aux);
+			break;
+
+		case Bomberman.IZQUIERDA:
+			aux.cambiarPosX(-Bomberman.VELOCIDAD);
+			if(puedeMoverse(aux)) {
+				listaBomberman[numeroBomberman-1].moverIzq();
+			}
+			break;
+			
+		case Bomberman.ABAJO:
+			aux.cambiarPosY(Bomberman.VELOCIDAD);
+			if(puedeMoverse(aux)) {
+				listaBomberman[numeroBomberman-1].moverAbajo();
+			}
+			break;
+
+		case Bomberman.ARRIBA:
+			aux.cambiarPosY(-Bomberman.VELOCIDAD);
+			if(puedeMoverse(aux)) {
+				listaBomberman[numeroBomberman-1].moverArriba();
+			}
+			break;
+		}
+	}
+	
+//	public void actualizarPosiciones(Ubicacion posAnt) {
+//		for(int i=0; i<listaBomberman.length; i++) {
+//			if(!puedeMoverse(listaBomberman[i].obtenerUbicacion())) {
+//				listaBomberman[i].moverse(posAnt.getPosX(), posAnt.getPosY());
+//			}
+//		}
+//	}
 
 	public Map<Ubicacion, Entidad> obtenerListaEntidades() {
 		return conjuntoEntidades;
@@ -66,7 +111,8 @@ public class Mapa {
 	public void mostrarMapa() {
 		Ubicacion ver;
 		Iterator<Ubicacion> it = conjuntoEntidades.keySet().iterator();
-		int calculo, i = 1;
+		double calculo;
+		int i = 1;
 		while (it.hasNext()) {
 			ver = it.next();
 			calculo = ver.getPosX() * ANCHO + ver.getPosY() + 1;
@@ -99,7 +145,7 @@ public class Mapa {
 	public void agregarBombermans(Bomberman[] lista) {
 		listaBomberman = lista;
 	}
-
+	
 	public void eliminarBomba(Ubicacion ubicacion) {
 		conjuntoEntidades.remove(ubicacion);
 	}

@@ -3,6 +3,8 @@ package com.emmettbrown.mapa;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.emmettbrown.entidades.Bomberman;
+
 public class TestMapa {
 	@Test
 	public void mapaConObstaculos() {
@@ -30,6 +32,12 @@ public class TestMapa {
 		Mapa m = new Mapa();
 		m.generarMapa();
 		m.mostrarMapa();
+		Bomberman[] bombermans = new Bomberman[1]; 
+		bombermans[0] = new Bomberman(0,0);
+		m.agregarBombermans(bombermans);
+		m.moverBomberman(1, Bomberman.DERECHA);
+		bombermans = m.obtenerBombermans();
+		System.out.println(bombermans[0].obtenerUbicacion());
 	}
 
 }
