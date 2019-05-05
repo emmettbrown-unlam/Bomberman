@@ -8,23 +8,51 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class Mapa {
-	public static final int ANCHO = 5;
-	public static final int ALTO = 5;
+	public static final int ANCHO = 9;
+	public static final int ALTO = 9;
 	private Map<Ubicacion, Entidad> conjuntoEntidades = new TreeMap<Ubicacion, Entidad>();
 	private Bomberman[] listaBomberman;
 
-	public void generarMapa(){
-		for (int i=0; i<ANCHO; i++) {
-			for (int j=0; j<ALTO; j++) {
-				if (i%2!=0 && j%2!=0) {
+	public void generarMapa() {
+		for (int i = 0; i < ANCHO; i++) {
+			for (int j = 0; j < ALTO; j++) {
+				if (i % 2 != 0 && j % 2 != 0) { /// EN LAS POSICIONES I,J IMPARES PONDREMOS INDESTRUCTIBLES, EN CASO
+												/// CONTRARIO EVALUAREMOS PONER OBSTACULOS
 					conjuntoEntidades.put(new Ubicacion(i, j), new Muro(i, j));
+				} else if ((posicionValida(i, j)) && Math.random() >= 0.25) {///75% DE PROBABILIDAD DE CREAR UN OBSTACULO
+					conjuntoEntidades.put(new Ubicacion(i, j), new Obstaculo(i, j));
 				}
-				
+
 			}
 		}
-		conjuntoEntidades.put(new Ubicacion(0, 1), new Obstaculo(0, 1));
+
 	}
-	
+
+	private boolean posicionValida(final int posX, final int posY) {
+
+//		if (posX % 2 != 0 || posY % 2 != 0) {
+//			return false;
+//		}
+
+		if (posX == 0 && posY == 0 || posX == 0 && posY == 1 || posX == 1 && posY == 0) {
+			return false;
+		}
+
+		if (posX == ANCHO - 1 && posY == 0 || posX == ANCHO - 2 && posY == 0 || posX == ANCHO - 1 && posY == 1) {
+			return false;
+		}
+
+		if (posX == 0 && posY == ALTO - 1 || posX == 0 && posY == ALTO - 2 || posX == 1 && posY == ALTO - 1) {
+			return false;
+		}
+
+		if (posX == ANCHO - 1 && posY == ALTO - 1 || posX == ANCHO - 2 && posY == ALTO - 1
+				|| posX == ANCHO - 1 && posY == ALTO - 2) {
+			return false;
+		}
+		return true;
+	}
+
 	public Map<Ubicacion, Entidad> obtenerListaEntidades() {
 		return conjuntoEntidades;
 	}
@@ -79,16 +107,16 @@ public class Mapa {
 	public Bomberman[] obtenerBombermans() {
 		return listaBomberman;
 	}
-	
+
 	public void explotarBomba(Ubicacion u) {
-		Bomba b =((Bomba)conjuntoEntidades.get(u));
+		Bomba b = ((Bomba) conjuntoEntidades.get(u));
 		b.explotar(this);
-		
+
 	}
-	
-	public void explotarBomba(int posX,int posY) {
-		Bomba b =((Bomba)conjuntoEntidades.get(new Ubicacion(posX,posY)));
+
+	public void explotarBomba(int posX, int posY) {
+		Bomba b = ((Bomba) conjuntoEntidades.get(new Ubicacion(posX, posY)));
 		b.explotar(this);
-		
-	}	
+
+	}
 }

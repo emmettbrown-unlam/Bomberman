@@ -24,5 +24,12 @@ public class TestMapa {
 		Assert.assertEquals(true,m.estaLibre(new Ubicacion(0,0)));
 		Assert.assertEquals(false,m.estaLibre(new Ubicacion(3,3)));
 	}
+	
+	@Test
+	public void mostrarMapaGenerado() {
+		Mapa m = new Mapa();
+		m.generarMapa();
+		m.mostrarMapa();
+	}
 
 }
