@@ -1,7 +1,10 @@
 package com.emmettbrown.entidades;
 
-import com.emmettbrown.mapa.*;
+import java.util.List;
 import java.util.Map;
+
+import com.emmettbrown.mapa.Mapa;
+import com.emmettbrown.mapa.Ubicacion;
 
 public class Bomba extends Entidad {
 	private static int nroBomba = 0;
@@ -26,7 +29,7 @@ public class Bomba extends Entidad {
 	}
 
 	private boolean explotarEnCadena(Ubicacion ubic, Mapa map) {
-		Bomberman[] listaBomb = map.obtenerBombermans();
+		List<Bomberman> listaBomb = map.obtenerListaBomberman();		
 		Map<Ubicacion, Entidad> listaEnt = map.obtenerListaEntidades();
 		Entidad ent = listaEnt.get(ubic);
 		Bomba exp;
@@ -47,9 +50,9 @@ public class Bomba extends Entidad {
 			return false;
 		}
 		if (listaBomb != null) {
-			for (int j = 0; j < listaBomb.length; j++) {
-				if (listaBomb[j].ubicacion.equals(ubic)) {
-					listaBomb[j].morir();
+			for (Bomberman bomberman : listaBomb) {
+				if (bomberman.ubicacion.equals(ubic)) {
+					bomberman.morir();
 				}
 			}			
 		}

@@ -5,11 +5,7 @@ import com.emmettbrown.mapa.*;
 public class Bomberman extends Entidad {
 	private static int nroBomberman = 0;
 	private int idBomberman;
-	public static final double VELOCIDAD = 0.1;
-	public static final String DERECHA = "derecha";
-	public static final String IZQUIERDA = "izquierda";
-	public static final String ARRIBA = "arriba";
-	public static final String ABAJO = "abajo";
+	public static final double VELOCIDAD = 1;
 
 	public Bomberman(int posIniX,int posIniY) {
 		super(posIniX, posIniY);
@@ -52,23 +48,7 @@ public class Bomberman extends Entidad {
 //	public void moverAbajo() {
 //		moverse(0, VELOCIDAD);
 //	}
-	
-	public void moverIzq() {
-		this.ubicacion.cambiarPosX(-VELOCIDAD);
-	}
-	
-	public void moverDer() {
-		this.ubicacion.cambiarPosX(VELOCIDAD);
-	}
-	
-	public void moverAbajo() {
-		this.ubicacion.cambiarPosY(VELOCIDAD);
-	}
-	
-	public void moverArriba() {
-		this.ubicacion.cambiarPosY(VELOCIDAD);
-	}
-	
+		
 	@Override
 	public boolean verSiEsVisible() {
 		return this.esVisible;
