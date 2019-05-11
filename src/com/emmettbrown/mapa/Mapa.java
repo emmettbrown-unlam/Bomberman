@@ -130,11 +130,17 @@ public class Mapa {
 		return null;
 	}	
 	
+	/** Devuelve una entidad del Treemap de entidades del mapa.
+	 * 
+	 * @param ubic: la ubicación en la que se encuentra la entidad (KEY).
+	 * @return
+	 */
+	
 	public Entidad obtenerEntidadDelConjunto(Ubicacion ubic) {
 		return conjuntoEntidades.get(ubic);
 	}
 	
-	/** Remueve una entidad del Treemap de entidades.
+	/** Remueve una entidad del Treemap de entidades del mapa.
 	 * 
 	 * @param ubic: la ubicación de la entidad
 	 */
@@ -148,6 +154,14 @@ public class Mapa {
 	//			  BOMBERMANS		   //
 	//								  //
 	///////////////////////////////////
+	
+	/** Realiza una serie de chequeos y en caso de validar correctamente, mueve el bomberman a una nueva
+	 *  ubicación en el mapa.
+	 * 
+	 * @param bomberman: el bomberman a mover
+	 * @param despX: el desplazamiento en el eje X que realizaría el bomberman
+	 * @param despY: el desplazamiento en el eje Y que realizaría el bomberman
+	 */
 	
 	public void moverBomberman(Bomberman bomberman, double despX, double despY) {
 		Ubicacion ubic = bomberman.obtenerUbicacion().clone();
@@ -214,14 +228,29 @@ public class Mapa {
 		this.moverBomberman(bomberman, desplazamiento, 0);
 	}	
 	
+	/** Agrega un bomberman nuevo a la lista de bombermans del mapa.
+	 * 
+	 * @param b: bomberman a agregar
+	 */
 	
 	public void agregarBomberman(Bomberman b) {
 		this.listaBomberman.add(b);
 	}	
 	
+	/** Retorna la lista de bombermans del mapa.
+	 * 
+	 * @return List<Bomberman> listaBomberman
+	 */
+	
 	public List<Bomberman> obtenerListaBomberman() {
 		return listaBomberman;
 	}
+	
+	/** Recorre la lista de bombermans y retorna al que encuentre en la ubicación indicada.
+	 * 
+	 * @param ubic: la ubicación a buscar
+	 * @return instanceof Bomberman si lo encuentra, null si no
+	 */
 	
 	public Bomberman obtenerBombermanEn(Ubicacion ubic) {
 		for (Bomberman bomberman : listaBomberman) {
@@ -238,10 +267,21 @@ public class Mapa {
 	//								  //
 	///////////////////////////////////	
 
+	/** Agregar una bomba en el conjunto de entidades de la clase Mapa
+	 * 
+	 * @param ubicacion: la ubicación en la que se encuentra la bomba
+	 */
+	
 	public void agregarBomba(Ubicacion ubicacion) {
 		Ubicacion copia = ubicacion.clone();
 		conjuntoEntidades.put(copia, new Bomba(copia));
 	}
+	
+	/** Explota una bomba a través de sus coordenadas
+	 * 
+	 * @param posX: coord. eje X
+	 * @param posY: coord. eje Y
+	 */
 		
 	public void explotarBomba(int posX, int posY) {
 		Bomba b = ((Bomba) conjuntoEntidades.get(new Ubicacion(posX, posY)));
@@ -250,13 +290,22 @@ public class Mapa {
 			b.explotar(this);
 	}
 	
-	public void explotarBomba(Ubicacion u) {
-		Bomba b = ((Bomba) conjuntoEntidades.get(u));
+	/** Explota una bomba a través de su ubicación
+	 * 
+	 * @param ubic: la ubicación en la que se encuentra la bomba
+	 */
+	
+	public void explotarBomba(Ubicacion ubic) {
+		Bomba b = ((Bomba) conjuntoEntidades.get(ubic));
 		
 		if (b != null)	
 			b.explotar(this);
 	}	
 	
+	/** Explota una bomba a través de su instancia
+	 * 
+	 * @param bomba: instancia de la bomba a explotar
+	 */
 	public void explotarBomba(Bomba bomba) {
 		bomba.explotar(this);
 	}
