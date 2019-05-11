@@ -1,8 +1,5 @@
 package com.emmettbrown.entidades;
 
-import java.util.List;
-import java.util.Map;
-
 import com.emmettbrown.mapa.Mapa;
 import com.emmettbrown.mapa.Ubicacion;
 
@@ -12,62 +9,85 @@ public class Bomba extends Entidad {
 	private int segsExplosion;
 	private int rango;
 
-	public Bomba(final int posIniX, final int posIniY) {
+	
+	/////////////////////////////////////// 
+	//								    //
+	//	       CONSTRUCTORES 		   //
+	//								  //
+	///////////////////////////////////	
+	
+	public Bomba(int posIniX, int posIniY) {
 		super(posIniX, posIniY);
-		idBomba = nroBomba;
-		nroBomba++;
+		idBomba = nroBomba++;
 		segsExplosion = 3;
 		this.destructible = true;
-		this.rango = 2;
+		this.rango = 1;
 	}
 
-	public Bomba(Ubicacion miUbicacion) {
-		super(miUbicacion);
-		idBomba = nroBomba;
-		nroBomba++;
+	public Bomba(Ubicacion ubic) {
+		super(ubic);
+		idBomba = nroBomba++;
 		segsExplosion = 3;
+		this.destructible = true;
+		this.rango = 1;
 	}
 
-	private boolean explotarEnCadena(Ubicacion ubic, Mapa map) {
-		List<Bomberman> listaBomb = map.obtenerListaBomberman();		
-		Map<Ubicacion, Entidad> listaEnt = map.obtenerListaEntidades();
-		Entidad ent = listaEnt.get(ubic);
-		Bomba exp;
-		if (ent != null && ent.destructible && ent.esVisible == true) {
-
-			if (ent.getClass().getSimpleName().equals("Bomba") ) {
-				exp = (Bomba) ent;
-				exp.explotar(map);
-
-			} else if (ent.getClass().getSimpleName().equals("Obstaculo")) {
-				((Obstaculo)ent).destruir();
-				listaEnt.remove(ubic);
+	/////////////////////////////////////// 
+	//								    //
+	//	      GETTERS Y SETTERS		   //
+	//								  //
+	///////////////////////////////////	
+	
+	public int getIdBomba() {
+		return idBomba;
+	}
+	
+	/////////////////////////////////////// 
+	//								    //
+	//	      	  METODOS 		       //
+	//								  //
+	///////////////////////////////////	
+	
+	
+	private void explosion(Ubicacion ubic, Mapa map) {
+		//Buscamos una entidad en dicha ubicación. Solo puede haber una, así que buscamos 
+		//la que esté ahí
+		Entidad ent = map.obtenerEntidadEn(ubic);
+		
+		if (ent != null && ent.destructible && ent.esVisible) {
+			//Si la entidad es una instancia de bomba...
+			if (ent instanceof Bomba) {
+				//Casteo furioso a Bomba
+				((Bomba) ent).explotar(map);
+			} else if (ent instanceof Obstaculo) {
+				//Casteo furioso a Obstaculo
+				((Obstaculo) ent).destruir();
+				//Removemos a la entidad
+				map.removerEntidadDelConjunto(ubic);
+			} else if (ent instanceof Bomberman) {
+				//Casteo furioso a Bomberman
+				((Bomberman) ent).morir();
 			}
-
-			return true;
-
-		} else if (ent != null && !ent.destructible) {
-			return false;
-		}
-		if (listaBomb != null) {
-			for (Bomberman bomberman : listaBomb) {
-				if (bomberman.ubicacion.equals(ubic)) {
-					bomberman.morir();
-				}
-			}			
-		}
-
-		return false;
+		} 
 	}
 
-	public void explotar(Mapa m) {
+	public void explotar(Mapa map) {
 		System.out.println("BUM, la bomba " + idBomba + " Exploto");
+		//Seteamos visible = false para dejar de renderizar la bomba
 		this.cambiarVisibilidad();
-		explotarEnCadena(new Ubicacion(this.ubicacion.getPosX(),this.ubicacion.getPosY()),m);	
-		explotarEnCadena(new Ubicacion(this.ubicacion.getPosX()+1,this.ubicacion.getPosY()),m);	
-		explotarEnCadena(new Ubicacion(this.ubicacion.getPosX()-1,this.ubicacion.getPosY()),m);	
-		explotarEnCadena(new Ubicacion(this.ubicacion.getPosX(),this.ubicacion.getPosY()+1),m);	
-		explotarEnCadena(new Ubicacion(this.ubicacion.getPosX(),this.ubicacion.getPosY()-1),m);	
-		m.eliminarBomba(this.ubicacion);
+		
+		//Creamos una "explosión" en en lugar
+		explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY()), map);
+		
+		//Creamos "explosiones" en las cuatro direcciones, dependiendo del rango
+		for (int i = 1; i <= this.rango; i++) {
+			explosion(new Ubicacion(this.ubicacion.getPosX()+i, this.ubicacion.getPosY()), map);	
+			explosion(new Ubicacion(this.ubicacion.getPosX()-i, this.ubicacion.getPosY()), map);	
+			explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY()+i), map);	
+			explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY()-i), map);	
+		}
+		
+		//Removemos la bomba de la lista de entidades
+		map.removerEntidadDelConjunto(this.ubicacion);
 	}
 }

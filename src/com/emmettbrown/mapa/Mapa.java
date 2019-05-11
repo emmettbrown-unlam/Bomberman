@@ -15,8 +15,7 @@ import com.emmettbrown.entidades.Obstaculo;
 public class Mapa {
 	public static final int ANCHO = 9;
 	public static final int ALTO = 9;
-	private Map<Ubicacion, Entidad> conjuntoEntidades = new TreeMap<Ubicacion, Entidad>();
-	//private Bomberman[] listaBomberman;
+	private Map<Ubicacion, Entidad> conjuntoEntidades;
 	private List<Bomberman> listaBomberman;
 
 	
@@ -28,9 +27,9 @@ public class Mapa {
 	
 	public Mapa() 
 	{
+		conjuntoEntidades = new TreeMap<Ubicacion, Entidad>();
 		listaBomberman = new ArrayList<Bomberman>();
-	}
-	
+	}	
 	
 	/////////////////////////////////////// 
 	//								    //
@@ -51,7 +50,7 @@ public class Mapa {
 		}
 	}
 
-	private boolean posicionValida(final int posX, final int posY) {
+	private boolean posicionValida(int posX, int posY) {
 		if (posX == 0 && posY == 0 || posX == 0 && posY == 1 || posX == 1 && posY == 0) {
 			return false;
 		}
@@ -70,11 +69,7 @@ public class Mapa {
 		}
 		return true;
 	}	
-
-	public Map<Ubicacion, Entidad> obtenerListaEntidades() {
-		return conjuntoEntidades;
-	}
-
+	
 	public void mostrarMapa() {
 		Ubicacion ver;
 		Iterator<Ubicacion> it = conjuntoEntidades.keySet().iterator();
@@ -100,6 +95,52 @@ public class Mapa {
 			System.out.printf("NULO\t");
 		}
 		System.out.println();
+	}
+	
+	/////////////////////////////////////// 
+	//								    //
+	//			  ENTIDADES 		   //
+	//								  //
+	///////////////////////////////////
+	
+	
+	public Map<Ubicacion, Entidad> obtenerListaEntidades() {
+		return conjuntoEntidades;
+	}
+	
+	/** Busca todas las posibles entidades en una unbicación. 
+	 * 
+	 * @param ubic: la ubicación a buscar.
+	 * @return
+	 */
+	
+	public Entidad obtenerEntidadEn(Ubicacion ubic) {
+		Entidad ent;
+		
+		ent = conjuntoEntidades.get(ubic);
+		
+		if (ent != null)
+			return ent;
+		
+		ent = obtenerBombermanEn(ubic);
+		
+		if (ent != null)
+			return ent;		
+		
+		return null;
+	}	
+	
+	public Entidad obtenerEntidadDelConjunto(Ubicacion ubic) {
+		return conjuntoEntidades.get(ubic);
+	}
+	
+	/** Remueve una entidad del Treemap de entidades.
+	 * 
+	 * @param ubic: la ubicación de la entidad
+	 */
+	
+	public void removerEntidadDelConjunto(Ubicacion ubic) {
+		conjuntoEntidades.remove(ubic);
 	}
 
 	/////////////////////////////////////// 
@@ -182,15 +223,14 @@ public class Mapa {
 		return listaBomberman;
 	}
 	
-	/** Agrega una lista de Bombermans al mapa */
-	
-	/*public void agregarBombermans(Bomberman[] lista) {
-		listaBomberman = lista;	
+	public Bomberman obtenerBombermanEn(Ubicacion ubic) {
+		for (Bomberman bomberman : listaBomberman) {
+			if (bomberman.obtenerUbicacion().equals(ubic))
+				return bomberman;
+		}
+		
+		return null;
 	}
-
-	public Bomberman[] obtenerBombermans() {
-		return listaBomberman;
-	}*/
 	
 	/////////////////////////////////////// 
 	//								    //
@@ -202,18 +242,22 @@ public class Mapa {
 		Ubicacion copia = ubicacion.clone();
 		conjuntoEntidades.put(copia, new Bomba(copia));
 	}
-	
-	public void eliminarBomba(Ubicacion ubicacion) {
-		conjuntoEntidades.remove(ubicacion);
-	}
 		
 	public void explotarBomba(int posX, int posY) {
 		Bomba b = ((Bomba) conjuntoEntidades.get(new Ubicacion(posX, posY)));
-		b.explotar(this);
+		
+		if (b != null)	
+			b.explotar(this);
 	}
 	
 	public void explotarBomba(Ubicacion u) {
 		Bomba b = ((Bomba) conjuntoEntidades.get(u));
-		b.explotar(this);
+		
+		if (b != null)	
+			b.explotar(this);
+	}	
+	
+	public void explotarBomba(Bomba bomba) {
+		bomba.explotar(this);
 	}
 }

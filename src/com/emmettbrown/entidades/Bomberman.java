@@ -1,16 +1,15 @@
 package com.emmettbrown.entidades;
 
-import com.emmettbrown.mapa.*;
+//import com.emmettbrown.mapa.*;
 
 public class Bomberman extends Entidad {
 	private static int nroBomberman = 0;
 	private int idBomberman;
 	public static final double VELOCIDAD = 1;
 
-	public Bomberman(int posIniX,int posIniY) {
-		super(posIniX, posIniY);
-		idBomberman = nroBomberman;
-		nroBomberman++;
+	public Bomberman(int posX, int posY) {
+		super(posX, posY);
+		idBomberman = nroBomberman++;
 		this.destructible = true;
 	}
 	
@@ -30,9 +29,7 @@ public class Bomberman extends Entidad {
 //			this.ubicacion.cambiarPosY(despY);
 //		}		
 //	}
-//	
-//	
-//	
+//
 //	public void moverIzquierda() {
 //		moverse(-VELOCIDAD, 0);
 //	}
@@ -48,25 +45,9 @@ public class Bomberman extends Entidad {
 //	public void moverAbajo() {
 //		moverse(0, VELOCIDAD);
 //	}
-		
-	@Override
-	public boolean verSiEsVisible() {
-		return this.esVisible;
-	}
-
+	
 	public void morir() {
-		if (this.esVisible == true) {
-			esVisible = false;
-			System.out.println("El bomberman " + idBomberman + " ha muerto");
-		}
-
-	}
-
-	public void ponerBomba() {
-		System.out.println("SE HA PUESTO LA BOMBA");
-	}
-
-	public Ubicacion obtenerUbicacion() {
-		return this.ubicacion;
+		esVisible = false;
+		System.out.println("El bomberman " + idBomberman + " ha muerto");
 	}
 }
