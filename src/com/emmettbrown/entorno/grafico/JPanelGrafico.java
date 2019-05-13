@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -23,6 +24,9 @@ public class JPanelGrafico extends JPanel {
 	Mapa miMapa;
 	Map<Ubicacion, Entidad> conjuntoEntidades;
 	List<Bomberman> listaBomberman;
+	ImageIcon muro;
+	ImageIcon obstaculo;
+	ImageIcon bomberman;
 	/**
 	 * 
 	 */
@@ -32,6 +36,9 @@ public class JPanelGrafico extends JPanel {
 		this.miMapa = miMapa;
 		conjuntoEntidades = miMapa.obtenerListaEntidades();
 		listaBomberman = miMapa.obtenerListaBomberman();
+		muro = new ImageIcon("./src/resources/game-map/environment.png");
+		obstaculo = new ImageIcon("./src/resources/game-map/brick/obstaculo.png");
+		bomberman = new ImageIcon("./src/resources/character/bomberman.png");
 	}
 
 	public void paintComponent(Graphics g) {
@@ -46,12 +53,10 @@ public class JPanelGrafico extends JPanel {
 			ubic = iterEnt.next();
 			mostEnt = conjuntoEntidades.get(ubic);
 			if (mostEnt instanceof Muro) {
-				g.setColor(Color.RED);
-				g.fillRect((int) ubic.getPosX() * 75, (int) ubic.getPosY() * 75, 75, 75);
+				g.drawImage(muro.getImage(),(int) ubic.getPosX() * 75, (int) ubic.getPosY() * 75, 75, 75, null);
 			}
 			if (mostEnt instanceof Obstaculo) {
-				g.setColor(Color.BLUE);
-				g.fillRect((int) ubic.getPosX() * 75, (int) ubic.getPosY() * 75, 75, 75);
+				g.drawImage(obstaculo.getImage(),(int) ubic.getPosX() * 75+2, (int) ubic.getPosY() * 75+2, 71, 71, null);
 			}
 
 			
@@ -60,7 +65,7 @@ public class JPanelGrafico extends JPanel {
 		while (iterBomb.hasNext()) {
 			mostBomb = iterBomb.next();
 			ubic = mostBomb.obtenerUbicacion();
-			g.fillOval((int) ubic.getPosX() * 75, (int) ubic.getPosY() * 75, 75, 75);
+			g.drawImage(bomberman.getImage(),(int) ubic.getPosX() * 75, (int) ubic.getPosY() * 75, 75, 75, null);
 		}
 
 	}
