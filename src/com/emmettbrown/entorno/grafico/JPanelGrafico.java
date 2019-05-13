@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entidades.Entidad;
@@ -18,6 +19,8 @@ import com.emmettbrown.entidades.Obstaculo;
 import com.emmettbrown.mapa.Mapa;
 import com.emmettbrown.mapa.Ubicacion;
 import com.sun.javafx.geom.RoundRectangle2D;
+
+import javafx.scene.layout.Border;
 
 public class JPanelGrafico extends JPanel {
 
@@ -43,7 +46,7 @@ public class JPanelGrafico extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
+		setBorder(new LineBorder(Color.BLUE, 12));
 		Iterator<Ubicacion> iterEnt = conjuntoEntidades.keySet().iterator();
 		Iterator<Bomberman> iterBomb = listaBomberman.iterator();
 		Bomberman mostBomb;
