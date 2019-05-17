@@ -69,32 +69,6 @@ public class Mapa {
 		return true;
 	}
 
-//	public void mostrarMapa() {
-//		Ubicacion ver;
-//		Iterator<Ubicacion> it = conjuntoEntidades.keySet().iterator();
-//		double calculo;
-//		int i = 1;
-//		while (it.hasNext()) {
-//			ver = it.next();
-//			calculo = ver.getPosX() * ANCHO + ver.getPosY() + 1;
-//			for (; i < calculo; i++) {
-//				System.out.printf("NULO\t");
-//				if (i != 0 && i % ANCHO == 0)
-//					System.out.println();
-//			}
-//			System.out.printf("%s\t", conjuntoEntidades.get(ver).getClass().getSimpleName().substring(0, 4));
-//			if (i != 0 && i % ANCHO == 0)
-//				System.out.println();
-//			i++;
-//		}
-//		i--;
-//		for (; i < (ANCHO * ALTO); i++) {
-//			if (i != 0 && i % ANCHO == 0)
-//				System.out.println();
-//			System.out.printf("NULO\t");
-//		}
-//		System.out.println();
-//	}
 
 	///////////////////////////////////////
 	// //
@@ -324,19 +298,19 @@ public class Mapa {
 		bomba.explotar(this);
 	}
 
-	public void descontarSegundos() {
-		Iterator<Ubicacion> iterEnt = conjuntoEntidades.keySet().iterator();
-		Ubicacion ubic;
-		Entidad ent;
-		while (iterEnt.hasNext()) {
-			ubic = iterEnt.next();
-			ent = conjuntoEntidades.get(ubic);
-			if (ent instanceof Bomba) {
-				((Bomba) ent).reducirTiempo(this);
-				if(ent.verSiEsVisible() == false) {
-					conjuntoEntidades.remove(ent.obtenerUbicacion());
-				}
-			}
-		}
-	}
+//	public void descontarSegundos() {
+//		Iterator<Ubicacion> iterEnt = conjuntoEntidades.keySet().iterator();
+//		Ubicacion ubic;
+//		Entidad ent;
+//		while (iterEnt.hasNext()) {
+//			ubic = iterEnt.next();
+//			ent = conjuntoEntidades.get(ubic);
+//			if (ent instanceof Bomba) {
+//				((Bomba) ent).reducirTiempo(this);
+//				if(ent.verSiEsVisible() == false) {
+//					conjuntoEntidades.remove(ent.obtenerUbicacion());
+//				}
+//			}
+//		}
+//	}
 }

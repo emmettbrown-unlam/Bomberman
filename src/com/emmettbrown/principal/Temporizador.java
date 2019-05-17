@@ -36,7 +36,6 @@ public class Temporizador {
 	public Temporizador(int ms, Bomba bomb, Mapa map) {
 		this.bomb = bomb;
 		this.map = map;
-		this.sMax = sMax;
 		t = new Timer(ms, new miOyente(this.bomb));
 	}
 

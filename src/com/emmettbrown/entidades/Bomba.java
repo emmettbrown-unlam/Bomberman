@@ -22,14 +22,8 @@ public class Bomba extends Entidad {
 		idBomba = nroBomba++;
 		segsExplosion = 3;
 		this.destructible = true;
-		this.rango = 1;
+		this.rango = 2;
 		this.img = new ImageIcon("./src/resources/bomb/bomba.png");
-	}
-
-	public void reducirTiempo(Mapa map) {
-		if (segsExplosion == 1)
-			explotar(map);
-		segsExplosion--;
 	}
 
 	public Bomba(Ubicacion ubic) {
@@ -37,7 +31,7 @@ public class Bomba extends Entidad {
 		idBomba = nroBomba++;
 		segsExplosion = 3;
 		this.destructible = true;
-		this.rango = 1;
+		this.rango = 2;
 		this.img = new ImageIcon("./src/resources/bomb/bomba.png");
 	}
 

@@ -10,7 +10,6 @@ public class Motor {
 	private JVentanaGrafica miVentana;
 	private Bomberman miBomber;
 	private boolean iniciado;
-	private long segundos;
 
 	public Motor() {
 		miMapa = new Mapa();
@@ -18,7 +17,6 @@ public class Motor {
 		miBomber = new Bomberman(0, 0); //Bomberman propio del usuario conectado.
 		miMapa.agregarBomberman(miBomber);
 		miVentana = new JVentanaGrafica(miMapa,miBomber);
-		segundos = 0;
 	}
 
 	private void iniciarJuego() {
@@ -32,7 +30,6 @@ public class Motor {
 				actualizar();
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
