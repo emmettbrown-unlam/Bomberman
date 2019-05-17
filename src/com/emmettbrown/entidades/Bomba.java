@@ -1,5 +1,7 @@
 package com.emmettbrown.entidades;
 
+import javax.swing.ImageIcon;
+
 import com.emmettbrown.mapa.Mapa;
 import com.emmettbrown.mapa.Ubicacion;
 
@@ -22,6 +24,13 @@ public class Bomba extends Entidad {
 		segsExplosion = 3;
 		this.destructible = true;
 		this.rango = 1;
+		this.img = new ImageIcon("./src/resources/bomb/bomba.png");
+	}
+	
+	public void reducirTiempo(Mapa map) {
+		if(segsExplosion == 1)
+			explotar(map);
+		segsExplosion--;
 	}
 
 	public Bomba(Ubicacion ubic) {
@@ -30,6 +39,7 @@ public class Bomba extends Entidad {
 		segsExplosion = 3;
 		this.destructible = true;
 		this.rango = 1;
+		this.img = new ImageIcon("./src/resources/bomb/bomba.png");
 	}
 
 	/////////////////////////////////////// 
@@ -120,6 +130,9 @@ public class Bomba extends Entidad {
 		//la que esté ahí
 		Entidad ent = map.obtenerEntidadEn(ubic);
 		
+		//en la ubicacion no explóta. 
+		
+		
 		if (ent != null && ent.esVisible) {
 			//Si la entidad es una instancia de bomba...
 			if (ent instanceof Bomba) {
@@ -144,5 +157,10 @@ public class Bomba extends Entidad {
 			}
 		}		
 		return false;
-	}	
+	}
+
+	public int getMs() {
+		return this.segsExplosion*1000;
+	}
+	
 }

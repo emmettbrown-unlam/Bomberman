@@ -29,11 +29,6 @@ public class TestBomba {
 		Mapa m = new Mapa();
 		Bomberman bman = new Bomberman(2,2);
 		Bomberman bman2 = new Bomberman(1,2);
-		
-		/*Bomberman[] listaBomb = new Bomberman[2];
-		listaBomb[0] = new Bomberman(2, 2, m);
-		listaBomb[1] = new Bomberman(1, 2, m);*/
-		
 		m.agregarBomberman(bman);
 		m.agregarBomberman(bman2);		
 		m.agregarBomba(bman.obtenerUbicacion());

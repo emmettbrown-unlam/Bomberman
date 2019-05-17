@@ -1,5 +1,7 @@
 package com.emmettbrown.entidades;
 
+import javax.swing.ImageIcon;
+
 public class Obstaculo extends Entidad{
 	private static int nroObstaculo = 0;
 	public int idObstaculo;
@@ -9,6 +11,7 @@ public class Obstaculo extends Entidad{
 		idObstaculo = nroObstaculo;
 		nroObstaculo++;
 		this.destructible = true;
+		this.img = new ImageIcon("./src/resources/game-map/brick/obstaculo.png");
 	}
 	
 	public void destruir() {

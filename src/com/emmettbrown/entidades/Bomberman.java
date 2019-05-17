@@ -1,5 +1,7 @@
 package com.emmettbrown.entidades;
 
+import javax.swing.ImageIcon;
+
 public class Bomberman extends Entidad {
 	private static int nroBomberman = 0;
 	private int idBomberman;
@@ -9,6 +11,7 @@ public class Bomberman extends Entidad {
 		super(posX, posY);
 		idBomberman = nroBomberman++;
 		this.destructible = true;
+		this.img = new ImageIcon("./src/resources/character/bomberman.png");
 	}
 	
 	/** PARAM

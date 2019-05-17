@@ -17,7 +17,7 @@ public class Ubicacion implements Comparable<Ubicacion> {
 		return this.posY;
 	}
 
-	@Override
+	//@Override
 	public int compareTo(Ubicacion ubicacion) {
 		double cmp;
 		if((cmp = this.posX - ubicacion.posX) == 0) 

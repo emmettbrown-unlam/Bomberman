@@ -31,7 +31,7 @@ public class TestMapa {
 	public void mostrarMapaGenerado() {
 		Mapa m = new Mapa();
 		m.generarMapa();
-		m.mostrarMapa();
+		//m.mostrarMapa();
 		
 		Bomberman bman = new Bomberman(0,0);
 		
