@@ -22,7 +22,7 @@ public class Temporizador {
 			this.b = bomb;
 		}
 
-		@Override
+		//@Override
 		public void actionPerformed(ActionEvent ae) {
 
 			System.out.println("Pasaron 3 segundos entonces BUM");

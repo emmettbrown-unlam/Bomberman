@@ -7,8 +7,9 @@ public class Teclado implements KeyListener{
 	private boolean arriba;
 	private boolean abajo;
 	private boolean izq;
-	private boolean esc;
 	private boolean der;
+	private boolean esc;
+	
 	
 	public boolean isArriba() {
 		return arriba;
@@ -46,7 +47,7 @@ public class Teclado implements KeyListener{
 		this.esc = false;
 	}
 	
-	@Override
+	//@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 
@@ -71,7 +72,7 @@ public class Teclado implements KeyListener{
 		}
 	}
 
-	@Override
+	//@Override
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
 
@@ -93,7 +94,7 @@ public class Teclado implements KeyListener{
 	}
 	
 
-	@Override
+	//@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		

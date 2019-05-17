@@ -11,13 +11,12 @@ public class Bomba extends Entidad {
 	private int segsExplosion;
 	private int rango;
 
-	
-	/////////////////////////////////////// 
-	//								    //
-	//	       CONSTRUCTORES 		   //
-	//								  //
-	///////////////////////////////////	
-	
+	///////////////////////////////////////
+	// //
+	// CONSTRUCTORES //
+	// //
+	///////////////////////////////////
+
 	public Bomba(int posIniX, int posIniY) {
 		super(posIniX, posIniY);
 		idBomba = nroBomba++;
@@ -26,9 +25,9 @@ public class Bomba extends Entidad {
 		this.rango = 1;
 		this.img = new ImageIcon("./src/resources/bomb/bomba.png");
 	}
-	
+
 	public void reducirTiempo(Mapa map) {
-		if(segsExplosion == 1)
+		if (segsExplosion == 1)
 			explotar(map);
 		segsExplosion--;
 	}
@@ -42,125 +41,135 @@ public class Bomba extends Entidad {
 		this.img = new ImageIcon("./src/resources/bomb/bomba.png");
 	}
 
-	/////////////////////////////////////// 
-	//								    //
-	//	      GETTERS Y SETTERS		   //
-	//								  //
-	///////////////////////////////////	
-	
+	///////////////////////////////////////
+	// //
+	// GETTERS Y SETTERS //
+	// //
+	///////////////////////////////////
+
 	public int getIdBomba() {
 		return idBomba;
 	}
-	
-	/////////////////////////////////////// 
-	//								    //
-	//	      	  METODOS 		       //
-	//								  //
-	///////////////////////////////////	
-	
-	/** Realiza un par de acciones comunes (remover la bomba, setear visibilidad en false), y crea explosiones
-	 * en las cuatro direcciones hasta llegar al rango maximo... o toparse con un obstaculo/muro
+
+	///////////////////////////////////////
+	// //
+	// METODOS //
+	// //
+	///////////////////////////////////
+
+	/**
+	 * Realiza un par de acciones comunes (remover la bomba, setear visibilidad
+	 * en false), y crea explosiones en las cuatro direcciones hasta llegar al
+	 * rango maximo... o toparse con un obstaculo/muro
 	 * 
-	 * @param map: el mapa del juego
+	 * @param map:
+	 *            el mapa del juego
 	 */
-	
+
 	public void explotar(Mapa map) {
 		System.out.println("BUM, la bomba " + idBomba + " Exploto");
-		//Seteamos visible = false para dejar de renderizar la bomba
+		// Seteamos visible = false para dejar de renderizar la bomba
 		this.cambiarVisibilidad();
-		
-		//Creamos una "explosión" en en lugar
+
+		// Creamos una "explosión" en en lugar
 		explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY()), map);
-		
-		//Creamos "explosiones" en las cuatro direcciones, dependiendo del rango
+
+		// Creamos "explosiones" en las cuatro direcciones, dependiendo del
+		// rango
 		explosionIzquierda(map);
 		explosionDerecha(map);
 		explosionArriba(map);
 		explosionAbajo(map);
-		
-		//Removemos la bomba de la lista de entidades
+
+		// Removemos la bomba de la lista de entidades
 		map.removerEntidadDelConjunto(this.ubicacion);
 	}
-	
+
 	private void explosionIzquierda(Mapa map) {
-		boolean hayObstaculo = false;		
-		
-		//Se ejecuta hasta llegar al rango maximo, o toparse con un obstaculo/muro
-		for (int i = 1; i <= this.rango && !hayObstaculo; i++) {			
-			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX()-i, this.ubicacion.getPosY()), map);
+		boolean hayObstaculo = false;
+
+		// Se ejecuta hasta llegar al rango maximo, o toparse con un
+		// obstaculo/muro siempre dentro del ANCHO y ALTO
+		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosX() - i >= 0;  i++) {
+			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX() - i, this.ubicacion.getPosY()), map);
 		}
 	}
-	
+
 	private void explosionDerecha(Mapa map) {
-		boolean hayObstaculo = false;		
-		
-		//Se ejecuta hasta llegar al rango maximo, o toparse con un obstaculo/muro
-		for (int i = 1; i <= this.rango && !hayObstaculo; i++) {			
-			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX()+i, this.ubicacion.getPosY()), map);
+		boolean hayObstaculo = false;
+
+		// Se ejecuta hasta llegar al rango maximo, o toparse con un
+		// obstaculo/muro siempre dentro del ANCHO y ALTO
+		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosX() + i < Mapa.ANCHO;  i++) {
+			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX() + i, this.ubicacion.getPosY()), map);
 		}
 	}
-	
+
 	private void explosionArriba(Mapa map) {
-		boolean hayObstaculo = false;		
-		
-		//Se ejecuta hasta llegar al rango maximo, o toparse con un obstaculo/muro
-		for (int i = 1; i <= this.rango && !hayObstaculo; i++) {			
-			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY()-i), map);
+		boolean hayObstaculo = false;
+
+		// Se ejecuta hasta llegar al rango maximo, o toparse con un
+		// obstaculo/muro siempre dentro del ANCHO y ALTO
+		for (int i = 1; i <= this.rango && !hayObstaculo &&  this.ubicacion.getPosY() - i >= 0 ; i++) {
+			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY() - i), map);
 		}
 	}
-	
+
 	private void explosionAbajo(Mapa map) {
-		boolean hayObstaculo = false;		
-		
-		//Se ejecuta hasta llegar al rango maximo, o toparse con un obstaculo/muro
-		for (int i = 1; i <= this.rango && !hayObstaculo; i++) {			
-			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX()+i, this.ubicacion.getPosY()+i), map);
+		boolean hayObstaculo = false;
+
+		// Se ejecuta hasta llegar al rango maximo, o toparse con un
+		// obstaculo/muro siempre dentro del ANCHO y ALTO
+		for (int i = 1; i <= this.rango && !hayObstaculo &&  this.ubicacion.getPosY() + i <= Mapa.ALTO; i++) {
+			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY() + i), map);
 		}
 	}
-	
-	/** Crea una explosión en un punto único del mapa. 
+
+	/**
+	 * Crea una explosión en un punto único del mapa.
 	 * 
-	 * @param ubic: ubicación a crear la explosión
-	 * @param map: mapa del juego
+	 * @param ubic:
+	 *            ubicación a crear la explosión
+	 * @param map:
+	 *            mapa del juego
 	 * @return true si encontró un obstaculo o un muro, false si no encontró
 	 */
-	
+
 	private boolean explosion(Ubicacion ubic, Mapa map) {
-		//Buscamos una entidad en dicha ubicación. Solo puede haber una, así que buscamos 
-		//la que esté ahí
-		Entidad ent = map.obtenerEntidadEn(ubic);
-		
-		//en la ubicacion no explóta. 
-		
-		
+		// Buscamos una entidad en dicha ubicación. Solo puede haber una, así
+		// que buscamos
+		// la que esté ahí
+		Entidad ent = map.obtenerEntidadDelConjunto(ubic);
+		Bomberman bomber = map.obtenerBombermanEn(ubic);
+
+		// en la ubicacion no explóta.
+		if (bomber != null) {
+			bomber.morir();
+		}
+
 		if (ent != null && ent.esVisible) {
-			//Si la entidad es una instancia de bomba...
+			// Si la entidad es una instancia de bomba...
 			if (ent instanceof Bomba) {
-				//Casteo furioso a Bomba
+				// Casteo furioso a Bomba
 				((Bomba) ent).explotar(map);
 				return false;
 			} else if (ent instanceof Obstaculo) {
-				//Casteo furioso a Obstaculo
+				// Casteo furioso a Obstaculo
 				((Obstaculo) ent).destruir();
-				//Removemos a la entidad
-				map.removerEntidadDelConjunto(ubic);	
-				//Encontramos un obstaculo, retornamos true
-				return true;				
-			} else if (ent instanceof Muro) {
-				//Encontramos un muro, retornamos true
+				// Removemos a la entidad
+				map.removerEntidadDelConjunto(ubic);
+				// Encontramos un obstaculo, retornamos true
 				return true;
-			}			
-			else if (ent instanceof Bomberman) {
-				//Casteo furioso a Bomberman
-				((Bomberman) ent).morir();
-				return false;
+			} else if (ent instanceof Muro) {
+				// Encontramos un muro, retornamos true
+				return true;
 			}
-		}		
+		}
 		return false;
 	}
 
 	public int getMs() {
-		return this.segsExplosion*1000;
+		return this.segsExplosion * 1000;
 	}
-	
+
 }
