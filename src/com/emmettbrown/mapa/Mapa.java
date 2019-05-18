@@ -81,9 +81,9 @@ public class Mapa {
 	}
 
 	/**
-	 * Busca todas las posibles entidades en una ubicaciÛn.
+	 * Busca todas las posibles entidades en una ubicaci√≥n.
 	 * 
-	 * @param ubic: la ubicaciÛn a buscar.
+	 * @param ubic: la ubicaci√≥n a buscar.
 	 * @return
 	 */
 
@@ -106,7 +106,7 @@ public class Mapa {
 	/**
 	 * Devuelve una entidad del Treemap de entidades del mapa.
 	 * 
-	 * @param ubic: la ubicaciÛn en la que se encuentra la entidad (KEY).
+	 * @param ubic: la ubicaci√≥n en la que se encuentra la entidad (KEY).
 	 * @return
 	 */
 
@@ -117,7 +117,7 @@ public class Mapa {
 	/**
 	 * Remueve una entidad del Treemap de entidades del mapa.
 	 * 
-	 * @param ubic: la ubicaciÛn de la entidad
+	 * @param ubic: la ubicaci√≥n de la entidad
 	 */
 
 	public void removerEntidadDelConjunto(Ubicacion ubic) {
@@ -132,11 +132,11 @@ public class Mapa {
 
 	/**
 	 * Realiza una serie de chequeos y en caso de validar correctamente, mueve el
-	 * bomberman a una nueva ubicaciÛn en el mapa.
+	 * bomberman a una nueva ubicaci√≥n en el mapa.
 	 * 
 	 * @param bomberman: el bomberman a mover
-	 * @param despX:     el desplazamiento en el eje X que realizarÌa el bomberman
-	 * @param despY:     el desplazamiento en el eje Y que realizarÌa el bomberman
+	 * @param despX:     el desplazamiento en el eje X que realizar√≠a el bomberman
+	 * @param despY:     el desplazamiento en el eje Y que realizar√≠a el bomberman
 	 */
 
 	private void moverBomberman(Bomberman bomberman, double despX, double despY) {
@@ -151,16 +151,16 @@ public class Mapa {
 	}
 
 	/**
-	 * Chequea si el bomberman puede moverse a la posiciÛn que recibe por par·metro.
+	 * Chequea si el bomberman puede moverse a la posici√≥n que recibe por par√°metro.
 	 * 
-	 * @param ubic: ubicaciÛn auxiliar que refleja la posible nueva ubicaciÛ del
+	 * @param ubic: ubicaci√≥n auxiliar que refleja la posible nueva ubicaci√≥ del
 	 *              Bomberman
 	 * @return true: puede moverse, false: no puede moverse
 	 */
 	public boolean puedeMoverse(Ubicacion ubic) {
-		if (ubic.getPosX() < 0 || ubic.getPosX() > Mapa.ANCHO)
+		if (ubic.getPosX() < 0 || ubic.getPosX() >= Mapa.ANCHO)
 			return false;
-		if (ubic.getPosY() < 0 || ubic.getPosY() > Mapa.ALTO)
+		if (ubic.getPosY() < 0 || ubic.getPosY() >= Mapa.ALTO)
 			return false;
 
 		return estaLibre(ubic);
@@ -168,11 +168,11 @@ public class Mapa {
 
 	/**
 	 * Chequea si no existe ninguna otra entidad colisionable del juego presente en
-	 * la ubicaciÛn que llega por par·metro.
+	 * la ubicaci√≥n que llega por par√°metro.
 	 * 
-	 * @param ubic: ubicaciÛn a revisar en buscar de entidades
+	 * @param ubic: ubicaci√≥n a revisar en buscar de entidades
 	 * @return true: no hay ninguna entidad presente, false: hay una entidad en
-	 *         dicha posiciÛn
+	 *         dicha posici√≥n
 	 */
 
 	public boolean estaLibre(Ubicacion ubic) {
@@ -180,7 +180,7 @@ public class Mapa {
 	}
 
 	/**
-	 * Reciben como par·metros el bomberman a mover, y el desplazamiento sin NINGUN
+	 * Reciben como par√°metros el bomberman a mover, y el desplazamiento sin NINGUN
 	 * tipo de signo.
 	 */
 
@@ -225,10 +225,10 @@ public class Mapa {
 	}
 
 	/**
-	 * Recorre la lista de bombermans y retorna al que encuentre en la ubicaciÛn
+	 * Recorre la lista de bombermans y retorna al que encuentre en la ubicaci√≥n
 	 * indicada.
 	 * 
-	 * @param ubic: la ubicaciÛn a buscar
+	 * @param ubic: la ubicaci√≥n a buscar
 	 * @return instanceof Bomberman si lo encuentra, null si no
 	 */
 
@@ -250,7 +250,7 @@ public class Mapa {
 	/**
 	 * Agregar una bomba en el conjunto de entidades de la clase Mapa
 	 * 
-	 * @param ubicacion: la ubicaciÛn en la que se encuentra la bomba
+	 * @param ubicacion: la ubicaci√≥n en la que se encuentra la bomba
 	 */
 
 	public void agregarBomba(Bomba bomb) {
@@ -263,7 +263,7 @@ public class Mapa {
 	}
 
 	/**
-	 * Explota una bomba a travÈs de sus coordenadas
+	 * Explota una bomba a trav√©s de sus coordenadas
 	 * 
 	 * @param posX: coord. eje X
 	 * @param posY: coord. eje Y
@@ -277,9 +277,9 @@ public class Mapa {
 	}
 
 	/**
-	 * Explota una bomba a travÈs de su ubicaciÛn
+	 * Explota una bomba a trav√©s de su ubicaci√≥n
 	 * 
-	 * @param ubic: la ubicaciÛn en la que se encuentra la bomba
+	 * @param ubic: la ubicaci√≥n en la que se encuentra la bomba
 	 */
 
 	public void explotarBomba(Ubicacion ubic) {
@@ -290,7 +290,7 @@ public class Mapa {
 	}
 
 	/**
-	 * Explota una bomba a travÈs de su instancia
+	 * Explota una bomba a trav√©s de su instancia
 	 * 
 	 * @param bomba: instancia de la bomba a explotar
 	 */
