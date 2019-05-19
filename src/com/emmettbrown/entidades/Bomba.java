@@ -86,6 +86,13 @@ public class Bomba extends Entidad {
 		// obstaculo/muro siempre dentro del ANCHO y ALTO
 		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosX() - i >= 0;  i++) {
 			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX() - i, this.ubicacion.getPosY()), map);
+			
+			if (!hayObstaculo) {
+				Explosion expl = new Explosion((ubicacion.getPosX()-i)*Motor.tileSize, ubicacion.getPosY()*Motor.tileSize, Motor.tileSize, Motor.tileSize);
+				expl.ubicacion = new Ubicacion(ubicacion.getPosX()-i, ubicacion.getPosY());
+				expl.startTimer(map);
+				map.agregarEntidadAlConjunto(expl.ubicacion, expl);
+			}
 		}
 	}
 
@@ -96,6 +103,13 @@ public class Bomba extends Entidad {
 		// obstaculo/muro siempre dentro del ANCHO y ALTO
 		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosX() + i < Mapa.ANCHO;  i++) {
 			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX() + i, this.ubicacion.getPosY()), map);
+			
+			if (!hayObstaculo) {
+				Explosion expl = new Explosion((ubicacion.getPosX()+i)*Motor.tileSize, ubicacion.getPosY()*Motor.tileSize, Motor.tileSize, Motor.tileSize);
+				expl.ubicacion = new Ubicacion(ubicacion.getPosX()+i, ubicacion.getPosY());
+				expl.startTimer(map);
+				map.agregarEntidadAlConjunto(expl.ubicacion, expl);
+			}
 		}
 	}
 
@@ -106,6 +120,13 @@ public class Bomba extends Entidad {
 		// obstaculo/muro siempre dentro del ANCHO y ALTO
 		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosY() - i >= 0 ; i++) {
 			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY() - i), map);
+			
+			if (!hayObstaculo) {
+				Explosion expl = new Explosion(ubicacion.getPosX()*Motor.tileSize, (ubicacion.getPosY()-i)*Motor.tileSize, Motor.tileSize, Motor.tileSize);
+				expl.ubicacion = new Ubicacion(ubicacion.getPosX(), ubicacion.getPosY()-i);
+				expl.startTimer(map);
+				map.agregarEntidadAlConjunto(expl.ubicacion, expl);
+			}
 		}
 	}
 
@@ -117,10 +138,12 @@ public class Bomba extends Entidad {
 		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosY() + i <= Mapa.ALTO; i++) {
 			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY() + i), map);
 			
-			/*if (!hayObstaculo) {
-				Explosion expl = new Explosion(ubicacion.getPosX(), ubicacion.getPosY()+i, Motor.tileSize, Motor.tileSize, map);
+			if (!hayObstaculo) {
+				Explosion expl = new Explosion(ubicacion.getPosX()*Motor.tileSize, (ubicacion.getPosY()+i)*Motor.tileSize, Motor.tileSize, Motor.tileSize);
+				expl.ubicacion = new Ubicacion(ubicacion.getPosX(), ubicacion.getPosY()+i);
+				expl.startTimer(map);
 				map.agregarEntidadAlConjunto(expl.ubicacion, expl);
-			}*/
+			}
 		}
 	}
 

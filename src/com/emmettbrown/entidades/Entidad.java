@@ -42,6 +42,10 @@ public abstract class Entidad {
 		esVisible = !esVisible;
 	}
 	
+	public void setUbicacion(Ubicacion ubic) {
+		this.ubicacion = ubic;
+	}
+	
 	public Ubicacion obtenerUbicacion() {
 		return this.ubicacion;
 	}

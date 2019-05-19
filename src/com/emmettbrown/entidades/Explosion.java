@@ -9,11 +9,11 @@ import com.emmettbrown.mapa.Ubicacion;
 
 public class Explosion extends Entidad {
 
-	public Explosion(int posX, int posY, int width, int height, Mapa map) {
+	private Timer t;
+	
+	public Explosion(int posX, int posY, int width, int height) {
 		super(posX, posY, width, height);
 		this.img = new ImageIcon("./src/resources/bomb/explosion.png");
-		Timer t = new Timer(3000, new miOyente(map, this.ubicacion));
-		t.start();
 	}
 	
 	class miOyente implements ActionListener {
@@ -27,7 +27,14 @@ public class Explosion extends Entidad {
 		
 		@Override
 		public void actionPerformed(ActionEvent ae) {
+			System.out.println("EXP UBIC TIM:" + ubic.toString());
 			map.removerEntidadDelConjunto(ubic);
+			t.stop();
 		}
+	}
+	
+	public void startTimer(Mapa map) {
+		t = new Timer(3000, new miOyente(map, this.ubicacion));
+		t.start();
 	}
 }
