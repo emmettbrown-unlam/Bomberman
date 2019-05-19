@@ -8,6 +8,7 @@ import java.util.TreeMap;
 import com.emmettbrown.entidades.Bomba;
 import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entidades.Entidad;
+import com.emmettbrown.entidades.Explosion;
 import com.emmettbrown.entidades.Muro;
 import com.emmettbrown.entidades.Obstaculo;
 import com.emmettbrown.principal.Motor;
@@ -210,6 +211,10 @@ public class Mapa {
 			
 			//Si la interseccion no es vacia, entonces retornamos que hay colision
 			if (!intersection.isEmpty()) {
+				//Esto no me gusta para NADA
+				if (obj instanceof Explosion) {
+					((Bomberman) ent).morir();
+				}
 			  return true;	
 		  }
 		}
