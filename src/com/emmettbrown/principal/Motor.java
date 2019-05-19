@@ -34,8 +34,8 @@ public class Motor {
 		long initialTime = System.nanoTime();
 		//final double timeU = 1000000000 / UPS;
 		final double timeF = 1000000000 / FPS;
-		double deltaU = 0, deltaF = 0;
-		int frames = 0, ticks = 0;
+		double deltaF = 0; // deltaU = 0, 
+		//int frames = 0, ticks = 0;
 
 		    while (iniciado) {
 
@@ -53,7 +53,7 @@ public class Motor {
 
 		        if (deltaF >= 1) {
 		            actualizar();
-		            frames++;
+		            //frames++;
 		            deltaF--;
 		        }
 		    }

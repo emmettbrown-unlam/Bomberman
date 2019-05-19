@@ -36,20 +36,22 @@ public class JVentanaGrafica extends JFrame{
 	
 	
 	public void refrescar() {
-		if (this.teclado.isArriba()) {
-			miMapa.moverBombermanArriba(miBomber, Bomberman.VELOCIDAD);
-		}	
-		if (this.teclado.isIzq()) {
-			miMapa.moverBombermanIzq(miBomber,  Bomberman.VELOCIDAD);
-		}	
-		if (this.teclado.isDer()) {
-			miMapa.moverBombermanDer(miBomber, Bomberman.VELOCIDAD);
-		}	
-		if (this.teclado.isAbajo()) {
-			miMapa.moverBombermanAbajo(miBomber,  Bomberman.VELOCIDAD);
-		}	
-		if(this.teclado.isPonerBomba()) {
-			miMapa.agregarBomba(miBomber.getX(), miBomber.getY());			
+		if (miBomber.verSiEsVisible()) {						
+			if (this.teclado.isArriba()) {
+				miMapa.moverBombermanArriba(miBomber, Bomberman.VELOCIDAD);
+			}	
+			if (this.teclado.isIzq()) {
+				miMapa.moverBombermanIzq(miBomber,  Bomberman.VELOCIDAD);
+			}	
+			if (this.teclado.isDer()) {
+				miMapa.moverBombermanDer(miBomber, Bomberman.VELOCIDAD);
+			}	
+			if (this.teclado.isAbajo()) {
+				miMapa.moverBombermanAbajo(miBomber,  Bomberman.VELOCIDAD);
+			}	
+			if(this.teclado.isPonerBomba()) {
+				miMapa.agregarBomba(miBomber.getX(), miBomber.getY());			
+			} 
 		}
 		repaint();
 	}

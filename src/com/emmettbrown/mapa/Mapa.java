@@ -154,11 +154,9 @@ public class Mapa {
 		if (puedeMoverse(bomberman.getX()+despX, bomberman.getY()+despY, bomberman)) {
 			bomberman.cambiarPosX(despX);
 			bomberman.cambiarPosY(despY);	
-			
+			//Actualizamos la ubicacion relativa en la matriz
 			Ubicacion ubic = new Ubicacion(bomberman.getX()/Motor.tileSize, bomberman.getY()/Motor.tileSize);
 			bomberman.cambiarUbicacion(ubic);			
-			
-			System.out.println("Bomber ubic: " + ubic.toString());
 		}
 	}
 
