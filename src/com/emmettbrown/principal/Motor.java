@@ -19,7 +19,8 @@ public class Motor {
 	public Motor() {
 		miMapa = new Mapa();
 		miMapa.generarMapa();
-		miBomber = new Bomberman(0, 0, Bomberman.defaultWidth, Bomberman.defaultHeight); //Bomberman propio del usuario conectado.
+		//Bomberman propio del usuario conectado.
+		miBomber = new Bomberman(0, 0, Bomberman.defaultWidth, Bomberman.defaultHeight); 
 		miMapa.agregarBomberman(miBomber);
 		miVentana = new JVentanaGrafica(miMapa, miBomber, ANCHO, ALTO);
 	}
@@ -79,9 +80,26 @@ public class Motor {
 		}*/
 	}
 
+	private void getInput() {
+		if ( this.teclado.isArriba() ) {
+			miMapa.moverBombermanArriba(miBomber, Bomberman.VELOCIDAD);
+		}	
+		if (this.teclado.isIzq() ) {
+			miMapa.moverBombermanIzq(miBomber,  Bomberman.VELOCIDAD);
+		}	
+		if ( this.teclado.isDer()  ) {
+			miMapa.moverBombermanDer(miBomber, Bomberman.VELOCIDAD);
+		}	
+		if (  this.teclado.isAbajo() ) {
+			miMapa.moverBombermanAbajo(miBomber,  Bomberman.VELOCIDAD);
+		}	
+		if(this.teclado.isPonerBomba()) {
+			this.miMapa.agregarBomba(miBomber.getX(), miBomber.getY());			
+		}
+	}
+	
 	private void actualizar() {
 		miVentana.refrescar();
-
 	}
 
 	public void cerrarJuego() {

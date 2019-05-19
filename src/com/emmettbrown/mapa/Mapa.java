@@ -11,6 +11,7 @@ import com.emmettbrown.entidades.Entidad;
 import com.emmettbrown.entidades.Muro;
 import com.emmettbrown.entidades.Obstaculo;
 import com.emmettbrown.principal.Motor;
+import com.emmettbrown.principal.Temporizador;
 import com.sun.javafx.geom.Rectangle;
 
 public class Mapa {
@@ -142,10 +143,6 @@ public class Mapa {
 	 */
 
 	private void moverBomberman(Bomberman bomberman, int despX, int despY) {
-		/**/
-		
-		//Ubicacion ubic = new Ubicacion(bomberman.getX()+despX, bomberman.getY()+despY);
-
 		if (puedeMoverse(bomberman.getX()+despX, bomberman.getY()+despY, bomberman)) {
 			Ubicacion ubic = bomberman.obtenerUbicacion().clone();
 			ubic.cambiarPosX(despX);
@@ -154,7 +151,6 @@ public class Mapa {
 			bomberman.cambiarPosX(despX);
 			bomberman.cambiarPosY(despY);		
 			bomberman.cambiarUbicacion(ubic);
-			System.out.println(bomberman.getX());
 		}
 	}
 
@@ -283,19 +279,44 @@ public class Mapa {
 	// 									//
 	/////////////////////////////////////
 
-	/**
+	/** DEPRECADO, BORRAR EN PROXIMAS VERSIONES
+	 * 
 	 * Agregar una bomba en el conjunto de entidades de la clase Mapa
 	 * 
 	 * @param ubicacion: la ubicacion en la que se encuentra la bomba
 	 */
 
-	public void agregarBomba(Bomba bomb) {
+	/*public void agregarBomba(Bomba bomb) {
 		conjuntoEntidades.put(bomb.obtenerUbicacion().clone(), bomb);
 	}
 	
 	public void agregarBomba(Ubicacion ubicacion) {
 		Ubicacion copia = ubicacion.clone();
 		conjuntoEntidades.put(copia, new Bomba(copia));
+	}*/
+	
+	/** Agrega una bomba dependiendo de la posiciÛn del bomberman. Realiza un c·lculo para ver en quÈ casillero
+	 *  es mejor ubicarla. La bomba es agregada al conjunto de entidades del mapa. TambiÈn se crea un timer
+	 *  que la detona pasados algunos segundos.
+	 * 
+	 * @param x: posiciÛn X del bomberman
+	 * @param y: posiciÛn Y del bomberman
+	 */
+	
+	public void agregarBomba(int x, int y) {
+		Ubicacion ubic = new Ubicacion(x/Motor.tileSize, y/Motor.tileSize);
+		
+		//Si el mÛdulo de la posiciÛn con el tamaÒo del tile da mayor a la mitad del tamaÒo,
+		//movemos la posicion en un casillero para que la bomba se cree en el casillero aledaÒo
+		if (x % Motor.tileSize > 37.5)
+			ubic.cambiarPosX(1);
+		if (y % Motor.tileSize > 37.5)
+			ubic.cambiarPosY(1);
+		
+		Bomba bomb = new Bomba(ubic);
+		conjuntoEntidades.put(ubic, bomb);
+		Temporizador t = new Temporizador(bomb.getMs(), bomb, this);
+		t.iniciarTimer();
 	}
 
 	/**
@@ -326,7 +347,7 @@ public class Mapa {
 	}
 
 	/**
-	 * Explota una bomba a trav√©s de su instancia
+	 * Explota una bomba a traves de su instancia
 	 * 
 	 * @param bomba: instancia de la bomba a explotar
 	 */

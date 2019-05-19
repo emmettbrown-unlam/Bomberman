@@ -42,25 +42,20 @@ public class JVentanaGrafica extends JFrame{
 	
 	
 	public void refrescar() {
-		if ( this.teclado.isArriba() ) {
+		if (this.teclado.isArriba()) {
 			miMapa.moverBombermanArriba(miBomber, Bomberman.VELOCIDAD);
 		}	
-		if (this.teclado.isIzq() ) {
+		if (this.teclado.isIzq()) {
 			miMapa.moverBombermanIzq(miBomber,  Bomberman.VELOCIDAD);
 		}	
-		if ( this.teclado.isDer()  ) {
+		if (this.teclado.isDer()) {
 			miMapa.moverBombermanDer(miBomber, Bomberman.VELOCIDAD);
 		}	
-		if (  this.teclado.isAbajo() ) {
+		if (this.teclado.isAbajo()) {
 			miMapa.moverBombermanAbajo(miBomber,  Bomberman.VELOCIDAD);
 		}	
 		if(this.teclado.isPonerBomba()) {
-			//Creamos una ubicación nueva basandonos en la ubicacion del bomberman y el tamaño del tile
-			Bomba bomb = new Bomba(new Ubicacion(miBomber.getX()/Motor.tileSize, miBomber.getY()/Motor.tileSize));
-			miMapa.agregarBomba(bomb);
-			Temporizador t = new Temporizador(bomb.getMs(),bomb,this.miMapa);
-			t.iniciarTimer();
-			
+			this.miMapa.agregarBomba(miBomber.getX(), miBomber.getY());			
 		}
 		repaint();
 	}
