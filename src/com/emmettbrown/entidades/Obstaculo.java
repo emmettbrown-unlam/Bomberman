@@ -2,12 +2,14 @@ package com.emmettbrown.entidades;
 
 import javax.swing.ImageIcon;
 
+import com.emmettbrown.principal.Motor;
+
 public class Obstaculo extends Entidad{
 	private static int nroObstaculo = 0;
 	public int idObstaculo;
 	
-	public Obstaculo(final int posIniX,final int posIniY) {
-		super(posIniX,posIniY);
+	public Obstaculo(int posX, int posY) {
+		super(posX, posY, Motor.tileSize, Motor.tileSize);
 		idObstaculo = nroObstaculo;
 		nroObstaculo++;
 		this.destructible = true;

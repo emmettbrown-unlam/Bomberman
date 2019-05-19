@@ -1,7 +1,6 @@
 package com.emmettbrown.mapa;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -11,6 +10,8 @@ import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entidades.Entidad;
 import com.emmettbrown.entidades.Muro;
 import com.emmettbrown.entidades.Obstaculo;
+import com.emmettbrown.principal.Motor;
+import com.sun.javafx.geom.Rectangle;
 
 public class Mapa {
 	public static final int ANCHO = 9;
@@ -19,9 +20,9 @@ public class Mapa {
 	private List<Bomberman> listaBomberman;
 
 	///////////////////////////////////////
-	// //
-	// CONSTUCTORES //
-	// //
+	// 									//
+	// 			CONSTUCTORES		   //
+	// 								  //
 	///////////////////////////////////
 
 	public Mapa() {
@@ -29,21 +30,22 @@ public class Mapa {
 		listaBomberman = new ArrayList<Bomberman>();
 	}
 
-	///////////////////////////////////////
-	// //
-	// METODOS //
-	// //
-	///////////////////////////////////
+	////////////////////////////////////////
+	// 									 //
+	// 				METODOS 			//
+	// 								   //
+	////////////////////////////////////
 
 	public void generarMapa() {
 		for (int i = 0; i < ANCHO; i++) {
 			for (int j = 0; j < ALTO; j++) {
-				if (i % 2 != 0 && j % 2 != 0) { /// EN LAS POSICIONES I,J IMPARES PONDREMOS INDESTRUCTIBLES, EN CASO
-												/// CONTRARIO EVALUAREMOS PONER OBSTACULOS
-					conjuntoEntidades.put(new Ubicacion(i, j), new Muro(i, j));
-				} else if ((posicionValida(i, j)) && Math.random() >= 0.25) {/// 75% DE PROBABILIDAD DE CREAR UN
-																				/// OBSTACULO
-					conjuntoEntidades.put(new Ubicacion(i, j), new Obstaculo(i, j));
+				if (i % 2 != 0 && j % 2 != 0) { 
+					//EN LAS POSICIONES I,J IMPARES PONDREMOS INDESTRUCTIBLES, EN CASO
+					//CONTRARIO EVALUAREMOS PONER OBSTACULOS
+					conjuntoEntidades.put(new Ubicacion(i, j), new Muro(i * Motor.tileSize, j * Motor.tileSize));
+				} else if ((posicionValida(i, j)) && Math.random() >= 0.25) {
+					//75% DE PROBABILIDAD DE CREAR UN	OBSTACULO
+					conjuntoEntidades.put(new Ubicacion(i, j), new Obstaculo(i * Motor.tileSize, j * Motor.tileSize));
 				}
 			}
 		}
@@ -71,19 +73,19 @@ public class Mapa {
 
 
 	///////////////////////////////////////
-	// //
-	// ENTIDADES //
-	// //
-	///////////////////////////////////
+	// 									//
+	// 			ENTIDADES 				//
+	// 									//
+	/////////////////////////////////////
 
 	public Map<Ubicacion, Entidad> obtenerListaEntidades() {
 		return conjuntoEntidades;
 	}
 
 	/**
-	 * Busca todas las posibles entidades en una ubicación.
+	 * Busca todas las posibles entidades en una ubicacion.
 	 * 
-	 * @param ubic: la ubicación a buscar.
+	 * @param ubic: la ubicacion a buscar.
 	 * @return
 	 */
 
@@ -106,7 +108,7 @@ public class Mapa {
 	/**
 	 * Devuelve una entidad del Treemap de entidades del mapa.
 	 * 
-	 * @param ubic: la ubicación en la que se encuentra la entidad (KEY).
+	 * @param ubic: la ubicacion en la que se encuentra la entidad (KEY).
 	 * @return
 	 */
 
@@ -117,7 +119,7 @@ public class Mapa {
 	/**
 	 * Remueve una entidad del Treemap de entidades del mapa.
 	 * 
-	 * @param ubic: la ubicación de la entidad
+	 * @param ubic: la ubicacion de la entidad
 	 */
 
 	public void removerEntidadDelConjunto(Ubicacion ubic) {
@@ -125,81 +127,115 @@ public class Mapa {
 	}
 
 	///////////////////////////////////////
-	// //
-	// BOMBERMANS //
-	// //
+	// 									//
+	// 			BOMBERMANS			   //
+	// 								  //
 	///////////////////////////////////
 
 	/**
 	 * Realiza una serie de chequeos y en caso de validar correctamente, mueve el
-	 * bomberman a una nueva ubicación en el mapa.
+	 * bomberman a una nueva ubicacion en el mapa.
 	 * 
 	 * @param bomberman: el bomberman a mover
-	 * @param despX:     el desplazamiento en el eje X que realizaría el bomberman
-	 * @param despY:     el desplazamiento en el eje Y que realizaría el bomberman
+	 * @param despX:     el desplazamiento en el eje X que realizara el bomberman
+	 * @param despY:     el desplazamiento en el eje Y que realizara el bomberman
 	 */
 
-	private void moverBomberman(Bomberman bomberman, double despX, double despY) {
-		Ubicacion ubic = bomberman.obtenerUbicacion().clone();
-		ubic.cambiarPosX(despX);
-		ubic.cambiarPosY(despY);
+	private void moverBomberman(Bomberman bomberman, int despX, int despY) {
+		/**/
+		
+		//Ubicacion ubic = new Ubicacion(bomberman.getX()+despX, bomberman.getY()+despY);
 
-		if (puedeMoverse(ubic)) {
-			bomberman.obtenerUbicacion().cambiarPosX(despX);
-			bomberman.obtenerUbicacion().cambiarPosY(despY);
+		if (puedeMoverse(bomberman.getX()+despX, bomberman.getY()+despY, bomberman)) {
+			Ubicacion ubic = bomberman.obtenerUbicacion().clone();
+			ubic.cambiarPosX(despX);
+			ubic.cambiarPosY(despY);
+			
+			bomberman.cambiarPosX(despX);
+			bomberman.cambiarPosY(despY);		
+			bomberman.cambiarUbicacion(ubic);
+			System.out.println(bomberman.getX());
 		}
 	}
 
 	/**
-	 * Chequea si el bomberman puede moverse a la posición que recibe por parámetro.
+	 * Chequea si el bomberman puede moverse a la posicion que recibe por parametro.
 	 * 
-	 * @param ubic: ubicación auxiliar que refleja la posible nueva ubicació del
+	 * @param ubic: ubicacion auxiliar que refleja la posible nueva ubicacion del
 	 *              Bomberman
 	 * @return true: puede moverse, false: no puede moverse
 	 */
-	public boolean puedeMoverse(Ubicacion ubic) {
-		if (ubic.getPosX() < 0 || ubic.getPosX() >= Mapa.ANCHO)
+	public boolean puedeMoverse(int x, int y, Entidad ent) {
+		if (x < 0 || x >= Motor.ANCHO)
 			return false;
-		if (ubic.getPosY() < 0 || ubic.getPosY() >= Mapa.ALTO)
+		if (y < 0 || y >= Motor.ALTO)
 			return false;
-
-		return estaLibre(ubic);
+		
+		return !chequearColisiones(ent, x, y); //estaLibre(ubic) && 
 	}
 
 	/**
 	 * Chequea si no existe ninguna otra entidad colisionable del juego presente en
-	 * la ubicación que llega por parámetro.
+	 * la ubicacion que llega por parametro.
 	 * 
-	 * @param ubic: ubicación a revisar en buscar de entidades
+	 * @param ubic: ubicacion a revisar en buscar de entidades
 	 * @return true: no hay ninguna entidad presente, false: hay una entidad en
-	 *         dicha posición
+	 *         dicha posicion
 	 */
 
 	public boolean estaLibre(Ubicacion ubic) {
 		return conjuntoEntidades.get(ubic) == null;
 	}
+	
+	/** Chequea si una entidad est� colisionando con alguna del conjunto de entidades
+	 * 
+	 * @param ent: la entidad con la que se va a chequear si hay colision
+	 * @return true: hay colision, false: no hay
+	 */
+	
+	public boolean chequearColisiones(Entidad ent, int x, int y) {
+		//Hitbox de la primera entidad
+		Rectangle hitBoxEnt = new Rectangle(x, y, ent.getWidth(), ent.getHeight());
+		
+		//Recorremos el conjunto de entidades
+		for(Map.Entry<Ubicacion, Entidad> entry : conjuntoEntidades.entrySet()) {
+			//Agarramos cada entry
+			Entidad obj = entry.getValue();
+			//Y calculamos su rectangulo
+			Rectangle hitBoxObj = obj.getHitBox();
+			//Vemos si existe una interseccion entre ambos rectangulos
+			Rectangle intersection = hitBoxEnt.intersection(hitBoxObj);		  
+			
+			//Si la interseccion no es vacia, entonces retornamos que hay colision
+			if (!intersection.isEmpty()) {
+			  return true;	
+		  }
+		}
+		//No se dectectaron colisiones en ninguna entidad, retornamos false
+		return false;
+	}
 
 	/**
-	 * Reciben como parámetros el bomberman a mover, y el desplazamiento sin NINGUN
+	 * Reciben como parametros el bomberman a mover, y el desplazamiento sin NINGUN
 	 * tipo de signo.
 	 */
 
-	public void moverBombermanArriba(Bomberman bomberman, double desplazamiento) {
+	public void moverBombermanArriba(Bomberman bomberman, int desplazamiento) {
 		// Fool proof
 		this.moverBomberman(bomberman, 0, -Math.abs(desplazamiento));
 	}
 
-	public void moverBombermanAbajo(Bomberman bomberman, double desplazamiento) {
+	public void moverBombermanAbajo(Bomberman bomberman, int desplazamiento) {
 		// Fool proof
 		this.moverBomberman(bomberman, 0, Math.abs(desplazamiento));
 	}
 
-	public void moverBombermanIzq(Bomberman bomberman, double desplazamiento) {
+	public void moverBombermanIzq(Bomberman bomberman, int desplazamiento) {
 		// Fool proof
 		this.moverBomberman(bomberman, -Math.abs(desplazamiento), 0);
 	}
 
-	public void moverBombermanDer(Bomberman bomberman, double desplazamiento) {
+	public void moverBombermanDer(Bomberman bomberman, int desplazamiento) {
 		// Fool proof
 		this.moverBomberman(bomberman, Math.abs(desplazamiento), 0);
 	}
@@ -225,10 +261,10 @@ public class Mapa {
 	}
 
 	/**
-	 * Recorre la lista de bombermans y retorna al que encuentre en la ubicación
+	 * Recorre la lista de bombermans y retorna al que encuentre en la ubicacion
 	 * indicada.
 	 * 
-	 * @param ubic: la ubicación a buscar
+	 * @param ubic: la ubicacion a buscar
 	 * @return instanceof Bomberman si lo encuentra, null si no
 	 */
 
@@ -242,15 +278,15 @@ public class Mapa {
 	}
 
 	///////////////////////////////////////
-	// //
-	// BOMBAS //
-	// //
-	///////////////////////////////////
+	// 									//
+	// 				BOMBAS 				//
+	// 									//
+	/////////////////////////////////////
 
 	/**
 	 * Agregar una bomba en el conjunto de entidades de la clase Mapa
 	 * 
-	 * @param ubicacion: la ubicación en la que se encuentra la bomba
+	 * @param ubicacion: la ubicacion en la que se encuentra la bomba
 	 */
 
 	public void agregarBomba(Bomba bomb) {
@@ -263,7 +299,7 @@ public class Mapa {
 	}
 
 	/**
-	 * Explota una bomba a través de sus coordenadas
+	 * Explota una bomba a traves de sus coordenadas
 	 * 
 	 * @param posX: coord. eje X
 	 * @param posY: coord. eje Y
@@ -277,9 +313,9 @@ public class Mapa {
 	}
 
 	/**
-	 * Explota una bomba a través de su ubicación
+	 * Explota una bomba a traves de su ubicacion
 	 * 
-	 * @param ubic: la ubicación en la que se encuentra la bomba
+	 * @param ubic: la ubicacion en la que se encuentra la bomba
 	 */
 
 	public void explotarBomba(Ubicacion ubic) {
@@ -297,20 +333,4 @@ public class Mapa {
 	public void explotarBomba(Bomba bomba) {
 		bomba.explotar(this);
 	}
-
-//	public void descontarSegundos() {
-//		Iterator<Ubicacion> iterEnt = conjuntoEntidades.keySet().iterator();
-//		Ubicacion ubic;
-//		Entidad ent;
-//		while (iterEnt.hasNext()) {
-//			ubic = iterEnt.next();
-//			ent = conjuntoEntidades.get(ubic);
-//			if (ent instanceof Bomba) {
-//				((Bomba) ent).reducirTiempo(this);
-//				if(ent.verSiEsVisible() == false) {
-//					conjuntoEntidades.remove(ent.obtenerUbicacion());
-//				}
-//			}
-//		}
-//	}
 }

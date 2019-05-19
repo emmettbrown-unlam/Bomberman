@@ -36,7 +36,7 @@ public class JPanelGrafico extends JPanel {
 		while (iterEnt.hasNext()) {
 			ubic = iterEnt.next();
 			mostEnt = conjuntoEntidades.get(ubic);
-			g.drawImage(mostEnt.getImagen(), (int) ubic.getPosX() * 75 + 2, (int) ubic.getPosY() * 75 + 2, 71, 71,null);
+			g.drawImage(mostEnt.getImagen(), (int) ubic.getPosX() * 75 + 2, (int) ubic.getPosY() * 75 + 2, 71, 71, null);
 		}
 		
 		g.setColor(Color.GREEN);
@@ -45,7 +45,7 @@ public class JPanelGrafico extends JPanel {
 			mostBomb = iterBomb.next();
 			if (mostBomb.verSiEsVisible() == true) {
 				ubic = mostBomb.obtenerUbicacion();
-				g.drawImage(mostBomb.getImagen(), (int) ubic.getPosX() * 75, (int) ubic.getPosY() * 75, 75, 75, null);
+				g.drawImage(mostBomb.getImagen(), mostBomb.getX(), mostBomb.getY(), Bomberman.defaultWidth, Bomberman.defaultHeight, null);
 
 			}
 		}

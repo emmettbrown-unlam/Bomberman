@@ -4,6 +4,7 @@ import javax.swing.ImageIcon;
 
 import com.emmettbrown.mapa.Mapa;
 import com.emmettbrown.mapa.Ubicacion;
+import com.emmettbrown.principal.Motor;
 
 public class Bomba extends Entidad {
 	private static int nroBomba = 0;
@@ -12,13 +13,13 @@ public class Bomba extends Entidad {
 	private int rango;
 
 	///////////////////////////////////////
-	// //
-	// CONSTRUCTORES //
-	// //
-	///////////////////////////////////
+	// 									//
+	// 			CONSTRUCTORES			//
+	// 									//
+	/////////////////////////////////////
 
-	public Bomba(int posIniX, int posIniY) {
-		super(posIniX, posIniY);
+	public Bomba(int posX, int posY) {
+		super(posX, posY, Motor.tileSize, Motor.tileSize);
 		idBomba = nroBomba++;
 		segsExplosion = 3;
 		this.destructible = true;
@@ -36,9 +37,9 @@ public class Bomba extends Entidad {
 	}
 
 	///////////////////////////////////////
-	// //
-	// GETTERS Y SETTERS //
-	// //
+	// 									//
+	// 			GETTERS Y SETTERS 	   //
+	// 								  //
 	///////////////////////////////////
 
 	public int getIdBomba() {
@@ -46,10 +47,10 @@ public class Bomba extends Entidad {
 	}
 
 	///////////////////////////////////////
-	// //
-	// METODOS //
-	// //
-	///////////////////////////////////
+	// 									//
+	// 				METODOS 			//
+	// 									//
+	/////////////////////////////////////
 
 	/**
 	 * Realiza un par de acciones comunes (remover la bomba, setear visibilidad
@@ -131,12 +132,11 @@ public class Bomba extends Entidad {
 
 	private boolean explosion(Ubicacion ubic, Mapa map) {
 		// Buscamos una entidad en dicha ubicación. Solo puede haber una, así
-		// que buscamos
-		// la que esté ahí
+		// que buscamos la que esté ahí
 		Entidad ent = map.obtenerEntidadDelConjunto(ubic);
 		Bomberman bomber = map.obtenerBombermanEn(ubic);
 
-		// en la ubicacion no explóta.
+		// en la ubicacion no explota.
 		if (bomber != null) {
 			bomber.morir();
 		}

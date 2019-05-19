@@ -6,6 +6,11 @@ import com.emmettbrown.mapa.Mapa;
 
 public class Motor {
 
+	public static int tileSize = 75;	
+	public static final int ANCHO = 1000;
+	public static final int ALTO = 1000;
+	
+	final int FPS = 30;
 	private Mapa miMapa;
 	private JVentanaGrafica miVentana;
 	private Bomberman miBomber;
@@ -14,9 +19,9 @@ public class Motor {
 	public Motor() {
 		miMapa = new Mapa();
 		miMapa.generarMapa();
-		miBomber = new Bomberman(0, 0); //Bomberman propio del usuario conectado.
+		miBomber = new Bomberman(0, 0, Bomberman.defaultWidth, Bomberman.defaultHeight); //Bomberman propio del usuario conectado.
 		miMapa.agregarBomberman(miBomber);
-		miVentana = new JVentanaGrafica(miMapa,miBomber);
+		miVentana = new JVentanaGrafica(miMapa, miBomber, ANCHO, ALTO);
 	}
 
 	private void iniciarJuego() {
@@ -25,7 +30,45 @@ public class Motor {
 	}
 
 	private void gameLoop() {
-		while (iniciado) {
+		long initialTime = System.nanoTime();
+		//final double timeU = 1000000000 / UPS;
+		final double timeF = 1000000000 / FPS;
+		double deltaU = 0, deltaF = 0;
+		int frames = 0, ticks = 0;
+		long timer = System.currentTimeMillis();
+
+		    while (iniciado) {
+
+		        long currentTime = System.nanoTime();
+		        //deltaU += (currentTime - initialTime) / timeU;
+		        deltaF += (currentTime - initialTime) / timeF;
+		        initialTime = currentTime;
+
+		        /*if (deltaU >= 1) {
+		            getInput();
+		            update();
+		            ticks++;
+		            deltaU--;
+		        }*/
+
+		        if (deltaF >= 1) {
+		            actualizar();
+		            frames++;
+		            deltaF--;
+		        }
+
+		        /*if (System.currentTimeMillis() - timer > 1000) {
+		            if (RENDER_TIME) {
+		                System.out.println(String.format("UPS: %s, FPS: %s", ticks, frames));
+		            }
+		            frames = 0;
+		            ticks = 0;
+		            timer += 1000;
+		        }*/
+		    }
+		
+		
+		/*while (iniciado) {
 			try {
 				actualizar();
 				Thread.sleep(100);
@@ -33,7 +76,7 @@ public class Motor {
 				e.printStackTrace();
 			}
 
-		}
+		}*/
 	}
 
 	private void actualizar() {
