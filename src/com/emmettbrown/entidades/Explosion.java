@@ -27,7 +27,6 @@ public class Explosion extends Entidad {
 		
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			System.out.println("EXP UBIC TIM:" + ubic.toString());
 			map.removerEntidadDelConjunto(ubic);
 			t.stop();
 		}

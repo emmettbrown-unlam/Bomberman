@@ -20,7 +20,7 @@ public class Mapa {
 	private Map<Ubicacion, Entidad> conjuntoEntidades;
 	private List<Bomberman> listaBomberman;
 	
-	//Controlan el delay al momento de poner bombas
+	//Controlan el delay al momento de poner bombas // ¿moverlo a otro lado mas pertinente?
 	private static final double bombDelay = 1000; //ms
 	private double nextBomb;
 
@@ -284,22 +284,6 @@ public class Mapa {
 	// 				BOMBAS 				//
 	// 									//
 	/////////////////////////////////////
-
-	/** DEPRECADO, BORRAR EN PROXIMAS VERSIONES
-	 * 
-	 * Agregar una bomba en el conjunto de entidades de la clase Mapa
-	 * 
-	 * @param ubicacion: la ubicacion en la que se encuentra la bomba
-	 */
-
-	/*public void agregarBomba(Bomba bomb) {
-		conjuntoEntidades.put(bomb.obtenerUbicacion().clone(), bomb);
-	}
-	
-	public void agregarBomba(Ubicacion ubicacion) {
-		Ubicacion copia = ubicacion.clone();
-		conjuntoEntidades.put(copia, new Bomba(copia));
-	}*/
 	
 	/** Agrega una bomba dependiendo de la posición del bomberman. Realiza un cálculo para ver en qué casillero
 	 *  es mejor ubicarla. La bomba es agregada al conjunto de entidades del mapa. También se crea un timer
