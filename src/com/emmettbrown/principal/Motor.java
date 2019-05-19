@@ -36,7 +36,6 @@ public class Motor {
 		final double timeF = 1000000000 / FPS;
 		double deltaU = 0, deltaF = 0;
 		int frames = 0, ticks = 0;
-		long timer = System.currentTimeMillis();
 
 		    while (iniciado) {
 
@@ -57,27 +56,7 @@ public class Motor {
 		            frames++;
 		            deltaF--;
 		        }
-
-		        /*if (System.currentTimeMillis() - timer > 1000) {
-		            if (RENDER_TIME) {
-		                System.out.println(String.format("UPS: %s, FPS: %s", ticks, frames));
-		            }
-		            frames = 0;
-		            ticks = 0;
-		            timer += 1000;
-		        }*/
 		    }
-		
-		
-		/*while (iniciado) {
-			try {
-				actualizar();
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-		}*/
 	}
 	
 	private void actualizar() {

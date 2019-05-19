@@ -130,6 +130,10 @@ public class Mapa {
 	public void removerEntidadDelConjunto(Ubicacion ubic) {
 		conjuntoEntidades.remove(ubic);
 	}
+	
+	public void agregarEntidadAlConjunto(Ubicacion ubic, Entidad ent) {
+		conjuntoEntidades.put(ubic, ent);
+	}
 
 	///////////////////////////////////////
 	// 									//
@@ -148,13 +152,13 @@ public class Mapa {
 
 	private void moverBomberman(Bomberman bomberman, int despX, int despY) {
 		if (puedeMoverse(bomberman.getX()+despX, bomberman.getY()+despY, bomberman)) {
-			Ubicacion ubic = bomberman.obtenerUbicacion().clone();
-			ubic.cambiarPosX(despX);
-			ubic.cambiarPosY(despY);
-			
 			bomberman.cambiarPosX(despX);
-			bomberman.cambiarPosY(despY);		
-			bomberman.cambiarUbicacion(ubic);
+			bomberman.cambiarPosY(despY);	
+			
+			Ubicacion ubic = new Ubicacion(bomberman.getX()/Motor.tileSize, bomberman.getY()/Motor.tileSize);
+			bomberman.cambiarUbicacion(ubic);			
+			
+			System.out.println("Bomber ubic: " + ubic.toString());
 		}
 	}
 

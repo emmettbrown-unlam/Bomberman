@@ -104,7 +104,7 @@ public class Bomba extends Entidad {
 
 		// Se ejecuta hasta llegar al rango maximo, o toparse con un
 		// obstaculo/muro siempre dentro del ANCHO y ALTO
-		for (int i = 1; i <= this.rango && !hayObstaculo &&  this.ubicacion.getPosY() - i >= 0 ; i++) {
+		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosY() - i >= 0 ; i++) {
 			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY() - i), map);
 		}
 	}
@@ -114,9 +114,13 @@ public class Bomba extends Entidad {
 
 		// Se ejecuta hasta llegar al rango maximo, o toparse con un
 		// obstaculo/muro siempre dentro del ANCHO y ALTO
-		for (int i = 1; i <= this.rango && !hayObstaculo &&  this.ubicacion.getPosY() + i <= Mapa.ALTO; i++) {
+		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosY() + i <= Mapa.ALTO; i++) {
 			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY() + i), map);
-			System.out.println("OBSTACULO ABAJO: " + hayObstaculo);
+			
+			/*if (!hayObstaculo) {
+				Explosion expl = new Explosion(ubicacion.getPosX(), ubicacion.getPosY()+i, Motor.tileSize, Motor.tileSize, map);
+				map.agregarEntidadAlConjunto(expl.ubicacion, expl);
+			}*/
 		}
 	}
 

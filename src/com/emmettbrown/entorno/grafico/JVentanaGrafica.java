@@ -1,16 +1,10 @@
 package com.emmettbrown.entorno.grafico;
 
 import java.awt.Color;
-
 import javax.swing.JFrame;
-
 import com.emmettbrown.controles.Teclado;
-import com.emmettbrown.entidades.Bomba;
 import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.mapa.Mapa;
-import com.emmettbrown.mapa.Ubicacion;
-import com.emmettbrown.principal.Motor;
-import com.emmettbrown.principal.Temporizador;
 
 public class JVentanaGrafica extends JFrame{
 	/**
