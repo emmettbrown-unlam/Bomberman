@@ -55,7 +55,7 @@ public class JVentanaGrafica extends JFrame{
 			miMapa.moverBombermanAbajo(miBomber,  Bomberman.VELOCIDAD);
 		}	
 		if(this.teclado.isPonerBomba()) {
-			this.miMapa.agregarBomba(miBomber.getX(), miBomber.getY());			
+			miMapa.agregarBomba(miBomber.getX(), miBomber.getY());			
 		}
 		repaint();
 	}

@@ -62,15 +62,14 @@ public class Bomba extends Entidad {
 	 */
 
 	public void explotar(Mapa map) {
-		System.out.println("BUM, la bomba " + idBomba + " Exploto");
+		//System.out.println("BUM, la bomba " + idBomba + " Exploto");
 		// Seteamos visible = false para dejar de renderizar la bomba
 		this.cambiarVisibilidad();
 
 		// Creamos una "explosión" en en lugar
 		explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY()), map);
 
-		// Creamos "explosiones" en las cuatro direcciones, dependiendo del
-		// rango
+		// Creamos "explosiones" en las cuatro direcciones, dependiendo del rango
 		explosionIzquierda(map);
 		explosionDerecha(map);
 		explosionArriba(map);
@@ -117,6 +116,7 @@ public class Bomba extends Entidad {
 		// obstaculo/muro siempre dentro del ANCHO y ALTO
 		for (int i = 1; i <= this.rango && !hayObstaculo &&  this.ubicacion.getPosY() + i <= Mapa.ALTO; i++) {
 			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY() + i), map);
+			System.out.println("OBSTACULO ABAJO: " + hayObstaculo);
 		}
 	}
 
@@ -130,7 +130,7 @@ public class Bomba extends Entidad {
 	 * @return true si encontró un obstaculo o un muro, false si no encontró
 	 */
 
-	private boolean explosion(Ubicacion ubic, Mapa map) {
+	private boolean explosion(Ubicacion ubic, Mapa map) {		
 		// Buscamos una entidad en dicha ubicación. Solo puede haber una, así
 		// que buscamos la que esté ahí
 		Entidad ent = map.obtenerEntidadDelConjunto(ubic);

@@ -79,24 +79,6 @@ public class Motor {
 
 		}*/
 	}
-
-	private void getInput() {
-		if ( this.teclado.isArriba() ) {
-			miMapa.moverBombermanArriba(miBomber, Bomberman.VELOCIDAD);
-		}	
-		if (this.teclado.isIzq() ) {
-			miMapa.moverBombermanIzq(miBomber,  Bomberman.VELOCIDAD);
-		}	
-		if ( this.teclado.isDer()  ) {
-			miMapa.moverBombermanDer(miBomber, Bomberman.VELOCIDAD);
-		}	
-		if (  this.teclado.isAbajo() ) {
-			miMapa.moverBombermanAbajo(miBomber,  Bomberman.VELOCIDAD);
-		}	
-		if(this.teclado.isPonerBomba()) {
-			this.miMapa.agregarBomba(miBomber.getX(), miBomber.getY());			
-		}
-	}
 	
 	private void actualizar() {
 		miVentana.refrescar();

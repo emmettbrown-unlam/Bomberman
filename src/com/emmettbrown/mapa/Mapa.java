@@ -19,6 +19,10 @@ public class Mapa {
 	public static final int ALTO = 9;
 	private Map<Ubicacion, Entidad> conjuntoEntidades;
 	private List<Bomberman> listaBomberman;
+	
+	//Controlan el delay al momento de poner bombas
+	private static final double bombDelay = 1000; //ms
+	private double nextBomb;
 
 	///////////////////////////////////////
 	// 									//
@@ -303,20 +307,24 @@ public class Mapa {
 	 * @param y: posición Y del bomberman
 	 */
 	
-	public void agregarBomba(int x, int y) {
-		Ubicacion ubic = new Ubicacion(x/Motor.tileSize, y/Motor.tileSize);
-		
-		//Si el módulo de la posición con el tamaño del tile da mayor a la mitad del tamaño,
-		//movemos la posicion en un casillero para que la bomba se cree en el casillero aledaño
-		if (x % Motor.tileSize > 37.5)
-			ubic.cambiarPosX(1);
-		if (y % Motor.tileSize > 37.5)
-			ubic.cambiarPosY(1);
-		
-		Bomba bomb = new Bomba(ubic);
-		conjuntoEntidades.put(ubic, bomb);
-		Temporizador t = new Temporizador(bomb.getMs(), bomb, this);
-		t.iniciarTimer();
+	public void agregarBomba(int x, int y) {		
+		if (System.currentTimeMillis() - nextBomb > bombDelay) {			
+			Ubicacion ubic = new Ubicacion(x/Motor.tileSize, y/Motor.tileSize);
+			
+			//Si el módulo de la posición con el tamaño del tile da mayor a la mitad del tamaño,
+			//movemos la posicion en un casillero para que la bomba se cree en el casillero aledaño
+			if (x % Motor.tileSize > 37.5)
+				ubic.cambiarPosX(1);
+			if (y % Motor.tileSize > 37.5)
+				ubic.cambiarPosY(1);
+			
+			Bomba bomb = new Bomba(ubic);
+			conjuntoEntidades.put(ubic, bomb);
+			Temporizador t = new Temporizador(bomb.getMs(), bomb, this);
+			t.iniciarTimer();
+			
+			nextBomb = System.currentTimeMillis();
+		}
 	}
 
 	/**
