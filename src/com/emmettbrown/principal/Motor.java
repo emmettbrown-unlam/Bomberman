@@ -7,20 +7,21 @@ import com.emmettbrown.mapa.Mapa;
 public class Motor {
 
 	public static int tileSize = 75;	
-	public static final int ANCHO = 1000;
-	public static final int ALTO = 1000;
+	public static final int ANCHO = tileSize*Mapa.ANCHO;
+	public static final int ALTO = tileSize*Mapa.ALTO+25;
 	
 	final int FPS = 30;
 	private Mapa miMapa;
 	private JVentanaGrafica miVentana;
 	private boolean iniciado;
 
+	 
 	public Motor() {
 		miMapa = new Mapa();
 		miMapa.generarMapa();
 		//Bomberman propio del usuario conectado.
 		Bomberman miBomber = new Bomberman(Motor.tileSize, Motor.tileSize, Bomberman.defaultWidth, Bomberman.defaultHeight); 
-		Bomberman miBomber2 = new Bomberman(Motor.tileSize*(ANCHO-2), Motor.tileSize*(ALTO-2), Bomberman.defaultWidth, Bomberman.defaultHeight); 
+		Bomberman miBomber2 = new Bomberman(Motor.tileSize*(Mapa.ANCHO-2), Motor.tileSize*(Mapa.ALTO-2), Bomberman.defaultWidth, Bomberman.defaultHeight); 
 		miMapa.agregarBomberman(miBomber);
 		miMapa.agregarBomberman(miBomber2);
 		miVentana = new JVentanaGrafica(miMapa,ANCHO, ALTO);
@@ -58,7 +59,7 @@ public class Motor {
 		            deltaF--;
 		        }
 		    }
-	}
+		}
 	
 	private void actualizar() {
 		miVentana.refrescar();

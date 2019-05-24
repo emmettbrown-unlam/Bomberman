@@ -46,8 +46,8 @@ public class Mapa {
 			for(int l = 0;l<ALTO;l++) {
 				conjuntoEntidades.put(new Ubicacion(0, l), new Muro(0 * Motor.tileSize, l * Motor.tileSize));
 				conjuntoEntidades.put(new Ubicacion(l, 0), new Muro(l * Motor.tileSize, 0 * Motor.tileSize));
-				conjuntoEntidades.put(new Ubicacion(ANCHO-1, l), new Muro(ANCHO-1 * Motor.tileSize, l * Motor.tileSize));
-				conjuntoEntidades.put(new Ubicacion(l, ALTO-1), new Muro(l * Motor.tileSize, ALTO-1 * Motor.tileSize));
+				conjuntoEntidades.put(new Ubicacion(ANCHO-1, l), new Muro((ANCHO-1) * Motor.tileSize, l * Motor.tileSize));
+				conjuntoEntidades.put(new Ubicacion(l, ALTO-1), new Muro(l * Motor.tileSize, (ALTO-1)* Motor.tileSize));
 			}
 				
 		for (int i = 1; i < ANCHO-1; i++) {
@@ -176,11 +176,6 @@ public class Mapa {
 	 * @return true: puede moverse, false: no puede moverse
 	 */
 	public boolean puedeMoverse(int x, int y, Entidad ent) {
-		if (x < 0 || x >= Motor.ANCHO)
-			return false;
-		if (y < 0 || y >= Motor.ALTO)
-			return false;
-		
 		return !chequearColisiones(ent, x, y); //estaLibre(ubic) && 
 	}
 
@@ -206,7 +201,6 @@ public class Mapa {
 	public boolean chequearColisiones(Entidad ent, int x, int y) {
 		//Hitbox de la primera entidad
 		Rectangle hitBoxEnt = new Rectangle(x, y, ent.getWidth(), ent.getHeight());
-		
 		//Recorremos el conjunto de entidades
 		for(Map.Entry<Ubicacion, Entidad> entry : conjuntoEntidades.entrySet()) {
 			//Agarramos cada entry
@@ -318,10 +312,9 @@ public class Mapa {
 				ubic.cambiarPosY(1);
 			
 			Bomba bomb = new Bomba(ubic);
-			conjuntoEntidades.put(ubic, bomb);
+			conjuntoEntidades.put(bomb.obtenerUbicacion(), bomb);
 			Temporizador t = new Temporizador(bomb.getMs(), bomb, this);
 			t.iniciarTimer();
-			
 			nextBomb = System.currentTimeMillis();
 		}
 	}
