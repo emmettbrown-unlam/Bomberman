@@ -13,16 +13,17 @@ public class Motor {
 	final int FPS = 30;
 	private Mapa miMapa;
 	private JVentanaGrafica miVentana;
-	private Bomberman miBomber;
 	private boolean iniciado;
 
 	public Motor() {
 		miMapa = new Mapa();
 		miMapa.generarMapa();
 		//Bomberman propio del usuario conectado.
-		miBomber = new Bomberman(0, 0, Bomberman.defaultWidth, Bomberman.defaultHeight); 
+		Bomberman miBomber = new Bomberman(Motor.tileSize, Motor.tileSize, Bomberman.defaultWidth, Bomberman.defaultHeight); 
+		Bomberman miBomber2 = new Bomberman(Motor.tileSize*(ANCHO-2), Motor.tileSize*(ALTO-2), Bomberman.defaultWidth, Bomberman.defaultHeight); 
 		miMapa.agregarBomberman(miBomber);
-		miVentana = new JVentanaGrafica(miMapa, miBomber, ANCHO, ALTO);
+		miMapa.agregarBomberman(miBomber2);
+		miVentana = new JVentanaGrafica(miMapa,ANCHO, ALTO);
 	}
 
 	private void iniciarJuego() {
