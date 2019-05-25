@@ -39,7 +39,7 @@ public class JPanelGrafico extends JPanel {
 			ubic = iterEnt.next();
 			mostEnt = conjuntoEntidades.get(ubic);
 			
-			g.drawImage(mostEnt.getImagen(), ubic.getPosX() * Motor.tileSize + 2, ubic.getPosY() * Motor.tileSize + 2, 71, 71, null);
+			g.drawImage(mostEnt.getImagen(), ubic.getPosX() * Motor.tileSize + 2, ubic.getPosY() * Motor.tileSize + 2, 75, 75, null);
 		}
 		
 		g.setColor(Color.GREEN);
