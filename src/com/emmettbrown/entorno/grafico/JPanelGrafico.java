@@ -31,6 +31,7 @@ public class JPanelGrafico extends JPanel {
 		super.paintComponent(g);
 		Iterator<Ubicacion> iterEnt = conjuntoEntidades.keySet().iterator();
 		Iterator<Bomberman> iterBomb = listaBomberman.iterator();
+		//g.drawImage(miMapa.obtenerImagen(),0,0,Motor.tileSize*Mapa.ALTO,Motor.tileSize*Mapa.ANCHO,null);
 		Bomberman mostBomb;
 		Ubicacion ubic;
 		Entidad mostEnt;
@@ -39,7 +40,7 @@ public class JPanelGrafico extends JPanel {
 			ubic = iterEnt.next();
 			mostEnt = conjuntoEntidades.get(ubic);
 			
-			g.drawImage(mostEnt.getImagen(), ubic.getPosX() * Motor.tileSize + 2, ubic.getPosY() * Motor.tileSize + 2, 75, 75, null);
+			g.drawImage(mostEnt.getImagen(), ubic.getPosX() * Motor.tileSize + 2, ubic.getPosY() * Motor.tileSize + 2, Motor.tileSize, Motor.tileSize, null);
 		}
 		
 		g.setColor(Color.GREEN);

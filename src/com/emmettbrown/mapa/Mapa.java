@@ -1,9 +1,12 @@
 package com.emmettbrown.mapa;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import javax.swing.ImageIcon;
 
 import com.emmettbrown.entidades.Bomba;
 import com.emmettbrown.entidades.Bomberman;
@@ -20,6 +23,7 @@ public class Mapa {
 	public static final int ALTO = 9;
 	private Map<Ubicacion, Entidad> conjuntoEntidades;
 	private List<Bomberman> listaBomberman;
+	ImageIcon fondo;
 	
 	//Controlan el delay al momento de poner bombas // ¿moverlo a otro lado mas pertinente?
 	private static final double bombDelay = 1000; //ms
@@ -34,6 +38,7 @@ public class Mapa {
 	public Mapa() {
 		conjuntoEntidades = new TreeMap<Ubicacion, Entidad>();
 		listaBomberman = new ArrayList<Bomberman>();
+		this.fondo = new ImageIcon("./src/resources/game-map/fondo.jpg");
 	}
 
 	////////////////////////////////////////
@@ -84,7 +89,9 @@ public class Mapa {
 		return true;
 	}
 
-
+	public Image obtenerImagen() {
+		return fondo.getImage();
+	}
 	///////////////////////////////////////
 	// 									//
 	// 			ENTIDADES 				//

@@ -27,7 +27,7 @@ public class JVentanaGrafica extends JFrame {
 		setBackground(Color.RED);
 		setLocationRelativeTo(null);
 		contentPane = new JPanelGrafico(miMapa);
-		setBackground(Color.WHITE);
+		contentPane.setBackground(new Color(32,155,221));
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
 		List<Bomberman> miLista = miMapa.obtenerListaBomberman();
