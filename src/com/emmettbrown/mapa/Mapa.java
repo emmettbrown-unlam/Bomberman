@@ -147,7 +147,8 @@ public class Mapa {
 	}
 	
 	public void agregarEntidadAlConjunto(Ubicacion ubic, Entidad ent) {
-		conjuntoEntidades.put(ubic, ent);
+		if(conjuntoEntidades.containsKey(ubic)==false)
+			conjuntoEntidades.put(ubic, ent);
 	}
 
 	///////////////////////////////////////
@@ -237,21 +238,27 @@ public class Mapa {
 
 	public void moverBombermanArriba(Bomberman bomberman, int desplazamiento) {
 		// Fool proof
+		bomberman.cambiarImagenArriba();
 		this.moverBomberman(bomberman, 0, -Math.abs(desplazamiento));
+		
 	}
 
 	public void moverBombermanAbajo(Bomberman bomberman, int desplazamiento) {
 		// Fool proof
+		bomberman.cambiarImagenAbajo();
 		this.moverBomberman(bomberman, 0, Math.abs(desplazamiento));
 	}
 
 	public void moverBombermanIzq(Bomberman bomberman, int desplazamiento) {
 		// Fool proof
+		bomberman.cambiarImagenIzquierda();
 		this.moverBomberman(bomberman, -Math.abs(desplazamiento), 0);
+		
 	}
 
 	public void moverBombermanDer(Bomberman bomberman, int desplazamiento) {
 		// Fool proof
+		bomberman.cambiarImagenDerecha();
 		this.moverBomberman(bomberman, Math.abs(desplazamiento), 0);
 	}
 

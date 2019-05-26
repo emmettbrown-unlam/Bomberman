@@ -10,10 +10,14 @@ import com.emmettbrown.mapa.Ubicacion;
 public class Explosion extends Entidad {
 
 	private Timer t;
+	private ImageIcon fuegoArrAba;
+	private ImageIcon fuegoIzqDer;
 	
 	public Explosion(int posX, int posY, int width, int height) {
 		super(posX, posY, width, height);
-		this.img = new ImageIcon("./src/resources/bomb/explosion.png");
+		fuegoArrAba = new ImageIcon("./src/resources/bomb/fuegoArrAba.png");
+		fuegoIzqDer = new ImageIcon("./src/resources/bomb/fuegoIzqDer.png");
+		img = new ImageIcon("./src/resources/bomb/fuegoCen.png");
 	}
 	
 	class miOyente implements ActionListener {
@@ -41,5 +45,13 @@ public class Explosion extends Entidad {
 	public void explotar(Mapa map) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void cambiarImagenArrAba() {
+		setImage(fuegoArrAba);
+	}
+	
+	public void cambiarImagenIzqDer() {
+		setImage(fuegoIzqDer);
 	}
 }

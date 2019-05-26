@@ -13,12 +13,20 @@ public class Bomberman extends Entidad {
 	private static int nroBomberman = 0;
 	private int idBomberman;
 	public static final int VELOCIDAD = 5;
+	private ImageIcon bomberIzq;
+	private ImageIcon bomberDer;
+	private ImageIcon bomberArr;
+	private ImageIcon bomberAba;
 
 	public Bomberman(int posX, int posY, int width, int height) {
 		super(posX, posY, width, height);
 		idBomberman = nroBomberman++;
 		this.destructible = true;
 		this.img = new ImageIcon("./src/resources/character/bomberman.png");
+		bomberIzq = new ImageIcon("./src/resources/character/bombermanIzq.png");
+		bomberDer = new ImageIcon("./src/resources/character/bombermanDer.png");
+		bomberArr = new ImageIcon("./src/resources/character/bombermanArr.png");
+		bomberAba = new ImageIcon("./src/resources/character/bombermanAba.png");
 	}
 	
 	/** PARAM
@@ -37,6 +45,19 @@ public class Bomberman extends Entidad {
 	
 	public void cambiarPosY(double despY) {
 		this.y += despY;
+	}
+	
+	public void cambiarImagenIzquierda() {
+		setImage(bomberIzq);
+	}
+	public void cambiarImagenDerecha() {
+		setImage(bomberDer);
+	}
+	public void cambiarImagenArriba() {
+		setImage(bomberArr);
+	}
+	public void cambiarImagenAbajo() {
+		setImage(bomberAba);
 	}
 	
 	public void cambiarUbicacion(Ubicacion ubic) {

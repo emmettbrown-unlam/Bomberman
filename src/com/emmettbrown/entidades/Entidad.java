@@ -84,6 +84,8 @@ public abstract class Entidad {
 	public Rectangle getHitBox() {
 		return new Rectangle(x,  y, width, height);
 	}
-	
+	public void setImage(ImageIcon act) {
+		img = act;
+	}
 	public abstract void explotar(Mapa map);
 }

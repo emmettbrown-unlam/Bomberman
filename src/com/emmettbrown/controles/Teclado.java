@@ -140,7 +140,7 @@ public class Teclado implements KeyListener{
 			this.abajo = true;
 		}
 		
-		if (key == KeyEvent.VK_SPACE) {
+		if (key == KeyEvent.VK_L) {
 			this.l = true;
 		}
 		
