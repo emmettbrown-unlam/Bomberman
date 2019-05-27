@@ -1,18 +1,27 @@
 package com.emmettbrown.entidades;
 
-import javax.swing.ImageIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.Timer;
+
+import com.emmettbrown.entidades.Explosion.miOyente;
 import com.emmettbrown.mapa.Mapa;
 import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.principal.Motor;
 
 public class Bomba extends Entidad {
+	
 	private static int nroBomba = 0;
 	private int idBomba;
 	private int segsExplosion;
 	private int rango;
 	private final int ARRABA = 1;
 	private final int IZQDER = -1;
+	private Bomberman creador;
+	private boolean ignorarColisionCreador;
+	private Timer timer;
 
 	///////////////////////////////////////
 	// 									//
@@ -20,22 +29,26 @@ public class Bomba extends Entidad {
 	// 									//
 	/////////////////////////////////////
 
-	public Bomba(int posX, int posY) {
+	public Bomba(int posX, int posY, Bomberman bman) {
 		super(posX, posY, Motor.tileSize, Motor.tileSize);
 		idBomba = nroBomba++;
 		segsExplosion = 3;
 		this.destructible = true;
 		this.rango = 2;
 		this.img = new ImageIcon("./src/resources/bomb/bomba.png");
+		this.creador = bman;
+		this.ignorarColisionCreador = true;
 	}
 
-	public Bomba(Ubicacion ubic) {
-		super(ubic,Motor.tileSize,Motor.tileSize);
+	public Bomba(Ubicacion ubic, Bomberman bman) {
+		super(ubic, Motor.tileSize, Motor.tileSize);
 		idBomba = nroBomba++;
 		segsExplosion = 3;
 		this.destructible = true;
 		this.rango = 2;
 		this.img = new ImageIcon("./src/resources/bomb/bomba.png");
+		this.creador = bman;
+		this.ignorarColisionCreador = true;
 	}
 
 	///////////////////////////////////////
@@ -46,6 +59,14 @@ public class Bomba extends Entidad {
 
 	public int getIdBomba() {
 		return idBomba;
+	}
+	
+	public boolean getIgnorarColisionCreador() {
+		return this.ignorarColisionCreador;
+	}
+	
+	public void setIgnorarColisionCreador(boolean param) {
+		this.ignorarColisionCreador = param;
 	}
 
 	///////////////////////////////////////
@@ -68,6 +89,8 @@ public class Bomba extends Entidad {
 		this.cambiarVisibilidad();
 		// Removemos la bomba de la lista de entidades
 		map.removerEntidadDelConjunto(this.ubicacion);
+		//Y de la lista del creador
+		creador.removerBomba(this);
 		
 		// Creamos una "explosión" en en lugar
 		explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY()), map,0);
@@ -162,5 +185,33 @@ public class Bomba extends Entidad {
 	public int getMs() {
 		return this.segsExplosion * 1000;
 	}
-
+	
+	public boolean hayColisionConCreador(Bomberman bman) {
+		if (bman.equals(this.creador)) {
+			return !this.ignorarColisionCreador;
+		}
+		
+		return true;
+	}
+	
+	public void startTimer(Mapa map) {
+		timer = new Timer(3000, new miOyente(map, this));
+		timer.start();
+	}
+	
+	class miOyente implements ActionListener {
+		private Mapa map;
+		private Bomba bomba;
+		
+		public miOyente(Mapa map, Bomba bomba) {
+			this.map = map;
+			this.bomba = bomba;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			this.bomba.explotar(map);
+			timer.stop();
+		}
+	}
 }

@@ -5,18 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import javax.swing.ImageIcon;
+import com.sun.javafx.geom.Rectangle;
 
 import com.emmettbrown.entidades.Bomba;
 import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entidades.Entidad;
-import com.emmettbrown.entidades.Explosion;
 import com.emmettbrown.entidades.Muro;
 import com.emmettbrown.entidades.Obstaculo;
 import com.emmettbrown.principal.Motor;
 import com.emmettbrown.principal.Temporizador;
-import com.sun.javafx.geom.Rectangle;
+
 
 public class Mapa {
 	public static final int ANCHO = 9;
@@ -172,7 +171,8 @@ public class Mapa {
 			bomberman.cambiarPosY(despY);	
 			//Actualizamos la ubicacion relativa en la matriz
 			Ubicacion ubic = new Ubicacion(bomberman.getX()/Motor.tileSize, bomberman.getY()/Motor.tileSize);
-			bomberman.cambiarUbicacion(ubic);			
+			bomberman.cambiarUbicacion(ubic);	
+			bomberman.actualizarColBomba();
 		}
 	}
 
@@ -183,8 +183,8 @@ public class Mapa {
 	 *              Bomberman
 	 * @return true: puede moverse, false: no puede moverse
 	 */
-	public boolean puedeMoverse(int x, int y, Entidad ent) {
-		return !chequearColisiones(ent, x, y); //estaLibre(ubic) && 
+	public boolean puedeMoverse(int x, int y, Bomberman bomberman) {
+		return !chequearColisiones(bomberman, x, y); //estaLibre(ubic) && 
 	}
 
 	/**
@@ -206,9 +206,11 @@ public class Mapa {
 	 * @return true: hay colision, false: no hay
 	 */
 	
-	public boolean chequearColisiones(Entidad ent, int x, int y) {
+	public boolean chequearColisiones(Bomberman bomberman, int x, int y) {
+		boolean col = false;
+		
 		//Hitbox de la primera entidad
-		Rectangle hitBoxEnt = new Rectangle(x, y, ent.getWidth(), ent.getHeight());
+		Rectangle hitBoxEnt = new Rectangle(x, y, bomberman.getWidth(), bomberman.getHeight());
 		//Recorremos el conjunto de entidades
 		for(Map.Entry<Ubicacion, Entidad> entry : conjuntoEntidades.entrySet()) {
 			//Agarramos cada entry
@@ -216,19 +218,23 @@ public class Mapa {
 			//Y calculamos su rectangulo
 			Rectangle hitBoxObj = obj.getHitBox();
 			//Vemos si existe una interseccion entre ambos rectangulos
-			Rectangle intersection = hitBoxEnt.intersection(hitBoxObj);		  
-			
+			Rectangle intersection = hitBoxEnt.intersection(hitBoxObj);		  			
+						
 			//Si la interseccion no es vacia, entonces retornamos que hay colision
 			if (!intersection.isEmpty()) {
-				//Esto no me gusta para NADA
+				/*//Esto no me gusta para NADA
 				if (obj instanceof Explosion) {
 					((Bomberman) ent).morir();
 				}
-			  return true;	
-		  }
+			  return true;	*/
+				if (bomberman.manejarColisionCon(obj)) {
+					col = true; 		  
+				}
+					
+			}
 		}
 		//No se dectectaron colisiones en ninguna entidad, retornamos false
-		return false;
+		return col;
 	}
 
 	/**
@@ -314,7 +320,7 @@ public class Mapa {
 	 * @param y: posición Y del bomberman
 	 */
 	
-	public void agregarBomba(int x, int y) {		
+	public void agregarBomba(int x, int y, Bomberman creador) {		
 		if (System.currentTimeMillis() - nextBomb > bombDelay) {			
 			Ubicacion ubic = new Ubicacion(x/Motor.tileSize, y/Motor.tileSize);
 			
@@ -325,10 +331,12 @@ public class Mapa {
 			if (y % Motor.tileSize > 37.5)
 				ubic.cambiarPosY(1);
 			
-			Bomba bomb = new Bomba(ubic);
+			Bomba bomb = new Bomba(ubic, creador);
+			creador.agregarBomba(bomb);
 			conjuntoEntidades.put(bomb.obtenerUbicacion(), bomb);
-			Temporizador t = new Temporizador(bomb.getMs(), bomb, this);
-			t.iniciarTimer();
+			bomb.startTimer(this);
+			/*Temporizador t = new Temporizador(bomb.getMs(), bomb, this);
+			t.iniciarTimer();*/
 			nextBomb = System.currentTimeMillis();
 		}
 	}

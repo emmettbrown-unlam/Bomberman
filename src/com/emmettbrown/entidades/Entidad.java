@@ -30,9 +30,11 @@ public abstract class Entidad {
 		this.esVisible = true;
 	}
 	
-	public Entidad(Ubicacion ubicacionAct,int width,int height)
+	public Entidad(Ubicacion ubic, int width, int height)
 	{
-		this.ubicacion = ubicacionAct;
+		this.ubicacion = ubic;
+		this.x = ubicacion.getPosX()*Motor.tileSize;
+		this.y = ubicacion.getPosY()*Motor.tileSize;
 		this.width = width;
 		this.height = height;
 		this.esVisible = true;
@@ -82,7 +84,7 @@ public abstract class Entidad {
 	}
 	
 	public Rectangle getHitBox() {
-		return new Rectangle(x,  y, width, height);
+		return new Rectangle(x, y, width, height);
 	}
 	public void setImage(ImageIcon act) {
 		img = act;
