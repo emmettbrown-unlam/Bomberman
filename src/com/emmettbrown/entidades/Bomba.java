@@ -11,8 +11,6 @@ import com.emmettbrown.principal.Motor;
 
 public class Bomba extends Entidad {
 	
-	private static int nroBomba = 0;
-	private int idBomba;
 	private int segsExplosion;
 	private int rango;
 	private final int ARRABA = 1;
@@ -29,7 +27,6 @@ public class Bomba extends Entidad {
 
 	public Bomba(int posX, int posY, Bomberman bman) {
 		super(posX, posY, Motor.tileSize, Motor.tileSize);
-		idBomba = nroBomba++;
 		segsExplosion = 3;
 		this.destructible = true;
 		this.rango = 2;
@@ -40,7 +37,6 @@ public class Bomba extends Entidad {
 
 	public Bomba(Ubicacion ubic, Bomberman bman) {
 		super(ubic, Motor.tileSize, Motor.tileSize);
-		idBomba = nroBomba++;
 		segsExplosion = 3;
 		this.destructible = true;
 		this.rango = 2;
@@ -55,10 +51,6 @@ public class Bomba extends Entidad {
 	// 								  //
 	///////////////////////////////////
 
-	public int getIdBomba() {
-		return idBomba;
-	}
-	
 	public boolean getIgnorarColisionCreador() {
 		return this.ignorarColisionCreador;
 	}

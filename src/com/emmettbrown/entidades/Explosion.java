@@ -9,6 +9,7 @@ import com.emmettbrown.mapa.Ubicacion;
 
 public class Explosion extends Entidad {
 
+	private final static int duracion = 2;
 	private Timer t;
 	private ImageIcon fuegoArrAba;
 	private ImageIcon fuegoIzqDer;
@@ -34,10 +35,10 @@ public class Explosion extends Entidad {
 			map.removerEntidadDelConjunto(ubic);
 			t.stop();
 		}
-	}
+	}	
 	
 	public void startTimer(Mapa map) {
-		t = new Timer(3000, new miOyente(map, this.ubicacion));
+		t = new Timer(duracion*1000, new miOyente(map, this.ubicacion));
 		t.start();
 	}
 

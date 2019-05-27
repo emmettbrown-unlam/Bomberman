@@ -18,13 +18,14 @@ import com.emmettbrown.principal.Motor;
 public class Mapa {
 	public static final int ANCHO = 9;
 	public static final int ALTO = 9;
-	private TreeMap<Ubicacion, Entidad> conjuntoEntidades;
-	private List<Bomberman> listaBomberman;
-	ImageIcon fondo;
-	
 	//Controlan el delay al momento de poner bombas // ¿moverlo a otro lado mas pertinente?
 	private static final double bombDelay = 1000; //ms
 	private double nextBomb;
+	
+	private TreeMap<Ubicacion, Entidad> conjuntoEntidades;
+	private List<Bomberman> listaBomberman;
+	private ImageIcon fondo;	
+	
 
 	///////////////////////////////////////
 	// 									//
@@ -40,8 +41,8 @@ public class Mapa {
 
 	////////////////////////////////////////
 	// 									 //
-	// 				METODOS 	//
-	// 								     //
+	// 				METODOS 			//
+	// 								   //
 	////////////////////////////////////
 
 	public void generarMapa() {
