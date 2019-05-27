@@ -13,58 +13,12 @@ public class Teclado implements KeyListener{
 	private boolean w;
 	private boolean a;
 	private boolean d;
-	private boolean s;
-	public boolean isF() {
-		return f;
-	}
-
-	public void setF(boolean f) {
-		this.f = f;
-	}
-
-	public void setArriba(boolean arriba) {
-		this.arriba = arriba;
-	}
-
-	public void setAbajo(boolean abajo) {
-		this.abajo = abajo;
-	}
-
-	public void setIzq(boolean izq) {
-		this.izq = izq;
-	}
-
-	public void setDer(boolean der) {
-		this.der = der;
-	}
-
-	public void setL(boolean l) {
-		this.l = l;
-	}
-
-	public void setEsc(boolean esc) {
-		this.esc = esc;
-	}
-
-	public void setW(boolean w) {
-		this.w = w;
-	}
-
-	public void setA(boolean a) {
-		this.a = a;
-	}
-
-	public void setD(boolean d) {
-		this.d = d;
-	}
-
-	public void setS(boolean s) {
-		this.s = s;
-	}
-
+	private boolean s;	
 	private boolean f;
 	
-	
+	public boolean isF() {
+		return f;
+	}	
 	
 	public boolean isW() {
 		return w;

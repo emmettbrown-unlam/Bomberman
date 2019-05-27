@@ -2,11 +2,9 @@ package com.emmettbrown.entidades;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
-import com.emmettbrown.entidades.Explosion.miOyente;
 import com.emmettbrown.mapa.Mapa;
 import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.principal.Motor;
@@ -182,7 +180,7 @@ public class Bomba extends Entidad {
 		return false;
 	}
 
-	public int getMs() {
+	public int getMsExplosion() {
 		return this.segsExplosion * 1000;
 	}
 	
@@ -195,7 +193,7 @@ public class Bomba extends Entidad {
 	}
 	
 	public void startTimer(Mapa map) {
-		timer = new Timer(3000, new miOyente(map, this));
+		timer = new Timer(getMsExplosion(), new miOyente(map, this));
 		timer.start();
 	}
 	

@@ -14,13 +14,11 @@ import com.emmettbrown.entidades.Entidad;
 import com.emmettbrown.entidades.Muro;
 import com.emmettbrown.entidades.Obstaculo;
 import com.emmettbrown.principal.Motor;
-import com.emmettbrown.principal.Temporizador;
-
 
 public class Mapa {
 	public static final int ANCHO = 9;
 	public static final int ALTO = 9;
-	private Map<Ubicacion, Entidad> conjuntoEntidades;
+	private TreeMap<Ubicacion, Entidad> conjuntoEntidades;
 	private List<Bomberman> listaBomberman;
 	ImageIcon fondo;
 	
@@ -61,7 +59,7 @@ public class Mapa {
 					//CONTRARIO EVALUAREMOS PONER OBSTACULOS
 					conjuntoEntidades.put(new Ubicacion(i, j), new Muro(i * Motor.tileSize, j * Motor.tileSize));
 				} else if ((posicionValida(i, j)) && Math.random() >= 0.25) {
-					//75% DE PROBABILIDAD DE CREAR UN	OBSTACULO
+					//75% DE PROBABILIDAD DE CREAR UN OBSTACULO
 					conjuntoEntidades.put(new Ubicacion(i, j), new Obstaculo(i * Motor.tileSize, j * Motor.tileSize));
 				}
 			}
@@ -97,7 +95,7 @@ public class Mapa {
 	// 									//
 	/////////////////////////////////////
 
-	public Map<Ubicacion, Entidad> obtenerListaEntidades() {
+	public TreeMap<Ubicacion, Entidad> obtenerListaEntidades() {
 		return conjuntoEntidades;
 	}
 
@@ -172,6 +170,7 @@ public class Mapa {
 			//Actualizamos la ubicacion relativa en la matriz
 			Ubicacion ubic = new Ubicacion(bomberman.getX()/Motor.tileSize, bomberman.getY()/Motor.tileSize);
 			bomberman.cambiarUbicacion(ubic);	
+			//Actualizamos el flag "ignorarColisionCreador" de las bombas del bomberman
 			bomberman.actualizarColBomba();
 		}
 	}
@@ -184,7 +183,7 @@ public class Mapa {
 	 * @return true: puede moverse, false: no puede moverse
 	 */
 	public boolean puedeMoverse(int x, int y, Bomberman bomberman) {
-		return !chequearColisiones(bomberman, x, y); //estaLibre(ubic) && 
+		return !chequearColisiones(bomberman, x, y);
 	}
 
 	/**
@@ -196,7 +195,7 @@ public class Mapa {
 	 *         dicha posicion
 	 */
 
-	public boolean estaLibre(Ubicacion ubic) {
+	public boolean hayEntidadEn(Ubicacion ubic) {
 		return conjuntoEntidades.get(ubic) == null;
 	}
 	
@@ -207,63 +206,58 @@ public class Mapa {
 	 */
 	
 	public boolean chequearColisiones(Bomberman bomberman, int x, int y) {
-		boolean col = false;
+		//Como puede haber mas de una colision al mismo tiempo, usamos una variable booleana
+		//en vez de retornar el valor individual de una colision
+		boolean col = false;		
 		
-		//Hitbox de la primera entidad
-		Rectangle hitBoxEnt = new Rectangle(x, y, bomberman.getWidth(), bomberman.getHeight());
+		//Hitbox del bomberman
+		Rectangle hitBoxBman = new Rectangle(x, y, bomberman.getWidth(), bomberman.getHeight());
+		
 		//Recorremos el conjunto de entidades
 		for(Map.Entry<Ubicacion, Entidad> entry : conjuntoEntidades.entrySet()) {
 			//Agarramos cada entry
-			Entidad obj = entry.getValue();
+			Entidad ent = entry.getValue();
 			//Y calculamos su rectangulo
-			Rectangle hitBoxObj = obj.getHitBox();
+			Rectangle hitBoxEnt = ent.getHitBox();
 			//Vemos si existe una interseccion entre ambos rectangulos
-			Rectangle intersection = hitBoxEnt.intersection(hitBoxObj);		  			
+			Rectangle intersection = hitBoxBman.intersection(hitBoxEnt);		  			
 						
 			//Si la interseccion no es vacia, entonces retornamos que hay colision
 			if (!intersection.isEmpty()) {
-				/*//Esto no me gusta para NADA
-				if (obj instanceof Explosion) {
-					((Bomberman) ent).morir();
-				}
-			  return true;	*/
-				if (bomberman.manejarColisionCon(obj)) {
+				if (bomberman.manejarColisionCon(ent)) {
 					col = true; 		  
-				}
-					
+				}					
 			}
 		}
-		//No se dectectaron colisiones en ninguna entidad, retornamos false
+		//Devolvemos el valor almacenado en col
 		return col;
 	}
 
 	/**
 	 * Reciben como parametros el bomberman a mover, y el desplazamiento sin NINGUN
-	 * tipo de signo.
+	 * tipo de signo. 
+	 * 
+	 * De igual forma, los valores están forzados a un math.abs. Está todo fool proofeado.
 	 */
 
 	public void moverBombermanArriba(Bomberman bomberman, int desplazamiento) {
-		// Fool proof
 		bomberman.cambiarImagenArriba();
 		this.moverBomberman(bomberman, 0, -Math.abs(desplazamiento));
 		
 	}
 
 	public void moverBombermanAbajo(Bomberman bomberman, int desplazamiento) {
-		// Fool proof
 		bomberman.cambiarImagenAbajo();
 		this.moverBomberman(bomberman, 0, Math.abs(desplazamiento));
 	}
 
 	public void moverBombermanIzq(Bomberman bomberman, int desplazamiento) {
-		// Fool proof
 		bomberman.cambiarImagenIzquierda();
 		this.moverBomberman(bomberman, -Math.abs(desplazamiento), 0);
 		
 	}
 
 	public void moverBombermanDer(Bomberman bomberman, int desplazamiento) {
-		// Fool proof
 		bomberman.cambiarImagenDerecha();
 		this.moverBomberman(bomberman, Math.abs(desplazamiento), 0);
 	}
@@ -286,8 +280,7 @@ public class Mapa {
 
 	public List<Bomberman> obtenerListaBomberman() {
 		return listaBomberman;
-	}
-	
+	}	
 
 	/**
 	 * Recorre la lista de bombermans y retorna al que encuentre en la ubicacion
@@ -332,6 +325,7 @@ public class Mapa {
 				ubic.cambiarPosY(1);
 			
 			Bomba bomb = new Bomba(ubic, creador);
+			//Agregamos una bomba a la lista de bombas del creador
 			creador.agregarBomba(bomb);
 			conjuntoEntidades.put(bomb.obtenerUbicacion(), bomb);
 			bomb.startTimer(this);
@@ -339,7 +333,7 @@ public class Mapa {
 			t.iniciarTimer();*/
 			nextBomb = System.currentTimeMillis();
 		}
-	}
+	}	
 
 	/**
 	 * Explota una bomba a traves de sus coordenadas

@@ -13,7 +13,7 @@ public abstract class Entidad {
 	
 	protected Ubicacion ubicacion;
 	protected boolean esVisible;
-	protected boolean destructible = true;
+	protected boolean destructible;
 	protected ImageIcon img;
 	protected int x;
 	protected int y;
