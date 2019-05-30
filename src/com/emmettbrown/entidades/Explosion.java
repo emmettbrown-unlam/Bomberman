@@ -9,7 +9,7 @@ import com.emmettbrown.mapa.Ubicacion;
 
 public class Explosion extends Entidad {
 
-	private final static int duracion = 2;
+	private final static int duracion = 1;
 	private Timer t;
 	private ImageIcon fuegoArrAba;
 	private ImageIcon fuegoIzqDer;

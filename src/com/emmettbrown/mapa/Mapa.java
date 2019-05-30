@@ -19,7 +19,7 @@ public class Mapa {
 	public static final int ANCHO = 9;
 	public static final int ALTO = 9;
 	//Controlan el delay al momento de poner bombas // ¿moverlo a otro lado mas pertinente?
-	private static final double bombDelay = 1000; //ms
+	private static final double bombDelay = 500; //ms
 	private double nextBomb;
 	
 	private TreeMap<Ubicacion, Entidad> conjuntoEntidades;
