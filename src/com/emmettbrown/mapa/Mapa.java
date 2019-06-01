@@ -310,25 +310,27 @@ public class Mapa{
 	 */
 	
 	public void agregarBomba(int x, int y, Bomberman creador) {		
-//		if (System.currentTimeMillis() - nextBomb > bombDelay) {			
+		//if (System.currentTimeMillis() - creador.getNextBomb() > DefConst.BOMBDELAY) {			
 			Ubicacion ubic = new Ubicacion(x/DefConst.TILESIZE, y/DefConst.TILESIZE);
 			
-			//Si el módulo de la posición con el tamaño del tile da mayor a la mitad del tamaño,
-			//movemos la posicion en un casillero para que la bomba se cree en el casillero aledaño
-			if (x % DefConst.TILESIZE > DefConst.TOLCAMBIOPOS)
-				ubic.cambiarPosX(1);
-			if (y % DefConst.TILESIZE > DefConst.TOLCAMBIOPOS)
-				ubic.cambiarPosY(1);
-			
-			Bomba bomb = new Bomba(ubic, creador);
-			//Agregamos una bomba a la lista de bombas del creador
-			creador.agregarBomba(bomb);
-			conjuntoEntidades.put(bomb.obtenerUbicacion(), bomb);
-			bomb.startTimer(this);
-			/*Temporizador t = new Temporizador(bomb.getMs(), bomb, this);
-			t.iniciarTimer();*/
-//			nextBomb = System.currentTimeMillis();
-//		}
+			if (obtenerEntidadDelConjunto(ubic) == null) {			
+				//Si el módulo de la posición con el tamaño del tile da mayor a la mitad del tamaño,
+				//movemos la posicion en un casillero para que la bomba se cree en el casillero aledaño
+				if (x % DefConst.TILESIZE > DefConst.TOLCAMBIOPOS)
+					ubic.cambiarPosX(1);
+				if (y % DefConst.TILESIZE > DefConst.TOLCAMBIOPOS)
+					ubic.cambiarPosY(1);
+				
+				Bomba bomb = new Bomba(ubic, creador);
+				//Agregamos una bomba a la lista de bombas del creador
+				creador.agregarBomba(bomb);
+				conjuntoEntidades.put(bomb.obtenerUbicacion(), bomb);
+				bomb.startTimer(this);
+				/*Temporizador t = new Temporizador(bomb.getMs(), bomb, this);
+				t.iniciarTimer();*/
+				//creador.setNextBomb((System.currentTimeMillis())); 
+			}
+		//}
 	}	
 
 	/**

@@ -211,6 +211,7 @@ public class Bomba extends Entidad {
 		timer = new Timer(getMsExplosion(), new miOyente(map, this));
 		timer.start();
 	}
+	
 	public void stopTimer() {
 		timer.stop();
 	}
@@ -226,7 +227,7 @@ public class Bomba extends Entidad {
 		
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			if (esVisible) {
+			if (bomba.esVisible) {
 				this.bomba.explotar(map);
 			}			
 			timer.stop();

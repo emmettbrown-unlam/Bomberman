@@ -1,13 +1,12 @@
 package com.emmettbrown.entidades;
 
 import java.awt.Image;
-
 import javax.swing.ImageIcon;
+import com.sun.javafx.geom.Rectangle;
 
 import com.emmettbrown.mapa.Mapa;
 import com.emmettbrown.mapa.Ubicacion;
-import com.emmettbrown.principal.Motor;
-import com.sun.javafx.geom.Rectangle;
+
 
 public abstract class Entidad {
 	
