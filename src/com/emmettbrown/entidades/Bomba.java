@@ -7,7 +7,6 @@ import javax.swing.Timer;
 
 import com.emmettbrown.mapa.Mapa;
 import com.emmettbrown.mapa.Ubicacion;
-import com.emmettbrown.principal.Motor;
 
 public class Bomba extends Entidad {
 	
@@ -30,7 +29,7 @@ public class Bomba extends Entidad {
 	/////////////////////////////////////
 
 	public Bomba(int posX, int posY, Bomberman bman) {
-		super(posX, posY, Motor.tileSize, Motor.tileSize);
+		super(posX, posY, DefConst.TILESIZE, DefConst.TILESIZE);
 		segsExplosion = 3;
 		this.destructible = true;
 		this.rango = 2;
@@ -40,7 +39,7 @@ public class Bomba extends Entidad {
 	}
 
 	public Bomba(Ubicacion ubic, Bomberman bman) {
-		super(ubic, Motor.tileSize, Motor.tileSize);
+		super(ubic, DefConst.TILESIZE, DefConst.TILESIZE);
 		segsExplosion = 3;
 		this.destructible = true;
 		this.rango = 2;
@@ -114,7 +113,7 @@ public class Bomba extends Entidad {
 
 		// Se ejecuta hasta llegar al rango maximo, o toparse con un
 		// obstaculo/muro siempre dentro del ANCHO y ALTO
-		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosX() + i < Mapa.ANCHO;  i++) {
+		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosX() + i < DefConst.ANCHOMAPA;  i++) {
 			if(i == this.rango)
 				hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX() + i, this.ubicacion.getPosY()), map,DERECHAPUNTA);
 			else
@@ -140,7 +139,7 @@ public class Bomba extends Entidad {
 
 		// Se ejecuta hasta llegar al rango maximo, o toparse con un
 		// obstaculo/muro siempre dentro del ANCHO y ALTO
-		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosY() + i <= Mapa.ALTO; i++) {
+		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosY() + i <= DefConst.ALTOMAPA; i++) {
 			if(i == this.rango)
 				hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY() + i), map,ABAJOPUNTA);
 			else
@@ -177,7 +176,7 @@ public class Bomba extends Entidad {
 		}
 		
 		//Creamos una explosion (el grafico) en la ubicacion
-		Explosion expl = new Explosion(ubic.getPosX()*Motor.tileSize, ubic.getPosY()*Motor.tileSize, Motor.tileSize, Motor.tileSize);
+		Explosion expl = new Explosion(ubic.getPosX()*DefConst.TILESIZE, ubic.getPosY()*DefConst.TILESIZE, DefConst.TILESIZE, DefConst.TILESIZE);
 		if(dir == ARRABA)
 			expl.cambiarImagenArrAba();
 		if(dir == IZQDER)
@@ -211,6 +210,9 @@ public class Bomba extends Entidad {
 	public void startTimer(Mapa map) {
 		timer = new Timer(getMsExplosion(), new miOyente(map, this));
 		timer.start();
+	}
+	public void stopTimer() {
+		timer.stop();
 	}
 	
 	class miOyente implements ActionListener {
