@@ -224,7 +224,9 @@ public class Bomba extends Entidad {
 		
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			this.bomba.explotar(map);
+			if (esVisible) {
+				this.bomba.explotar(map);
+			}			
 			timer.stop();
 		}
 	}
