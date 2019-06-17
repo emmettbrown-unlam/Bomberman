@@ -10,14 +10,14 @@ import com.emmettbrown.mapa.Ubicacion;
 
 public class Bomba extends Entidad {
 	
-	private int segsExplosion;
-	private int rango;
 	private final int ARRABA = 1;
 	private final int IZQDER = -1;
 	private final int ARRIBAPUNTA = 2;
 	private final int ABAJOPUNTA = -2;
 	private final int DERECHAPUNTA = 3;
 	private final int IZQUIERDAPUNTA = -3;
+	private int segsExplosion;
+	private int rango;
 	private Bomberman creador;
 	private boolean ignorarColisionCreador;
 	private Timer timer;
@@ -73,8 +73,7 @@ public class Bomba extends Entidad {
 	 * en false), y crea explosiones en las cuatro direcciones hasta llegar al
 	 * rango maximo... o toparse con un obstaculo/muro
 	 * 
-	 * @param map:
-	 *            el mapa del juego
+	 * @param map El mapa del juego
 	 */
 	@Override
 	public void explotar(Mapa map) {
@@ -150,9 +149,9 @@ public class Bomba extends Entidad {
 	/**
 	 * Crea una explosión en un punto único del mapa.
 	 * 
-	 * @param ubic:
+	 * @param ubic
 	 *            ubicación a crear la explosión
-	 * @param map:
+	 * @param map
 	 *            mapa del juego
 	 * @return true si encontró un obstaculo o un muro, false si no encontró
 	 */

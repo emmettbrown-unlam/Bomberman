@@ -118,7 +118,7 @@ public class Mapa{
 	}
 
 	/**
-	 * Devuelve una entidad del Treemap de entidades del mapa.
+	 * Devuelve una entidad del HashMap de entidades del mapa.
 	 * 
 	 * @param ubic la ubicacion en la que se encuentra la entidad (KEY).
 	 * @return
@@ -379,8 +379,6 @@ public class Mapa{
 				creador.agregarBomba(bomb);
 				conjuntoEntidades.put(bomb.obtenerUbicacion(), bomb);
 				bomb.startTimer(this);
-				/*Temporizador t = new Temporizador(bomb.getMs(), bomb, this);
-				t.iniciarTimer();*/
 				//creador.setNextBomb((System.currentTimeMillis())); 
 			}
 		//}
