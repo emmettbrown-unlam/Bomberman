@@ -176,17 +176,17 @@ public class Bomba extends Entidad {
 		
 		//Creamos una explosion (el grafico) en la ubicacion
 		Explosion expl = new Explosion(ubic.getPosX()*DefConst.TILESIZE, ubic.getPosY()*DefConst.TILESIZE, DefConst.TILESIZE, DefConst.TILESIZE);
-		if(dir == ARRABA)
-			expl.cambiarImagenArrAba();
-		if(dir == IZQDER)
+		if(dir == ARRABA) 
+			expl.cambiarImagenArrAba(); 
+		else if(dir == IZQDER)
 			expl.cambiarImagenIzqDer();
-		if(dir == ARRIBAPUNTA)
+		else if(dir == ARRIBAPUNTA)
 			expl.cambiarImagenArribaPunta();
-		if(dir == ABAJOPUNTA)
+		else if(dir == ABAJOPUNTA)
 			expl.cambiarImagenAbajoPunta();
-		if(dir == DERECHAPUNTA)
+		else if (dir == DERECHAPUNTA)
 			expl.cambiarImagenDerechaPunta();
-		if(dir == IZQUIERDAPUNTA)
+		else if(dir == IZQUIERDAPUNTA)
 			expl.cambiarImagenIzquierdaPunta();
 		expl.startTimer(map);
 		map.agregarEntidadAlConjunto(expl.ubicacion, expl);
