@@ -1,26 +1,39 @@
 package com.emmettbrown.principal;
 
+import java.net.Socket;
+import java.util.ArrayList;
+
+import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entidades.DefConst;
 import com.emmettbrown.entorno.grafico.JVentanaGrafica;
 import com.emmettbrown.mapa.Mapa;
+import com.emmettbrown.mensajes.BuzonMsg;
+import com.emmettbrown.mensajes.MsgGenerarListaBomberman;
+import com.emmettbrown.mensajes.MsgGenerarMapa;
 
 public class Motor {
 
 	private Mapa miMapa;
 	private JVentanaGrafica miVentana;
 	private boolean iniciado;
+	private Cliente cliente;
+	private BuzonMsg buzon;
 
 	
-	public Motor() {
-		miMapa = new Mapa();
-		miMapa.generarMapa();
+	public Motor(String miUsuario,ArrayList<Socket> listaClientesConectados) {
+		this.cliente = new Cliente(DefConst.IP, DefConst.PORT, miUsuario);
+//		this.buzon = new BuzonMsg(cliente,miMapa);
+//		this.buzon.execute();
+		cliente.enviarMsg(new MsgGenerarMapa());
+//		miMapa = new Mapa();
+//		miMapa.generarMapa();
+		cliente.enviarMsg(new MsgGenerarListaBomberman(miMapa));
+		String resultado = (String) cliente.recibirMsg();
 		//Bomberman propio del usuario conectado.
-		Bomberman miBomber = new Bomberman(DefConst.TILESIZE, DefConst.TILESIZE, DefConst.DEFAULTWIDTH,DefConst.DEFAULTHEIGHT); 
-		Bomberman miBomber2 = new Bomberman(DefConst.TILESIZE*(DefConst.ANCHOMAPA-2), DefConst.TILESIZE*(DefConst.ANCHOMAPA-2), DefConst.DEFAULTWIDTH,DefConst.DEFAULTHEIGHT); 
-		miMapa.agregarBomberman(miBomber);
-		miMapa.agregarBomberman(miBomber2);
-		miVentana = new JVentanaGrafica(miMapa,DefConst.ANCHO, DefConst.ALTO);
+		Bomberman miBomber = new Bomberman(75, 75, DefConst.DEFAULTWIDTH,DefConst.DEFAULTHEIGHT); 
+
+		miVentana = new JVentanaGrafica(miMapa,DefConst.ANCHO, DefConst.ALTO,miBomber,this.cliente);
 	}
 
 	public void iniciarJuego() {
@@ -33,17 +46,17 @@ public class Motor {
 		final double timeF = 1000000000 / DefConst.FPS;
 		double deltaF = 0; // deltaU = 0, 
 
-		    while (iniciado) {
-		    	
-		        long currentTime = System.nanoTime();
-		        deltaF += (currentTime - initialTime) / timeF;
-		        initialTime = currentTime;
-		        if (deltaF >= 1) {
-		            actualizar();
-		            deltaF--;
-		        }
-		    }
-		}
+	    while (iniciado) {
+	    	
+	        long currentTime = System.nanoTime();
+	        deltaF += (currentTime - initialTime) / timeF;
+	        initialTime = currentTime;
+	        if (deltaF >= 1) {
+	            actualizar();
+	            deltaF--;
+	        }
+	    }
+	}
 	
 	private void actualizar() {
 		miVentana.refrescar();
@@ -53,16 +66,17 @@ public class Motor {
 		iniciado = false;
 	}
 
-	public void jugar(){
-		Motor m = new Motor();
-		m.iniciarJuego();
-		m.gameLoop();
-	}
-	
-	public static void main(String[] args) {
-		Motor m = new Motor();
-		m.iniciarJuego();
-		m.gameLoop();
-	}
+//	public void jugar(String u){
+//		Motor m = new Motor(u);
+//		m.iniciarJuego();
+//		m.gameLoop();
+//	}
+//	
+//	public static void main(String[] args) {
+//		String miUsuario = "Usuario1";
+//		Motor m = new Motor(miUsuario);
+//		m.iniciarJuego();
+//		m.gameLoop();
+//	}
 
 }

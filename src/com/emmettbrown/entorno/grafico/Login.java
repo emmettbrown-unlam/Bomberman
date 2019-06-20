@@ -100,8 +100,8 @@ public class Login extends JFrame {
 
 	public boolean validarUsuario(String user, String pass){
 		if(user.equals("bomber")&&pass.equals("1234")){
-			Motor m = new Motor();
-			m.jugar();
+//			Motor m = new Motor("s");
+//			m.jugar("s");
 //			dispose();
 			return true;
 		}else{

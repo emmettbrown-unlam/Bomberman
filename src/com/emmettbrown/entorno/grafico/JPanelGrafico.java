@@ -18,10 +18,12 @@ public class JPanelGrafico extends JPanel {
 	Mapa miMapa;
 	Map<Ubicacion, Entidad> conjuntoEntidades;
 	List<Bomberman> listaBomberman;
+	private Bomberman miBomber;
 	private static final long serialVersionUID = 1L;
 
-	public JPanelGrafico(Mapa miMapa) {
+	public JPanelGrafico(Mapa miMapa,Bomberman b) {
 		this.miMapa = miMapa;
+		this.miBomber = b;
 		conjuntoEntidades = miMapa.obtenerListaEntidades();
 		listaBomberman = miMapa.obtenerListaBomberman();
 	}
@@ -42,7 +44,9 @@ public class JPanelGrafico extends JPanel {
 		g.setColor(Color.GREEN);
 		
 		Iterator<Bomberman> iterBomb = listaBomberman.iterator();
-		Bomberman mostBomb;
+		Bomberman mostBomb = miBomber;
+		
+		if (mostBomb.verSiEsVisible() == true) g.drawImage(mostBomb.getImagen(), mostBomb.getX(), mostBomb.getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT, null);
 		
 		while (iterBomb.hasNext()) {
 			mostBomb = iterBomb.next();

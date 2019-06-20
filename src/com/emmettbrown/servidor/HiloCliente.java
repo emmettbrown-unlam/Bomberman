@@ -12,6 +12,7 @@ public class HiloCliente extends Thread {
 	private Socket clientSocket;
 	private boolean estaConectado;
 	private ArrayList<Socket> usuariosConectados;
+	private ArrayList<Socket> usuariosConectadosXSala;
 	
 	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados) {
 		this.clientSocket = cliente;
@@ -48,13 +49,12 @@ public class HiloCliente extends Thread {
 	public void run() {
 
 		try {
-			ObjectInputStream reciboMsg = new ObjectInputStream(clientSocket.getInputStream());;
+			ObjectInputStream reciboMsg = new ObjectInputStream(clientSocket.getInputStream());
 
 			while (estaConectado) {
 				/* Recibo Consulta de cliente */
 				Msg msgRecibo = (Msg) reciboMsg.readObject();
 				msgRecibo.realizarAccion(this);
-				
 				reciboMsg = new ObjectInputStream(clientSocket.getInputStream());
 			}
 

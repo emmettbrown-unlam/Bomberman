@@ -5,6 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import com.emmettbrown.entidades.DefConst;
+
 public class Servidor {
 	//El puerto del servidor
 	private int port;
@@ -19,7 +21,7 @@ public class Servidor {
 	}
 
 	public static void main(String[] args) {
-		Servidor sv = new Servidor(5000);
+		Servidor sv = new Servidor(DefConst.PORT);
 		sv.iniciarServidor();
 	}
 	
