@@ -35,24 +35,37 @@ public class JPanelGrafico extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 				
-		Iterator<Ubicacion> iterEnt = conjuntoEntidades.keySet().iterator();
+		Entidad entidades[] = conjuntoEntidades.values().toArray(new Entidad[0]);
+			
+		for (int i = 0; i < entidades.length; i++) {
+			g.drawImage(entidades[i].getImagen(), entidades[i].getX(), entidades[i].getY(), DefConst.TILESIZE, DefConst.TILESIZE, null);
+		}
+		
+		
+		/*Iterator<Ubicacion> iterEnt = conjuntoEntidades.keySet().iterator();
 		
 		while (iterEnt.hasNext()) {
 			Ubicacion ubic = iterEnt.next();
 			Entidad mostEnt = conjuntoEntidades.get(ubic);			
 			g.drawImage(mostEnt.getImagen(), mostEnt.getX(), mostEnt.getY(), DefConst.TILESIZE, DefConst.TILESIZE, null);
 		}
-		
+		*/
 		g.setColor(Color.GREEN);
 		
+		Bomberman bombermans[] = listaBomberman.toArray(new Bomberman[0]);
 		
-		Iterator<Bomberman> iterBomb = listaBomberman.iterator();
+		for (int i = 0; i < bombermans.length; i++) {
+			if (bombermans[i].verSiEsVisible())
+			g.drawImage(bombermans[i].getImagen(), bombermans[i].getX(), bombermans[i].getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT, null);
+		}
+		
+		/*Iterator<Bomberman> iterBomb = listaBomberman.iterator();
 //		System.out.println("estoy pintando gil ");
 		while (iterBomb.hasNext()) {
 			Bomberman bomber = iterBomb.next();
 			if (bomber.verSiEsVisible() == true) {
 				g.drawImage(bomber.getImagen(), bomber.getX(), bomber.getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT, null);
 			}
-		}
+		}*/
 	}
 }

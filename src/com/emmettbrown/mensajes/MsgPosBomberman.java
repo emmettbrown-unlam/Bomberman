@@ -22,7 +22,6 @@ public class MsgPosBomberman extends Msg {
 	@Override
 	public Object realizarAccion(Object obj) {
 		Cliente cliente = (Cliente) obj;
-		System.out.println("Mirame entre aca");
 		cliente.getMapa().moverBomberman(idBomber, x, y);
 		return null;
 	}

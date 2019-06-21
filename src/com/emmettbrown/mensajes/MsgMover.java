@@ -19,7 +19,6 @@ public class MsgMover extends Msg{
 
 	@Override
 	public Object realizarAccion(Object obj) {
-		//System.out.println("Me quise mover: "+mov);
 		HiloCliente hilo = (HiloCliente) obj;
 		hilo.getMovementThread().setMovimiento(mov);		
 		return null;

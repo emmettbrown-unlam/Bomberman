@@ -32,7 +32,7 @@ public class HiloCliente extends Thread {
 		this.usuariosConectados = usuariosConectados;
 		this.estaConectado = true;
 		this.bomber = new SvBomberman(posX*75,posY*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT);
-		System.out.println("El ID del bomber cli: "+bomber.obtenerID());
+		//System.out.println("El ID del bomber cli: "+bomber.obtenerID());
 		this.inicializarCliente();
 		posY++;
 	}
@@ -82,12 +82,6 @@ public class HiloCliente extends Thread {
 		//Agregamos el bomber del cliente al mapa
 		map.agregarBomberman(bomber);
 		//Le decimos al cliente que añada el bomber
-		ArrayList<Integer> ubicaciones = new ArrayList<>();
-		for (SvBomberman b : map.obtenerListaBomberman()) {
-			ubicaciones.add(b.getX());
-			ubicaciones.add(b.getY());
-			System.out.println("Los ID de los bomber en la lista: "+b.obtenerID()); // LOS ID DE LOS BOMBER
-		}
 		this.broadcast(new MsgAgregarBomberman(bomber.getX(),bomber.getY(), map.obtenerListaBomberman()), usuariosConectados);
 	}
 	
