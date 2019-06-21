@@ -5,8 +5,10 @@ import java.awt.Graphics;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.JPanel;
 
+import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entidades.DefConst;
 import com.emmettbrown.entidades.Entidad;
@@ -18,43 +20,39 @@ public class JPanelGrafico extends JPanel {
 	Mapa miMapa;
 	Map<Ubicacion, Entidad> conjuntoEntidades;
 	List<Bomberman> listaBomberman;
-	private Bomberman miBomber;
+	private Cliente cliente;
 	private static final long serialVersionUID = 1L;
 
-	public JPanelGrafico(Mapa miMapa,Bomberman b) {
-		this.miMapa = miMapa;
-		this.miBomber = b;
-		conjuntoEntidades = miMapa.obtenerListaEntidades();
-		listaBomberman = miMapa.obtenerListaBomberman();
+	public JPanelGrafico(Cliente cliente) {
+		this.cliente = cliente;
+		conjuntoEntidades = this.cliente.getMapa().getListaEntidades();
+		listaBomberman = this.cliente.getMapa().obtenerListaBomberman();
+		for (Bomberman bomberman : listaBomberman) {
+			System.out.println("los ID"+bomberman.getIdBomberman());
+		}
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 				
 		Iterator<Ubicacion> iterEnt = conjuntoEntidades.keySet().iterator();
-		Ubicacion ubic;
-		Entidad mostEnt;
 		
 		while (iterEnt.hasNext()) {
-			ubic = iterEnt.next();
-			mostEnt = conjuntoEntidades.get(ubic);			
+			Ubicacion ubic = iterEnt.next();
+			Entidad mostEnt = conjuntoEntidades.get(ubic);			
 			g.drawImage(mostEnt.getImagen(), mostEnt.getX(), mostEnt.getY(), DefConst.TILESIZE, DefConst.TILESIZE, null);
 		}
 		
 		g.setColor(Color.GREEN);
 		
+		
 		Iterator<Bomberman> iterBomb = listaBomberman.iterator();
-		Bomberman mostBomb = miBomber;
-		
-		if (mostBomb.verSiEsVisible() == true) g.drawImage(mostBomb.getImagen(), mostBomb.getX(), mostBomb.getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT, null);
-		
+//		System.out.println("estoy pintando gil ");
 		while (iterBomb.hasNext()) {
-			mostBomb = iterBomb.next();
-			if (mostBomb.verSiEsVisible() == true) {
-				ubic = mostBomb.obtenerUbicacion();
-				g.drawImage(mostBomb.getImagen(), mostBomb.getX(), mostBomb.getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT, null);
+			Bomberman bomber = iterBomb.next();
+			if (bomber.verSiEsVisible() == true) {
+				g.drawImage(bomber.getImagen(), bomber.getX(), bomber.getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT, null);
 			}
 		}
 	}
-
 }

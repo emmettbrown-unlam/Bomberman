@@ -3,7 +3,11 @@ package com.emmettbrown.controles;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Teclado implements KeyListener{
+import com.emmettbrown.cliente.Cliente;
+import com.emmettbrown.mensajes.MsgMover;
+
+public class Teclado implements KeyListener {
+	
 	private boolean arriba;
 	private boolean abajo;
 	private boolean izq;
@@ -15,6 +19,7 @@ public class Teclado implements KeyListener{
 	private boolean d;
 	private boolean s;	
 	private boolean f;
+	private Cliente cliente;
 	
 	public boolean isF() {
 		return f;
@@ -60,7 +65,7 @@ public class Teclado implements KeyListener{
 		return l;
 	}
 	
-	public Teclado() {
+	public Teclado(Cliente cliente) {
 		this.arriba = false;
 		this.abajo = false;
 		this.izq = false;
@@ -72,6 +77,7 @@ public class Teclado implements KeyListener{
 		this.a = false;
 		this.s = false;
 		this.d = false;
+		this.cliente = cliente;
 	}
 	
 	@Override
@@ -84,39 +90,25 @@ public class Teclado implements KeyListener{
 			this.esc = true;
 		}
 		if (key == KeyEvent.VK_RIGHT) {
-			this.der = true;			
+			//this.der = true;
+			this.cliente.enviarMsg(new MsgMover(Movimientos.DERECHA));
 		}
 		if (key == KeyEvent.VK_LEFT) {
-			this.izq = true;
+			//this.izq = true;
+			this.cliente.enviarMsg(new MsgMover(Movimientos.IZQUIERDA));
 		}
 		if (key == KeyEvent.VK_UP) {
-			this.arriba = true;
+			//this.arriba = true;
+			this.cliente.enviarMsg(new MsgMover(Movimientos.ARRIBA));
 		}
 		if (key == KeyEvent.VK_DOWN) {
-			this.abajo = true;
+			//this.abajo = true;
+			this.cliente.enviarMsg(new MsgMover(Movimientos.ABAJO));
 		}
 		
 		if (key == KeyEvent.VK_L) {
-			this.l = true;
-		}
-		
-		//Jugador 2 (local)
-		
-		if (key == KeyEvent.VK_W) {
-			this.w = true;			
-		}
-		if (key == KeyEvent.VK_A) {
-			this.a = true;
-		}
-		if (key == KeyEvent.VK_S) {
-			this.s = true;
-		}
-		if (key == KeyEvent.VK_D) {
-			this.d = true;
-		}
-		
-		if (key == KeyEvent.VK_F) {
-			this.f = true;
+			//this.l = true;
+			this.cliente.enviarMsg(new MsgMover(Movimientos.BOMBA));
 		}
 	}
 
@@ -130,40 +122,27 @@ public class Teclado implements KeyListener{
 			this.esc = false;
 		}
 		if (key == KeyEvent.VK_RIGHT) {
-			this.der = false;			
+			this.der = false;	
+			this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
 		}
 		if (key == KeyEvent.VK_LEFT) {
 			this.izq = false;
+			this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
 		}
 		if (key == KeyEvent.VK_UP) {
 			this.arriba = false;
+			this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
 		}
 		if (key == KeyEvent.VK_DOWN) {
 			this.abajo = false;
+			this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
 		}
 		
 		if (key == KeyEvent.VK_L) {
 			this.l = false;
+			this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
 		}
 		
-		//Jugador 2 (local)
-		
-		if (key == KeyEvent.VK_W) {
-			this.w = false;			
-		}
-		if (key == KeyEvent.VK_A) {
-			this.a = false;
-		}
-		if (key == KeyEvent.VK_S) {
-			this.s = false;
-		}
-		if (key == KeyEvent.VK_D) {
-			this.d = false;
-		}
-		
-		if (key == KeyEvent.VK_F) {
-			this.f = false;
-		}		
 	}
 	
 	@Override

@@ -1,30 +1,27 @@
-package com.emmettbrown.entidades;
-
-import java.util.ArrayList;
-import javax.swing.ImageIcon;
-
-import com.emmettbrown.mapa.Mapa;
+package com.emmettbrown.servidor.entidades;
+import com.emmettbrown.servidor.entidades.Bomba;
+import com.emmettbrown.servidor.entidades.Entidad;
+import com.emmettbrown.servidor.entidades.Explosion;
+import com.emmettbrown.servidor.mapa.ServerMap;
 import com.emmettbrown.mapa.Ubicacion;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import com.sun.javafx.geom.Rectangle;
 
-public class Bomberman extends Entidad {
+public class SvBomberman extends Entidad implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static int nroBomberman = 0;
 	private int idBomberman;
-	private ImageIcon bomberIzq;
-	private ImageIcon bomberDer;
-	private ImageIcon bomberArr;
-	private ImageIcon bomberAba;
 	private ArrayList<Bomba> bombas;
 
-	public Bomberman(int posX, int posY, int width, int height) {
+	public SvBomberman(int posX, int posY, int width, int height) {
 		super(posX, posY, width, height);
 		idBomberman = nroBomberman++;
 		this.destructible = true;
-		this.img = new ImageIcon("./src/resources/character/bomberman.png");
-		bomberIzq = new ImageIcon("./src/resources/character/bombermanIzq.png");
-		bomberDer = new ImageIcon("./src/resources/character/bombermanDer.png");
-		bomberArr = new ImageIcon("./src/resources/character/bombermanArr.png");
-		bomberAba = new ImageIcon("./src/resources/character/bombermanAba.png");
 		this.bombas = new ArrayList<Bomba>();
 	}
 
@@ -32,27 +29,14 @@ public class Bomberman extends Entidad {
 		esVisible = false;
 	}
 	
-	public void cambiarPosX(int despX) {
-		this.x = despX;
+	public void cambiarPosX(double despX) {
+		this.x += despX;
 	}
 	
-	public void cambiarPosY(int despY) {
-		this.y = despY;
+	public void cambiarPosY(double despY) {
+		this.y += despY;
 	}
-	
-	public void cambiarImagenIzquierda() {
-		setImage(bomberIzq);
-	}
-	public void cambiarImagenDerecha() {
-		setImage(bomberDer);
-	}
-	public void cambiarImagenArriba() {
-		setImage(bomberArr);
-	}
-	public void cambiarImagenAbajo() {
-		setImage(bomberAba);
-	}
-	
+		
 	public void cambiarUbicacion(Ubicacion ubic) {
 		this.ubicacion = ubic;
 	}
@@ -62,7 +46,7 @@ public class Bomberman extends Entidad {
 	}
 
 	@Override
-	public void explotar(Mapa map) {
+	public void explotar(ServerMap map) {
 		
 	}
 	
@@ -99,5 +83,10 @@ public class Bomberman extends Entidad {
 	
 	public void removerBomba(Bomba bomba) {
 		this.bombas.remove(bomba);
+	}
+
+	public int obtenerID() {
+	
+		return this.idBomberman;
 	}
 }

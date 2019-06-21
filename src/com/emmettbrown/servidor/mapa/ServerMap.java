@@ -1,38 +1,34 @@
-package com.emmettbrown.mapa;
+package com.emmettbrown.servidor.mapa;
 
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-
-import com.emmettbrown.cliente.Cliente;
-import com.emmettbrown.entidades.Bomba;
-import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entidades.DefConst;
-import com.emmettbrown.entidades.Entidad;
-import com.emmettbrown.entidades.Muro;
-import com.emmettbrown.entidades.Obstaculo;
-//import com.sun.javafx.geom.Rectangle;
+import com.emmettbrown.mapa.Ubicacion;
+import com.emmettbrown.servidor.entidades.Entidad;
+import com.emmettbrown.servidor.entidades.Muro;
+import com.emmettbrown.servidor.entidades.SvObstaculo;
+import com.emmettbrown.servidor.entidades.SvBomberman;
 import com.sun.javafx.geom.Rectangle;
 
-public class Mapa{
+public class ServerMap {
 	
 	private HashMap<Ubicacion, Entidad> conjuntoEntidades;
-	private List<Bomberman> listaBomberman;
-	private ImageIcon fondo;	
-
+	private ArrayList<SvObstaculo> obstaculos;
+	private List<SvBomberman> listaBomberman;
+	//private double seed;
+	
 	///////////////////////////////////////
 	// 									//
 	// 			CONSTUCTORES		   //
 	// 								  //
 	///////////////////////////////////
 
-	public Mapa() {
+	public ServerMap() {
 		conjuntoEntidades = new HashMap<Ubicacion, Entidad>();
-		listaBomberman = new ArrayList<Bomberman>();
-		this.fondo = new ImageIcon("./src/resources/game-map/fondo.jpg");
+		listaBomberman = new ArrayList<SvBomberman>();
+		obstaculos = new ArrayList<SvObstaculo>();
 	}
 
 	////////////////////////////////////////
@@ -42,13 +38,15 @@ public class Mapa{
 	////////////////////////////////////
 
 	public void generarMapa() {
-			for(int l = 0;l<DefConst.ALTOMAPA;l++) {
-				conjuntoEntidades.put(new Ubicacion(0, l), new Muro(0 * DefConst.TILESIZE, l * DefConst.TILESIZE));
-				conjuntoEntidades.put(new Ubicacion(l, 0), new Muro(l * DefConst.TILESIZE, 0 * DefConst.TILESIZE));
-				conjuntoEntidades.put(new Ubicacion(DefConst.ANCHOMAPA-1, l), new Muro((DefConst.ANCHOMAPA-1) *DefConst.TILESIZE, l * DefConst.TILESIZE));
-				conjuntoEntidades.put(new Ubicacion(l, DefConst.ALTOMAPA-1), new Muro(l * DefConst.TILESIZE, (DefConst.ALTOMAPA-1)* DefConst.TILESIZE));
-			}
+		//Genera los muros exteriores
+		for(int l = 0; l < DefConst.ALTOMAPA; l++) {
+			conjuntoEntidades.put(new Ubicacion(0, l), new Muro(0 * DefConst.TILESIZE, l * DefConst.TILESIZE));
+			conjuntoEntidades.put(new Ubicacion(l, 0), new Muro(l * DefConst.TILESIZE, 0 * DefConst.TILESIZE));
+			conjuntoEntidades.put(new Ubicacion(DefConst.ANCHOMAPA-1, l), new Muro((DefConst.ANCHOMAPA-1) *DefConst.TILESIZE, l * DefConst.TILESIZE));
+			conjuntoEntidades.put(new Ubicacion(l, DefConst.ALTOMAPA-1), new Muro(l * DefConst.TILESIZE, (DefConst.ALTOMAPA-1)* DefConst.TILESIZE));
+		}
 				
+		//Genera los obstaculos
 		for (int i = 1; i < DefConst.ANCHOMAPA-1; i++) {
 			for (int j = 1; j < DefConst.ALTOMAPA-1; j++) {
 				if (i % 2 == 0 && j % 2 == 0) { 
@@ -56,8 +54,10 @@ public class Mapa{
 					//CONTRARIO EVALUAREMOS PONER OBSTACULOS
 					conjuntoEntidades.put(new Ubicacion(i, j), new Muro(i * DefConst.TILESIZE, j * DefConst.TILESIZE));
 				} else if ((posicionValida(i, j)) && Math.random() >= DefConst.TOLCREAROBST) {
-					//75% DE PROBABILIDAD DE CREAR UN OBSTACULO
-					conjuntoEntidades.put(new Ubicacion(i, j), new Obstaculo(i * DefConst.TILESIZE, j * DefConst.TILESIZE));
+					//75% DE PROBABLIDAD DE CREAR UN OBSTACULO
+					SvObstaculo obs =  new SvObstaculo(i * DefConst.TILESIZE, j * DefConst.TILESIZE);
+					conjuntoEntidades.put(new Ubicacion(i, j), obs);
+					obstaculos.add(obs);
 				}
 			}
 		}
@@ -82,20 +82,14 @@ public class Mapa{
 		}
 		return true;
 	}
-
-	public Image obtenerImagen() {
-		return fondo.getImage();
-	}
+	
+	
 	///////////////////////////////////////
 	// 									//
 	// 			ENTIDADES 				//
 	// 									//
 	/////////////////////////////////////
 
-	public void setListaEntidades(HashMap<Ubicacion, Entidad> conjunto) {
-		this.conjuntoEntidades = conjunto;
-	}
-	
 	public HashMap<Ubicacion, Entidad> getListaEntidades() {
 		return conjuntoEntidades;
 	}
@@ -148,41 +142,57 @@ public class Mapa{
 		if(conjuntoEntidades.containsKey(ubic)==false)
 			conjuntoEntidades.put(ubic, ent);
 	}
-
-	///////////////////////////////////////
-	// 									//
-	// 			BOMBERMANS			   //
-	// 								  //
-	///////////////////////////////////
-
+	
 	/**
-	 * Realiza una serie de chequeos y en caso de validar correctamente, mueve el
-	 * bomberman a una nueva ubicacion en el mapa.
+	 * Agrega un bomberman nuevo a la lista de bombermans del mapa.
 	 * 
-	 * @param bomberman el bomberman a mover
-	 * @param despX     el desplazamiento en el eje X que realizara el bomberman
-	 * @param despY     el desplazamiento en el eje Y que realizara el bomberman
+	 * @param b bomberman a agregar
 	 */
 
-	public void moverBomberman(int idBomber, int despX, int despY) {			
-		for (Bomberman bomberman : listaBomberman) {
-			if (bomberman.getIdBomberman() == idBomber) {
-				bomberman.cambiarPosX(despX);
-				bomberman.cambiarPosY(despY);	
-			}
-				
-		}
-		
-		//if (puedeMoverse(bomberman.getX()+despX, bomberman.getY()+despY, bomberman)) {
-			
-			//Actualizamos la ubicacion relativa en la matriz
-			//Ubicacion ubic = new Ubicacion(bomberman.getX()/DefConst.TILESIZE, bomberman.getY()/DefConst.TILESIZE);
-			//bomberman.cambiarUbicacion(ubic);	
-			//Actualizamos el flag "ignorarColisionCreador" de las bombas del bomberman
-			//bomberman.actualizarColBomba();
-		//}
+	public void agregarBomberman(SvBomberman b) {
+		this.listaBomberman.add(b);
 	}
 
+	/**
+	 * Retorna la lista de bombermans del mapa.
+	 * 
+	 * @return List<Bomberman> listaBomberman
+	 */
+
+	public List<SvBomberman> obtenerListaBomberman() {
+		return listaBomberman;
+	}	
+
+	/**
+	 * Recorre la lista de bombermans y retorna al que encuentre en la ubicacion
+	 * indicada.
+	 * 
+	 * @param ubic la ubicacion a buscar
+	 * @return instanceof Bomberman si lo encuentra, null si no
+	 */
+
+	public SvBomberman obtenerBombermanEn(Ubicacion ubic) {
+		for (SvBomberman bomberman : listaBomberman) {
+			if (bomberman.obtenerUbicacion().equals(ubic))
+				return bomberman;
+		}
+
+		return null;
+	}
+	
+	public void moverBomberman(SvBomberman bomberman, int despX, int despY) {
+	
+		if (puedeMoverse(bomberman.getX()+despX, bomberman.getY()+despY, bomberman)) {
+			bomberman.cambiarPosX(despX);
+			bomberman.cambiarPosY(despY);	
+			//Actualizamos la ubicacion relativa en la matriz
+			Ubicacion ubic = new Ubicacion(bomberman.getX()/DefConst.TILESIZE, bomberman.getY()/DefConst.TILESIZE);
+			bomberman.cambiarUbicacion(ubic);	
+			//Actualizamos el flag "ignorarColisionCreador" de las bombas del bomberman
+			bomberman.actualizarColBomba();
+		}
+	}
+	
 	/**
 	 * Chequea si el bomberman puede moverse a la posicion que recibe por parametro.
 	 * 
@@ -190,10 +200,10 @@ public class Mapa{
 	 *              Bomberman
 	 * @return true: puede moverse, false: no puede moverse
 	 */
-	public boolean puedeMoverse(int x, int y, Bomberman bomberman) {
+	public boolean puedeMoverse(int x, int y, SvBomberman bomberman) {
 		return !chequearColisiones(bomberman, x, y);
 	}
-
+	
 	/**
 	 * Chequea si no existe ninguna otra entidad colisionable del juego presente en
 	 * la ubicacion que llega por parametro.
@@ -202,7 +212,7 @@ public class Mapa{
 	 * @return true: no hay ninguna entidad presente, false: hay una entidad en
 	 *         dicha posicion
 	 */
-
+	
 	public boolean hayEntidadEn(Ubicacion ubic) {
 		return conjuntoEntidades.get(ubic) == null;
 	}
@@ -213,7 +223,7 @@ public class Mapa{
 	 * @return true: hay colision, false: no hay
 	 */
 	
-	public boolean chequearColisiones(Bomberman bomberman, int x, int y) {
+	public boolean chequearColisiones(SvBomberman bomberman, int x, int y) {
 		//Como puede haber mas de una colision al mismo tiempo, usamos una variable booleana
 		//en vez de retornar el valor individual de una colision
 		boolean col = false;	
@@ -256,7 +266,7 @@ public class Mapa{
 	 * @return
 	 */
 	
-	public boolean hayColision(Bomberman bman, int x, int y, Entidad ent)  {
+	public boolean hayColision(SvBomberman bman, int x, int y, Entidad ent)  {
 		if (ent != null) {
 			//Si existe una colision de hitboxes
 			if (interseccionHitBox(bman, x, y, ent)) {
@@ -280,7 +290,7 @@ public class Mapa{
 	 * @return true: hay interseccion de hitbox, false: no hay
 	 */
 	
-	public boolean interseccionHitBox(Bomberman bman, int x, int y, Entidad ent) {
+	public boolean interseccionHitBox(SvBomberman bman, int x, int y, Entidad ent) {
 		//Hitbox del bomberman
 		Rectangle hitBoxBman = new Rectangle(x, y, bman.getWidth(), bman.getHeight());
 		//Hitbox de la entidad
@@ -294,150 +304,35 @@ public class Mapa{
 		
 		return false;		
 	}
-
-	/**
-	 * Reciben como parametros el bomberman a mover, y el desplazamiento sin NINGUN
-	 * tipo de signo. 
-	 * 
-	 * De igual forma, los valores están forzados a un math.abs. Está todo fool proofeado.
-	 */
-
-	public void moverBombermanArriba(Bomberman bomberman, int desplazamiento) {
-		bomberman.cambiarImagenArriba();
-//		this.moverBomberman(bomberman, 0, -Math.abs(desplazamiento));
+	
+	public void moverBombermanArriba(SvBomberman bomberman, int desplazamiento) {
+		this.moverBomberman(bomberman, 0, -Math.abs(desplazamiento));
 		
 	}
 
-	public void moverBombermanAbajo(Bomberman bomberman, int desplazamiento) {
-		bomberman.cambiarImagenAbajo();
-//		this.moverBomberman(bomberman, 0, Math.abs(desplazamiento));
+	public void moverBombermanAbajo(SvBomberman bomberman, int desplazamiento) {		
+		this.moverBomberman(bomberman, 0, Math.abs(desplazamiento));
 	}
 
-	public void moverBombermanIzq(Bomberman bomberman, int desplazamiento) {
-		bomberman.cambiarImagenIzquierda();
-//		this.moverBomberman(bomberman, -Math.abs(desplazamiento), 0);
+	public void moverBombermanIzq(SvBomberman bomberman, int desplazamiento) {		
+		this.moverBomberman(bomberman, -Math.abs(desplazamiento), 0);
 		
 	}
 
-	public void moverBombermanDer(Bomberman bomberman, int desplazamiento) {
-		bomberman.cambiarImagenDerecha();
-//		this.moverBomberman(bomberman, Math.abs(desplazamiento), 0);
+	public void moverBombermanDer(SvBomberman bomberman, int desplazamiento) {
+		this.moverBomberman(bomberman, Math.abs(desplazamiento), 0);
 	}
-
-	/**
-	 * Agrega un bomberman nuevo a la lista de bombermans del mapa.
-	 * 
-	 * @param b bomberman a agregar
-	 */
-
-	public void agregarBomberman(Bomberman b) {
-		this.listaBomberman.add(b);
-	}
-
-	/**
-	 * Retorna la lista de bombermans del mapa.
-	 * 
-	 * @return List<Bomberman> listaBomberman
-	 */
-
-	public List<Bomberman> obtenerListaBomberman() {
-		return listaBomberman;
-	}	
-
-	/**
-	 * Recorre la lista de bombermans y retorna al que encuentre en la ubicacion
-	 * indicada.
-	 * 
-	 * @param ubic la ubicacion a buscar
-	 * @return instanceof Bomberman si lo encuentra, null si no
-	 */
-
-	public Bomberman obtenerBombermanEn(Ubicacion ubic) {
-		for (Bomberman bomberman : listaBomberman) {
-			if (bomberman.obtenerUbicacion().equals(ubic))
-				return bomberman;
-		}
-
-		return null;
-	}
-
-	///////////////////////////////////////
-	// 									//
-	// 				BOMBAS 				//
-	// 									//
-	/////////////////////////////////////
 	
-	/** Agrega una bomba dependiendo de la posición del bomberman. Realiza un cálculo para ver en qué casillero
-	 *  es mejor ubicarla. La bomba es agregada al conjunto de entidades del mapa. También se crea un timer
-	 *  que la detona pasados algunos segundos.
-	 * 
-	 * @param x posición X del bomberman
-	 * @param y posición Y del bomberman
-	 */
+	public SvBomberman getBombermanById(int id) {
+		return listaBomberman.get(id);		
+	}
 	
-	public void agregarBomba(int x, int y, Bomberman creador) {		
-		//if (System.currentTimeMillis() - creador.getNextBomb() > DefConst.BOMBDELAY) {			
-			Ubicacion ubic = new Ubicacion(x/DefConst.TILESIZE, y/DefConst.TILESIZE);
-			
-			if (obtenerEntidadDelConjunto(ubic) == null) {			
-				//Si el módulo de la posición con el tamaño del tile da mayor a la mitad del tamaño,
-				//movemos la posicion en un casillero para que la bomba se cree en el casillero aledaño
-				if (x % DefConst.TILESIZE > DefConst.TOLCAMBIOPOS)
-					ubic.cambiarPosX(1);
-				if (y % DefConst.TILESIZE > DefConst.TOLCAMBIOPOS)
-					ubic.cambiarPosY(1);
-				
-				Bomba bomb = new Bomba(ubic, creador);
-				//Agregamos una bomba a la lista de bombas del creador
-				creador.agregarBomba(bomb);
-				conjuntoEntidades.put(bomb.obtenerUbicacion(), bomb);
-				bomb.startTimer(this);
-				//creador.setNextBomb((System.currentTimeMillis())); 
-			}
-		//}
-	}	
-
-	/**
-	 * Explota una bomba a traves de sus coordenadas
-	 * 
-	 * @param posX coord. eje X
-	 * @param posY coord. eje Y
-	 */
-
-	public void explotarBomba(int posX, int posY) {
-		Bomba b = ((Bomba) conjuntoEntidades.get(new Ubicacion(posX, posY)));
-
-		if (b != null)
-			b.explotar(this);
+	public void eliminarBomberman(SvBomberman bomb) {
+		listaBomberman.remove(bomb);
+	}
+	
+	public ArrayList<SvObstaculo> getObstaculos() {
+		return this.obstaculos;
 	}
 
-	/**
-	 * Explota una bomba a traves de su ubicacion
-	 * 
-	 * @param ubic la ubicacion en la que se encuentra la bomba
-	 */
-
-	public void explotarBomba(Ubicacion ubic) {
-		Bomba b = ((Bomba) conjuntoEntidades.get(ubic));
-
-		if (b != null)
-			b.explotar(this);
-	}
-
-	/**
-	 * Explota una bomba a traves de su instancia
-	 * 
-	 * @param bomba instancia de la bomba a explotar
-	 */
-	public void explotarBomba(Bomba bomba) {
-		bomba.explotar(this);
-	}
-
-	public void setListaBomberman(List<Bomberman> lista) {
-		this.listaBomberman = lista;
-	}
-
-	public void vaciarListaBomber() {
-		listaBomberman.clear();
-	}
 }

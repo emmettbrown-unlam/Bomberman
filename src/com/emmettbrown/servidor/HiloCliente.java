@@ -6,22 +6,35 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import com.emmettbrown.entidades.DefConst;
 import com.emmettbrown.mensajes.Msg;
-import com.emmettbrown.mensajes.MsgActualizarLista;
+import com.emmettbrown.mensajes.MsgAgregarBomberman;
+import com.emmettbrown.mensajes.MsgGenerarMurosExteriores;
+import com.emmettbrown.mensajes.MsgGenerarObstaculos;
+import com.emmettbrown.servidor.mapa.ServerMap;
+import com.emmettbrown.servidor.entidades.*;
+
 
 public class HiloCliente extends Thread {
 
+	private SvBomberman bomber;
+	private ServerMap map;
 	private Socket clientSocket;
 	private boolean estaConectado;
 	private ArrayList<Socket> usuariosConectados;
-	private ArrayList<Socket> usuariosConectadosXSala;
-	private ArrayList<String> usuarios;
+	private HandleMovement movimiento;
+	private static int posX = 1;
+	private static int posY = 1;
 	
-	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ArrayList<String> usuarios) {
+	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ServerMap map) {
+		this.map = map;
 		this.clientSocket = cliente;
 		this.usuariosConectados = usuariosConectados;
 		this.estaConectado = true;
-		this.usuarios = usuarios;
+		this.bomber = new SvBomberman(posX*75,posY*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT);
+		System.out.println("El ID del bomber cli: "+bomber.obtenerID());
+		this.inicializarCliente();
+		posY++;
 	}
 
 	public Socket getClientSocket() {
@@ -47,38 +60,70 @@ public class HiloCliente extends Thread {
 	public void setUsuariosConectados(ArrayList<Socket> usuariosConectados) {
 		this.usuariosConectados = usuariosConectados;
 	}
+	
+	public ServerMap getMap() {
+		return this.map;
+	}
+	
+	public HandleMovement getMovementThread() {
+		return this.movimiento;
+	}
+	
+	public SvBomberman getBomber() {
+		return this.bomber;
+	}
 
+	public void inicializarCliente() {
+		this.movimiento = new HandleMovement(this);
+		this.movimiento.start();
+		//Le enviamos el  mapa al servidor
+		this.broadcast(new MsgGenerarMurosExteriores(), usuariosConectados);
+		this.broadcast(new MsgGenerarObstaculos(map.getObstaculos()), usuariosConectados);
+		//Agregamos el bomber del cliente al mapa
+		map.agregarBomberman(bomber);
+		//Le decimos al cliente que añada el bomber
+		ArrayList<Integer> ubicaciones = new ArrayList<>();
+		for (SvBomberman b : map.obtenerListaBomberman()) {
+			ubicaciones.add(b.getX());
+			ubicaciones.add(b.getY());
+			System.out.println("Los ID de los bomber en la lista: "+b.obtenerID()); // LOS ID DE LOS BOMBER
+		}
+		this.broadcast(new MsgAgregarBomberman(bomber.getX(),bomber.getY(), map.obtenerListaBomberman()), usuariosConectados);
+	}
+	
+	public void broadcast(Msg msg, ArrayList<Socket> usuariosConectados) {		
+		for (Socket clientSocket : usuariosConectados) {
+			try {
+				ObjectOutputStream salidaACliente = new ObjectOutputStream(clientSocket.getOutputStream());
+				salidaACliente.writeObject(msg);
+			} catch (IOException e) {
+				System.out.println(e);
+			}
+		}
+	}
 
 	@Override
 	public void run() {
 
 		try {
 			ObjectInputStream reciboMsg = new ObjectInputStream(clientSocket.getInputStream());
-			ObjectOutputStream salidaACliente = new ObjectOutputStream(clientSocket.getOutputStream());
+
 			while (estaConectado) {
 				/* Recibo Consulta de cliente */
 				Msg msgRecibo = (Msg) reciboMsg.readObject();
-				if (msgRecibo instanceof MsgActualizarLista) {
-					System.out.println("Paso!");
-				}
-				Object obj = msgRecibo.realizarAccion(this);			
-				/*Envio respuesta al Cliente */
-				salidaACliente.writeObject(obj);
-//					reciboMsg = new ObjectInputStream(clientSocket.getInputStream());	
-
+				msgRecibo.realizarAccion(this);
+				reciboMsg = new ObjectInputStream(clientSocket.getInputStream());
 			}
 
 			reciboMsg.close();
-			salidaACliente.close();
 			clientSocket.close();
 		} catch (IOException | ClassNotFoundException ex) {
 			System.out.println("Problemas al querer leer otra petición: " + ex.getMessage());
+			this.map.eliminarBomberman(this.bomber);
+			//broadcast TODO
+			
 			this.usuariosConectados.remove(clientSocket);
 			this.estaConectado = false;
 		}
-	}
-
-	public ArrayList<String> getUsuarios() {
-		return this.usuarios;
 	}	
 }

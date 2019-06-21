@@ -1,19 +1,21 @@
-package com.emmettbrown.entidades;
+package com.emmettbrown.servidor.entidades;
 
-import java.awt.Image;
-import javax.swing.ImageIcon;
+import java.io.Serializable;
+
+import com.emmettbrown.entidades.DefConst;
+import com.emmettbrown.mapa.Ubicacion;
+import com.emmettbrown.servidor.mapa.ServerMap;
 import com.sun.javafx.geom.Rectangle;
 
-import com.emmettbrown.mapa.Mapa;
-import com.emmettbrown.mapa.Ubicacion;
-
-
-public abstract class Entidad {
+public abstract class Entidad implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected Ubicacion ubicacion;
 	protected boolean esVisible;
 	protected boolean destructible;
-	protected ImageIcon img;
 	protected int x;
 	protected int y;
 	protected int width;
@@ -62,9 +64,6 @@ public abstract class Entidad {
 	public int getY() {
 		return this.y;
 	}
-	public Image getImagen() {
-		return img.getImage();
-	}
 	
 	public void setWidth(int width) {
 		this.width = width;
@@ -85,8 +84,6 @@ public abstract class Entidad {
 	public Rectangle getHitBox() {
 		return new Rectangle(x, y, width, height);
 	}
-	public void setImage(ImageIcon act) {
-		img = act;
-	}
-	public abstract void explotar(Mapa map);
+	
+	public abstract void explotar(ServerMap map);
 }
