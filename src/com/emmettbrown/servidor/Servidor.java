@@ -14,10 +14,11 @@ public class Servidor {
 	private ServerSocket serverSocket;
 	//Lista de Sockets de los clientes conectados
 	private ArrayList<Socket> usuariosConectados;
-
+	private ArrayList<String> usuarios;
 	public Servidor(int puerto) {
 		this.port = puerto;
-		this.usuariosConectados = new ArrayList<Socket>();		
+		this.usuariosConectados = new ArrayList<Socket>();	
+		this.usuarios =  new ArrayList<String>();
 	}
 
 	public static void main(String[] args) {
@@ -41,7 +42,7 @@ public class Servidor {
 				
 				//Creamos un hilo para el cliente (evitando así el bloqueo que se genera en este mismo hilo)
 				//Le envíamos como datos el socket del cliente, y los la lista de usuarios conectados
-				HiloCliente hiloCliente = new HiloCliente(clientSocket, usuariosConectados);
+				HiloCliente hiloCliente = new HiloCliente(clientSocket, usuariosConectados,usuarios);
 				//Iniciamos el hilo
 				hiloCliente.start();
 

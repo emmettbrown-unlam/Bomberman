@@ -17,12 +17,11 @@ public class Motor {
 	private Mapa miMapa;
 	private JVentanaGrafica miVentana;
 	private boolean iniciado;
-	private Cliente cliente;
+	private Cliente cliente = new Cliente(DefConst.IP, DefConst.PORT, "");
 	private BuzonMsg buzon;
 
 	
 	public Motor(String miUsuario,ArrayList<Socket> listaClientesConectados) {
-		this.cliente = new Cliente(DefConst.IP, DefConst.PORT, miUsuario);
 //		this.buzon = new BuzonMsg(cliente,miMapa);
 //		this.buzon.execute();
 		cliente.enviarMsg(new MsgGenerarMapa());

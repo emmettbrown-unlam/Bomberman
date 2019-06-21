@@ -7,6 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.emmettbrown.cliente.Cliente;
+import com.emmettbrown.entidades.DefConst;
+import com.emmettbrown.mensajes.MsgLogin;
 import com.emmettbrown.principal.Motor;
 
 import javax.swing.JLabel;
@@ -25,8 +28,9 @@ public class Login extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField txtUsuario;
 	private JPasswordField passwordField;
+	private Cliente cliente ;
 
 	/**
 	 * Launch the application.
@@ -56,7 +60,7 @@ public class Login extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
+		setLocationRelativeTo(null);
 		JLabel lblIngreseUsuario = new JLabel("Ingrese Usuario");
 		lblIngreseUsuario.setBounds(50, 50, 126, 14);
 		contentPane.add(lblIngreseUsuario);
@@ -65,29 +69,41 @@ public class Login extends JFrame {
 		lblIngreseContrasea.setBounds(50, 75, 126, 14);
 		contentPane.add(lblIngreseContrasea);
 
-		textField = new JTextField();
-		textField.addActionListener(new ActionListener() {
+		txtUsuario = new JTextField();
+		txtUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				validarUsuario(textField.getText(),new String (passwordField.getPassword()));
+				validarUsuario(txtUsuario.getText(),new String (passwordField.getPassword()));
 			}
 		});
-		textField.setBounds(197, 47, 107, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtUsuario.setBounds(197, 47, 107, 20);
+		contentPane.add(txtUsuario);
+		txtUsuario.setColumns(10);
 
 		passwordField = new JPasswordField();
 		passwordField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				validarUsuario(textField.getText(),new String (passwordField.getPassword()));
+				validarUsuario(txtUsuario.getText(),new String (passwordField.getPassword()));
 			}
 		});
 		passwordField.setBounds(197, 72, 107, 20);
 		contentPane.add(passwordField);
-
+		cliente = new Cliente(DefConst.IP, DefConst.PORT, txtUsuario.getText());
 		JButton btnIniciarSesin = new JButton("Iniciar Sesi\u00F3n");
 		btnIniciarSesin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				validarUsuario(textField.getText(),new String (passwordField.getPassword()));
+					
+					cliente.enviarMsg(new MsgLogin(txtUsuario.getText(),passwordField.getText()));
+					String res = (String)cliente.recibirMsg();
+					System.out.println(res);
+					if (res.equals("OK")) {
+						JVentanaSala v = new JVentanaSala(cliente);
+						v.setVisible(true);
+						dispose();
+					}else {
+						JOptionPane.showMessageDialog(null, "Incorrecto, intente de nuevo", "Acceso denegado", JOptionPane.ERROR_MESSAGE);
+					}
+
+
 			}
 		});
 		btnIniciarSesin.setBounds(162, 100, 142, 23);

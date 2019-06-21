@@ -11,6 +11,10 @@ import com.sun.javafx.geom.Rectangle;
 
 public class MsgMover extends Msg{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Bomberman b;
 	private int dx;
 	private int dy;
@@ -34,7 +38,9 @@ public class MsgMover extends Msg{
 	
 	@Override
 	public Object realizarAccion(Object obj) {
+		
 		HiloCliente hilo =(HiloCliente) obj;
+		
 		if (puedeMoverse(b.getX()+dx, b.getY()+dy, b)) {
 			b.cambiarPosX(dx);
 			b.cambiarPosY(dy);	
@@ -45,7 +51,7 @@ public class MsgMover extends Msg{
 			b.actualizarColBomba();
 		}	
 		
-		return null;
+		return null;		
 	}
 	
 	

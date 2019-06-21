@@ -17,27 +17,26 @@ public class MsgLogin extends Msg {
 	}
 
 	@Override
-	public Object realizarAccion(Object obj) {
+	public String realizarAccion(Object obj) {
 		HiloCliente hilo =(HiloCliente) obj;
-		try { 
-			ObjectOutputStream salidaACliente = new ObjectOutputStream(hilo.getClientSocket().getOutputStream()); 
+		String res = "FAIL";
+
+//			ObjectOutputStream salidaACliente = new ObjectOutputStream(hilo.getClientSocket().getOutputStream()); 
 			
 			if ((this.usuario.equals("Usuario") && this.clave.equals("clave"))
 					|| (this.usuario.equals("Usuario2") && this.clave.equals("clave2"))) {
 				
-				
-				
-				hilo.getUsuariosConectados().add(hilo.getClientSocket());			
+//				hilo.getUsuariosConectados().add(hilo.getClientSocket());			
 				//Le mandamos un OK al cliente
-				salidaACliente.writeObject("OK");				
+//				salidaACliente.writeObject("OK");
+				hilo.getUsuarios().add(this.usuario);
+				res = "OK";
 			}
 			else {
 				//Le mandamos un FAIL al cliente
-				salidaACliente.writeObject("FAIL");
+//				salidaACliente.writeObject("FAIL");
 			}
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		return null;
+
+		return res;
 	}
 }

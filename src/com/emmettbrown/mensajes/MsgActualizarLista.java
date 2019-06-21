@@ -20,20 +20,25 @@ public class MsgActualizarLista extends Msg {
 	@Override
 	public Object realizarAccion(Object obj) {
 		HiloCliente hilo = (HiloCliente) obj;
-		ArrayList<Socket> usuariosConectados = hilo.getUsuariosConectados();
-		for (Socket clientSocket : usuariosConectados) {
-			
-			d.addElement();
-			try {
-				ObjectOutputStream salidaACliente = new ObjectOutputStream(clientSocket.getOutputStream());
-				salidaACliente.writeObject(m);
-			} catch (IOException e) {
-				System.out.println(e);
-			}
+		ArrayList<String> usuariosConectados = hilo.getUsuarios();
+		for (String string : usuariosConectados) {
+			d.addElement(string);
 		}
-		
-		
-		return null;
+		return d;
+//		ArrayList<Socket> usuariosConectados = hilo.getUsuariosConectados();
+//		for (Socket clientSocket : usuariosConectados) {
+//			
+//			d.addElement();
+//			try {
+//				ObjectOutputStream salidaACliente = new ObjectOutputStream(clientSocket.getOutputStream());
+//				salidaACliente.writeObject(m);
+//			} catch (IOException e) {
+//				System.out.println(e);
+//			}
+//		}
+//		
+//		
+//		return null;
 		
 	}
 
