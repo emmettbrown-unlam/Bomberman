@@ -328,6 +328,7 @@ public class ServerMap {
 	}
 	
 	public void eliminarBomberman(SvBomberman bomb) {
+		SvBomberman.nroBomberman--;
 		listaBomberman.remove(bomb);
 	}
 	

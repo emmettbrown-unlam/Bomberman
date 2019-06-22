@@ -55,7 +55,7 @@ public class HandleMovement extends Thread {
 		final double timeF = 1000000000 / DefConst.FPS;
 		double deltaF = 0; // deltaU = 0, 
 
-	    while (true) {	    	
+	    while (hilo.isEstaConectado()) {	    	
 	        long currentTime = System.nanoTime();
 	        deltaF += (currentTime - initialTime) / timeF;
 	        initialTime = currentTime;

@@ -2,7 +2,6 @@ package com.emmettbrown.entorno.grafico;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 

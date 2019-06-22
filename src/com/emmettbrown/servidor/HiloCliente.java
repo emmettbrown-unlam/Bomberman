@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.emmettbrown.entidades.DefConst;
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.MsgAgregarBomberman;
+import com.emmettbrown.mensajes.MsgEliminarBomberman;
 import com.emmettbrown.mensajes.MsgGenerarMurosExteriores;
 import com.emmettbrown.mensajes.MsgGenerarObstaculos;
 import com.emmettbrown.servidor.mapa.ServerMap;
@@ -82,7 +83,7 @@ public class HiloCliente extends Thread {
 		//Agregamos el bomber del cliente al mapa
 		map.agregarBomberman(bomber);
 		//Le decimos al cliente que añada el bomber
-		this.broadcast(new MsgAgregarBomberman(bomber.getX(),bomber.getY(), map.obtenerListaBomberman()), usuariosConectados);
+		this.broadcast(new MsgAgregarBomberman(map.obtenerListaBomberman()), usuariosConectados);
 	}
 	
 	public void broadcast(Msg msg, ArrayList<Socket> usuariosConectados) {		
@@ -114,9 +115,8 @@ public class HiloCliente extends Thread {
 		} catch (IOException | ClassNotFoundException ex) {
 			System.out.println("Problemas al querer leer otra petición: " + ex.getMessage());
 			this.map.eliminarBomberman(this.bomber);
-			//broadcast TODO
-			
-			this.usuariosConectados.remove(clientSocket);
+			this.usuariosConectados.remove(this.clientSocket);
+			broadcast(new MsgEliminarBomberman(this.bomber.getIdBomberman()), usuariosConectados);
 			this.estaConectado = false;
 		}
 	}	

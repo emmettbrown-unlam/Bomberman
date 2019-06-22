@@ -12,13 +12,9 @@ public class MsgAgregarBomberman extends Msg {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int x;
-	private int y;
 	private List<SvBomberman> listaBomberman; 
 
-	public MsgAgregarBomberman(int x,int y, List<SvBomberman> lista) {
-		this.x = x;
-		this.y = y;
+	public MsgAgregarBomberman(List<SvBomberman> lista) {
 		this.listaBomberman = lista;
 	}
 	
