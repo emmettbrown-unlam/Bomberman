@@ -9,6 +9,6 @@ Lista de BUGs del Bomberman a actualización del 21/6/2019
  
 -Si un Bomberman tiene parte de su cuerpo dentro del rango del fuego de la bomba, 
  debería morirse, pero no muere. -> Observado siempre hacia arriba
-								 ->	Observado nunca hacia abajo
-								 ->	Observado siempre hacia izquierda 
-								 ->	Observado nunca hacia derecha
+				 -> Observado nunca hacia abajo
+			  	 -> Observado siempre hacia izquierda 
+				 -> Observado nunca hacia derecha
