@@ -13,12 +13,6 @@ import com.emmettbrown.mapa.Ubicacion;
 public class SvBomba extends Entidad {
 
 	private static final long serialVersionUID = 1L;
-	private final int ARRABA = 1;
-	private final int IZQDER = -1;
-	private final int ARRIBAPUNTA = 2;
-	private final int ABAJOPUNTA = -2;
-	private final int DERECHAPUNTA = 3;
-	private final int IZQUIERDAPUNTA = -3;
 	private int segsExplosion;
 	private int rango;
 	private SvBomberman creador;
@@ -86,7 +80,7 @@ public class SvBomba extends Entidad {
 		creador.removerBomba(this);
 		
 		// Creamos una "explosión" en en lugar
-		explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY()), map,0);
+		explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY()), map);
 
 		// Creamos "explosiones" en las cuatro direcciones, dependiendo del rango
 		explosionIzquierda(map);
@@ -101,10 +95,7 @@ public class SvBomba extends Entidad {
 		// Se ejecuta hasta llegar al rango maximo, o toparse con un
 		// obstaculo/muro siempre dentro del ANCHO y ALTO
 		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosX() - i >= 0;  i++) {
-			if( i == this.rango)
-				hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX() - i, this.ubicacion.getPosY()), map,IZQUIERDAPUNTA);
-			else
-				hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX() - i, this.ubicacion.getPosY()), map,IZQDER);
+			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX() - i, this.ubicacion.getPosY()), map);
 		}
 	}
 
@@ -114,10 +105,7 @@ public class SvBomba extends Entidad {
 		// Se ejecuta hasta llegar al rango maximo, o toparse con un
 		// obstaculo/muro siempre dentro del ANCHO y ALTO
 		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosX() + i < DefConst.ANCHOMAPA;  i++) {
-			if(i == this.rango)
-				hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX() + i, this.ubicacion.getPosY()), map,DERECHAPUNTA);
-			else
-				hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX() + i, this.ubicacion.getPosY()), map,IZQDER);
+			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX() + i, this.ubicacion.getPosY()), map);
 		}
 	}
 
@@ -127,10 +115,7 @@ public class SvBomba extends Entidad {
 		// Se ejecuta hasta llegar al rango maximo, o toparse con un
 		// obstaculo/muro siempre dentro del ANCHO y ALTO
 		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosY() - i >= 0 ; i++) {
-			if(i == this.rango)
-				hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY() - i), map,ARRIBAPUNTA);
-			else
-				hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY() - i), map,ARRABA);
+			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY() - i), map);
 		}
 	}
 
@@ -140,10 +125,7 @@ public class SvBomba extends Entidad {
 		// Se ejecuta hasta llegar al rango maximo, o toparse con un
 		// obstaculo/muro siempre dentro del ANCHO y ALTO
 		for (int i = 1; i <= this.rango && !hayObstaculo && this.ubicacion.getPosY() + i <= DefConst.ALTOMAPA; i++) {
-			if(i == this.rango)
-				hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY() + i), map,ABAJOPUNTA);
-			else
-				hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY() + i), map,ARRABA);
+			hayObstaculo = explosion(new Ubicacion(this.ubicacion.getPosX(), this.ubicacion.getPosY() + i), map);
 		}
 	}
 
@@ -157,7 +139,7 @@ public class SvBomba extends Entidad {
 	 * @return true si encontró un obstaculo o un muro, false si no encontró
 	 */
 
-	private boolean explosion(Ubicacion ubic, ServerMap map,int dir) {		
+	private boolean explosion(Ubicacion ubic, ServerMap map) {		
 		// Buscamos una entidad en dicha ubicación. Solo puede haber una, así
 		// que buscamos la que esté ahí
 		Entidad ent = map.obtenerEntidadDelConjunto(ubic);
