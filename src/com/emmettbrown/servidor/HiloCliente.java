@@ -26,6 +26,7 @@ public class HiloCliente extends Thread {
 	private HandleMovement movimiento;
 	private static int posX = 1;
 	private static int posY = 1;
+	private static int fin = 1;
 	
 	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ServerMap map) {
 		this.map = map;
@@ -35,7 +36,19 @@ public class HiloCliente extends Thread {
 		this.bomber = new SvBomberman(posX*75,posY*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT);
 		//System.out.println("El ID del bomber cli: "+bomber.obtenerID());
 		this.inicializarCliente();
-		posY++;
+		
+		if (posY == 1 && posX == 7) {
+			posY = 7;
+			posX = 7;
+		}
+		if (posY == 7 && posX != 7) {
+			posY = 1;
+			posX = 7;
+			fin = 0;
+		}
+		if (fin == 1) {
+			posY = 7;
+		}	
 	}
 
 	public Socket getClientSocket() {

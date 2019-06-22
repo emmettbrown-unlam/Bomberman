@@ -40,7 +40,6 @@ public class JPanelGrafico extends JPanel {
 			g.drawImage(entidades[i].getImagen(), entidades[i].getX(), entidades[i].getY(), DefConst.TILESIZE, DefConst.TILESIZE, null);
 		}
 		
-		
 		/*Iterator<Ubicacion> iterEnt = conjuntoEntidades.keySet().iterator();
 		
 		while (iterEnt.hasNext()) {
