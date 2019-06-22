@@ -19,6 +19,7 @@ public class Cliente implements Serializable {
 	private transient Socket clientSocket;
 	private Bomberman bomber;
 	private Mapa mapa;
+	private int nroCliente;
 
 	public Cliente(String ip, int puerto, String username) {
 		try {
@@ -30,6 +31,14 @@ public class Cliente implements Serializable {
 			this.mensajeError = "No se encontro ningun servidor al cual conectarse!";
 			System.out.println(mensajeError);
 		}
+	}
+	
+	public int getNroCliente() {
+		return this.nroCliente;
+	}
+	
+	public void setNroCliente(int num) {
+		this.nroCliente = num;
 	}
 	
 	public Bomberman getBomber() {

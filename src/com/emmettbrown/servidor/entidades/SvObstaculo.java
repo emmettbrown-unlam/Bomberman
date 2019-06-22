@@ -19,5 +19,6 @@ public class SvObstaculo extends Entidad{
 	public void explotar(ServerMap map) {
 		this.esVisible = false;
 		map.removerEntidadDelConjunto(this.ubicacion);
+		map.removerObstaculo(this);
 	}	
 }

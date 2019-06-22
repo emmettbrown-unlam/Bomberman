@@ -8,7 +8,7 @@ import com.emmettbrown.mensajes.MsgMover;
 
 public class Teclado implements KeyListener {
 	
-	private boolean arriba;
+	/*private boolean arriba;
 	private boolean abajo;
 	private boolean izq;
 	private boolean der;
@@ -18,10 +18,10 @@ public class Teclado implements KeyListener {
 	private boolean a;
 	private boolean d;
 	private boolean s;	
-	private boolean f;
+	private boolean f;*/
 	private Cliente cliente;
 	
-	public boolean isF() {
+	/*public boolean isF() {
 		return f;
 	}	
 	
@@ -63,10 +63,10 @@ public class Teclado implements KeyListener {
 
 	public boolean isL() {
 		return l;
-	}
+	}*/
 	
 	public Teclado(Cliente cliente) {
-		this.arriba = false;
+		/*this.arriba = false;
 		this.abajo = false;
 		this.izq = false;
 		this.der = false;
@@ -76,7 +76,7 @@ public class Teclado implements KeyListener {
 		this.w = false;
 		this.a = false;
 		this.s = false;
-		this.d = false;
+		this.d = false;*/
 		this.cliente = cliente;
 	}
 	
@@ -85,63 +85,68 @@ public class Teclado implements KeyListener {
 		int key = e.getKeyCode();
 
 		//Jugador 1 (local)
-		
-		if (key == KeyEvent.VK_ESCAPE) {
-			this.esc = true;
-		}
-		if (key == KeyEvent.VK_RIGHT) {
-			//this.der = true;
-			this.cliente.enviarMsg(new MsgMover(Movimientos.DERECHA));
-		}
-		if (key == KeyEvent.VK_LEFT) {
-			//this.izq = true;
-			this.cliente.enviarMsg(new MsgMover(Movimientos.IZQUIERDA));
-		}
-		if (key == KeyEvent.VK_UP) {
-			//this.arriba = true;
-			this.cliente.enviarMsg(new MsgMover(Movimientos.ARRIBA));
-		}
-		if (key == KeyEvent.VK_DOWN) {
-			//this.abajo = true;
-			this.cliente.enviarMsg(new MsgMover(Movimientos.ABAJO));
-		}
-		
-		if (key == KeyEvent.VK_L) {
-			//this.l = true;
-			this.cliente.enviarMsg(new MsgMover(Movimientos.BOMBA));
+
+		if (cliente.getBomber() != null && cliente.getBomber().verSiEsVisible()) {
+			if (key == KeyEvent.VK_ESCAPE) {
+				//this.esc = true;
+			}
+			if (key == KeyEvent.VK_RIGHT) {
+				//this.der = true;
+				this.cliente.enviarMsg(new MsgMover(Movimientos.DERECHA));
+			}
+			if (key == KeyEvent.VK_LEFT) {
+				//this.izq = true;
+				this.cliente.enviarMsg(new MsgMover(Movimientos.IZQUIERDA));
+			}
+			if (key == KeyEvent.VK_UP) {
+				//this.arriba = true;
+				this.cliente.enviarMsg(new MsgMover(Movimientos.ARRIBA));
+			}
+			if (key == KeyEvent.VK_DOWN) {
+				//this.abajo = true;
+				this.cliente.enviarMsg(new MsgMover(Movimientos.ABAJO));
+			}
+			
+			if (key == KeyEvent.VK_L) {
+				//this.l = true;
+				this.cliente.enviarMsg(new MsgMover(Movimientos.BOMBA));
+			}
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+
 		int key = e.getKeyCode();
 		
 		//Jugador 1 (local)
+		if (cliente.getBomber() != null && cliente.getBomber().verSiEsVisible()) {
+			if (key == KeyEvent.VK_ESCAPE) {
+				//this.esc = false;
+			}
+			if (key == KeyEvent.VK_RIGHT) {
+				//this.der = false;	
+				this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
+			}
+			if (key == KeyEvent.VK_LEFT) {
+				//this.izq = false;
+				this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
+			}
+			if (key == KeyEvent.VK_UP) {
+				//this.arriba = false;
+				this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
+			}
+			if (key == KeyEvent.VK_DOWN) {
+				//this.abajo = false;
+				this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
+			}
+			
+			if (key == KeyEvent.VK_L ) {
+				//this.l = false;
+				this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
+			}
+		}
 
-		if (key == KeyEvent.VK_ESCAPE) {
-			this.esc = false;
-		}
-		if (key == KeyEvent.VK_RIGHT) {
-			this.der = false;	
-			this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
-		}
-		if (key == KeyEvent.VK_LEFT) {
-			this.izq = false;
-			this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
-		}
-		if (key == KeyEvent.VK_UP) {
-			this.arriba = false;
-			this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
-		}
-		if (key == KeyEvent.VK_DOWN) {
-			this.abajo = false;
-			this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
-		}
-		
-		if (key == KeyEvent.VK_L) {
-			this.l = false;
-			this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
-		}
 		
 	}
 	

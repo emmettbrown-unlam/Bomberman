@@ -177,18 +177,6 @@ public class SvBomba extends Entidad {
 		
 		//Creamos una explosion (el grafico) en la ubicacion
 		Explosion expl = new Explosion(ubic.getPosX()*DefConst.TILESIZE, ubic.getPosY()*DefConst.TILESIZE, DefConst.TILESIZE, DefConst.TILESIZE);
-		/*if(dir == ARRABA) 
-			expl.cambiarImagenArrAba(); 
-		else if(dir == IZQDER)
-			expl.cambiarImagenIzqDer();
-		else if(dir == ARRIBAPUNTA)
-			expl.cambiarImagenArribaPunta();
-		else if(dir == ABAJOPUNTA)
-			expl.cambiarImagenAbajoPunta();
-		else if (dir == DERECHAPUNTA)
-			expl.cambiarImagenDerechaPunta();
-		else if(dir == IZQUIERDAPUNTA)
-			expl.cambiarImagenIzquierdaPunta();*/
 		expl.startTimer(map);
 		map.agregarEntidadAlConjunto(expl.ubicacion, expl);
 		

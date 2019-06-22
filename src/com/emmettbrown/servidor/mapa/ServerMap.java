@@ -410,6 +410,11 @@ public class ServerMap {
 	public void explotarBomba(SvBomba bomba) {
 		bomba.explotar(this);
 	}
+	
+	public void removerObstaculo(SvObstaculo obs) {
+		this.obstaculos.remove(obs);
+		
+	}
 
 
 }

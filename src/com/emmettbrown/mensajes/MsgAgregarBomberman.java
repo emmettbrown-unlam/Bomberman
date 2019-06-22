@@ -13,9 +13,11 @@ public class MsgAgregarBomberman extends Msg {
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<SvBomberman> listaBomberman; 
+	private int nroCliente;
 
-	public MsgAgregarBomberman(List<SvBomberman> lista) {
+	public MsgAgregarBomberman(List<SvBomberman> lista, int nroCliente) {
 		this.listaBomberman = lista;
+		this.nroCliente = nroCliente;
 	}
 	
 	@Override
@@ -23,15 +25,26 @@ public class MsgAgregarBomberman extends Msg {
 		Cliente cliente = ((Cliente) obj);
 		List<Bomberman> lista = cliente.getMapa().obtenerListaBomberman();
 		
+		
 		for (SvBomberman bomberman : listaBomberman) {
 			boolean creado = false;
+			
 			for (Bomberman bman : lista) {
 				if (bomberman.getIdBomberman() == bman.getIdBomberman()) {
 					creado = true;
 				}
 			}
-			if (!creado)
-				cliente.getMapa().agregarBomberman(new Bomberman(bomberman.getX(), bomberman.getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT));
+			
+			if (!creado) {
+				Bomberman bomber = new Bomberman(bomberman.getX(), bomberman.getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT);
+				
+				if (cliente.getNroCliente() == nroCliente) {
+					cliente.setBomber(bomber);
+				}
+				
+				cliente.getMapa().agregarBomberman(bomber);
+			}
+				
 		}
 		return null;
 	}

@@ -11,7 +11,7 @@ public class Obstaculo extends Entidad{
 		this.img = new ImageIcon("./src/resources/game-map/brick/obstaculo.png");
 	}
 	
-	@Override
+	@Override	
 	public void explotar(Mapa map) {
 		this.esVisible = false;
 		map.removerEntidadDelConjunto(this.ubicacion);

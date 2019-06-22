@@ -12,15 +12,17 @@ import com.emmettbrown.mensajes.MsgAgregarBomberman;
 import com.emmettbrown.mensajes.MsgEliminarBomberman;
 import com.emmettbrown.mensajes.MsgGenerarMurosExteriores;
 import com.emmettbrown.mensajes.MsgGenerarObstaculos;
+import com.emmettbrown.mensajes.MsgNroCliente;
 import com.emmettbrown.servidor.mapa.ServerMap;
 import com.emmettbrown.servidor.entidades.*;
 
 
 public class HiloCliente extends Thread {
 
+	private int nroCliente;
 	private SvBomberman bomber;
 	private ServerMap map;
-	private Socket clientSocket;
+	private transient Socket clientSocket;
 	private boolean estaConectado;
 	private ArrayList<Socket> usuariosConectados;
 	private HandleMovement movimiento;
@@ -28,7 +30,8 @@ public class HiloCliente extends Thread {
 	private static int posY = 1;
 	private static int fin = 1;
 	
-	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ServerMap map) {
+	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ServerMap map, int nroCliente) {
+		this.nroCliente = nroCliente;
 		this.map = map;
 		this.clientSocket = cliente;
 		this.usuariosConectados = usuariosConectados;
@@ -90,13 +93,23 @@ public class HiloCliente extends Thread {
 	public void inicializarCliente() {
 		this.movimiento = new HandleMovement(this);
 		this.movimiento.start();
+		enviarMsg(new MsgNroCliente(this.nroCliente));
 		//Le enviamos el  mapa al servidor
 		this.broadcast(new MsgGenerarMurosExteriores(), usuariosConectados);
 		this.broadcast(new MsgGenerarObstaculos(map.getObstaculos()), usuariosConectados);
 		//Agregamos el bomber del cliente al mapa
 		map.agregarBomberman(bomber);
 		//Le decimos al cliente que añada el bomber
-		this.broadcast(new MsgAgregarBomberman(map.obtenerListaBomberman()), usuariosConectados);
+		this.broadcast(new MsgAgregarBomberman(map.obtenerListaBomberman(), nroCliente), usuariosConectados);
+	}
+	
+	public void enviarMsg(Msg msg) {
+		try {
+			ObjectOutputStream salidaACliente = new ObjectOutputStream(clientSocket.getOutputStream());
+			salidaACliente.writeObject(msg);
+		} catch (Exception e) {
+			System.out.println("LA CONCHA DE TU MADRE");
+		}
 	}
 	
 	public void broadcast(Msg msg, ArrayList<Socket> usuariosConectados) {		
