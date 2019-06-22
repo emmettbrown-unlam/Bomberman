@@ -29,24 +29,6 @@ public class RefreshThread extends Thread {
 	}
 	
 	public void refrescar() {
-		
-		/*if (ventana.getTeclado().isArriba()) {
-			//miMapa.moverBombermanArriba(miBomber, DefConst.VELOCIDAD,cliente);
-		}
-		else if (ventana.getTeclado().isIzq()) {
-			//miMapa.moverBombermanIzq(miBomber, DefConst.VELOCIDAD,cliente);
-		}
-		else if (ventana.getTeclado().isDer()) {
-			
-			//miMapa.moverBombermanDer(miBomber, DefConst.VELOCIDAD,cliente);
-		}
-		else if (ventana.getTeclado().isAbajo()) {
-			//miMapa.moverBombermanAbajo(miBomber, DefConst.VELOCIDAD,cliente);
-		}
-		else if (ventana.getTeclado().isL()) {
-			//miMapa.agregarBomba(miBomber.getX(), miBomber.getY(), miBomber);
-		}*/		
-
 		ventana.repaint();
 	}
 }

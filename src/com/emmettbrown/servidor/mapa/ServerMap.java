@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.emmettbrown.entidades.Bomba;
+import com.emmettbrown.servidor.entidades.SvBomba;
+import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entidades.DefConst;
 import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.servidor.entidades.Entidad;
@@ -335,5 +338,78 @@ public class ServerMap {
 	public ArrayList<SvObstaculo> getObstaculos() {
 		return this.obstaculos;
 	}
+	
+	///////////////////////////////////////
+	// 									//
+	// 				BOMBAS 				//
+	// 									//
+	/////////////////////////////////////
+	
+	/** Agrega una bomba dependiendo de la posición del bomberman. Realiza un cálculo para ver en qué casillero
+	 *  es mejor ubicarla. La bomba es agregada al conjunto de entidades del mapa. También se crea un timer
+	 *  que la detona pasados algunos segundos.
+	 * 
+	 * @param x posición X del bomberman
+	 * @param y posición Y del bomberman
+	 */
+	
+	public void agregarBomba(int x, int y, SvBomberman creador) {		
+		//if (System.currentTimeMillis() - creador.getNextBomb() > DefConst.BOMBDELAY) {			
+			Ubicacion ubic = new Ubicacion(x/DefConst.TILESIZE, y/DefConst.TILESIZE);
+			
+			if (obtenerEntidadDelConjunto(ubic) == null) {			
+				//Si el módulo de la posición con el tamaño del tile da mayor a la mitad del tamaño,
+				//movemos la posicion en un casillero para que la bomba se cree en el casillero aledaño
+				if (x % DefConst.TILESIZE > DefConst.TOLCAMBIOPOS)
+					ubic.cambiarPosX(1);
+				if (y % DefConst.TILESIZE > DefConst.TOLCAMBIOPOS)
+					ubic.cambiarPosY(1);
+				
+				SvBomba bomb = new SvBomba(ubic, creador);
+				//Agregamos una bomba a la lista de bombas del creador
+				creador.agregarBomba(bomb);
+				conjuntoEntidades.put(bomb.obtenerUbicacion(), bomb);
+				bomb.startTimer(this);
+				//creador.setNextBomb((System.currentTimeMillis())); 
+			}
+		//}
+	}	
+
+	/**
+	 * Explota una bomba a traves de sus coordenadas
+	 * 
+	 * @param posX coord. eje X
+	 * @param posY coord. eje Y
+	 */
+
+	public void explotarBomba(int posX, int posY) {
+		SvBomba b = ((SvBomba) conjuntoEntidades.get(new Ubicacion(posX, posY)));
+
+		if (b != null)
+			b.explotar(this);
+	}
+
+	/**
+	 * Explota una bomba a traves de su ubicacion
+	 * 
+	 * @param ubic la ubicacion en la que se encuentra la bomba
+	 */
+
+	public void explotarBomba(Ubicacion ubic) {
+		SvBomba b = ((SvBomba) conjuntoEntidades.get(ubic));
+
+		if (b != null)
+			b.explotar(this);
+	}
+
+	/**
+	 * Explota una bomba a traves de su instancia
+	 * 
+	 * @param bomba instancia de la bomba a explotar
+	 */
+	public void explotarBomba(SvBomba bomba) {
+		bomba.explotar(this);
+	}
+
 
 }

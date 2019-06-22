@@ -2,6 +2,7 @@ package com.emmettbrown.servidor;
 
 import com.emmettbrown.controles.Movimientos;
 import com.emmettbrown.entidades.DefConst;
+import com.emmettbrown.mensajes.MsgPonerBomba;
 import com.emmettbrown.mensajes.MsgPosBomberman;
 
 public class HandleMovement extends Thread {
@@ -39,6 +40,10 @@ public class HandleMovement extends Thread {
 		case ABAJO:
 			hilo.getMap().moverBombermanAbajo(hilo.getBomber(), DefConst.VELOCIDAD);
 			hilo.broadcast(new MsgPosBomberman(hilo.getBomber().obtenerID(), hilo.getBomber().getX(), hilo.getBomber().getY()), hilo.getUsuariosConectados());
+			break;
+		case BOMBA:
+			hilo.getMap().agregarBomba(hilo.getBomber().getX(), hilo.getBomber().getY(), hilo.getBomber());
+			hilo.broadcast(new MsgPonerBomba(hilo.getBomber().getX(), hilo.getBomber().getY(), hilo.getBomber()), hilo.getUsuariosConectados());
 			break;
 			
 		case NULL:

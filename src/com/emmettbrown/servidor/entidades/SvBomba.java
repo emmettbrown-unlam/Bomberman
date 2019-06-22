@@ -7,15 +7,11 @@ import com.emmettbrown.servidor.entidades.SvBomberman;
 import com.emmettbrown.entidades.DefConst;
 import com.emmettbrown.servidor.entidades.Entidad;
 import com.emmettbrown.servidor.entidades.Explosion;
-import com.emmettbrown.servidor.entidades.Bomba.miOyente;
 import com.emmettbrown.servidor.mapa.ServerMap;
 import com.emmettbrown.mapa.Ubicacion;
 
-public class Bomba extends Entidad {
-	
-	/**
-	 * 
-	 */
+public class SvBomba extends Entidad {
+
 	private static final long serialVersionUID = 1L;
 	private final int ARRABA = 1;
 	private final int IZQDER = -1;
@@ -35,7 +31,7 @@ public class Bomba extends Entidad {
 	// 									//
 	/////////////////////////////////////
 
-	public Bomba(int posX, int posY, SvBomberman bman) {
+	public SvBomba(int posX, int posY, SvBomberman bman) {
 		super(posX, posY, DefConst.TILESIZE, DefConst.TILESIZE);
 		segsExplosion = 3;
 		this.destructible = true;
@@ -44,12 +40,12 @@ public class Bomba extends Entidad {
 		this.ignorarColisionCreador = true;
 	}
 
-	public Bomba(Ubicacion ubic, SvBomberman bman) {
+	public SvBomba(Ubicacion ubic, SvBomberman creador2) {
 		super(ubic, DefConst.TILESIZE, DefConst.TILESIZE);
 		segsExplosion = 3;
 		this.destructible = true;
 		this.rango = 2;
-		this.creador = bman;
+		this.creador = creador2;
 		this.ignorarColisionCreador = true;
 	}
 
@@ -222,9 +218,9 @@ public class Bomba extends Entidad {
 	
 	class miOyente implements ActionListener {
 		private ServerMap map;
-		private Bomba bomba;
+		private SvBomba bomba;
 		
-		public miOyente(ServerMap map, Bomba bomba) {
+		public miOyente(ServerMap map, SvBomba bomba) {
 			this.map = map;
 			this.bomba = bomba;
 		}
