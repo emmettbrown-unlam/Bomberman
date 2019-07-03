@@ -1,6 +1,8 @@
-package com.emmettbrown.mensajes;
+package com.emmettbrown.mensajes.servidor;
 
 import com.emmettbrown.entorno.grafico.Sala;
+import com.emmettbrown.mensajes.Msg;
+import com.emmettbrown.mensajes.cliente.MsgActualizarListaSalas;
 import com.emmettbrown.servidor.HiloCliente;
 import com.emmettbrown.servidor.Servidor;
 

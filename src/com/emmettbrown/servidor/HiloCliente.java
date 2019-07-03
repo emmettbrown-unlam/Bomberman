@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import com.emmettbrown.entidades.DefConst;
 import com.emmettbrown.entorno.grafico.Sala;
 import com.emmettbrown.mensajes.Msg;
-import com.emmettbrown.mensajes.MsgAgregarBomberman;
-import com.emmettbrown.mensajes.MsgEliminarBomberman;
-import com.emmettbrown.mensajes.MsgGenerarObstaculos;
-import com.emmettbrown.mensajes.MsgNroCliente;
+import com.emmettbrown.mensajes.cliente.MsgAgregarBomberman;
+import com.emmettbrown.mensajes.cliente.MsgEliminarBomberman;
+import com.emmettbrown.mensajes.cliente.MsgGenerarObstaculos;
+import com.emmettbrown.mensajes.cliente.MsgNroCliente;
 import com.emmettbrown.servidor.entidades.SvBomberman;
 import com.emmettbrown.servidor.mapa.ServerMap;
 

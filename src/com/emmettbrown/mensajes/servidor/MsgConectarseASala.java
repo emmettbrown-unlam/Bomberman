@@ -1,6 +1,6 @@
-package com.emmettbrown.mensajes;
+package com.emmettbrown.mensajes.servidor;
 
-import com.emmettbrown.cliente.Cliente;
+import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.servidor.HiloCliente;
 
 public class MsgConectarseASala extends Msg {

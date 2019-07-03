@@ -17,8 +17,8 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import com.emmettbrown.cliente.Cliente;
-import com.emmettbrown.mensajes.MsgConectarseASala;
-import com.emmettbrown.mensajes.MsgCrearSala;
+import com.emmettbrown.mensajes.servidor.MsgConectarseASala;
+import com.emmettbrown.mensajes.servidor.MsgCrearSala;
 
 public class JVentanaInicial extends JFrame {
 

@@ -1,6 +1,7 @@
 package com.emmettbrown.cliente;
 
 import java.io.IOException;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -11,7 +12,6 @@ import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entorno.grafico.Sala;
 import com.emmettbrown.mapa.Mapa;
 import com.emmettbrown.mensajes.Msg;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 public class Cliente implements Serializable {
 

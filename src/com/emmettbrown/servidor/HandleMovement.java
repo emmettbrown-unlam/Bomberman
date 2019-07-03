@@ -2,8 +2,8 @@ package com.emmettbrown.servidor;
 
 import com.emmettbrown.controles.Movimientos;
 import com.emmettbrown.entidades.DefConst;
-import com.emmettbrown.mensajes.MsgPonerBomba;
-import com.emmettbrown.mensajes.MsgPosBomberman;
+import com.emmettbrown.mensajes.cliente.MsgPonerBomba;
+import com.emmettbrown.mensajes.cliente.MsgPosBomberman;
 
 public class HandleMovement extends Thread {
 	
