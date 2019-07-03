@@ -32,5 +32,9 @@ public class Sala implements Serializable{
 		return this.idSala;
 	}
 	
+	public int getIdCreador() {
+		return this.idCreador;
+	}
+	
 	
 }

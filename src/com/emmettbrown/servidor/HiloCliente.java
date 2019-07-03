@@ -5,12 +5,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.entorno.grafico.Sala;
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.cliente.MsgAgregarBomberman;
 import com.emmettbrown.mensajes.cliente.MsgEliminarBomberman;
+import com.emmettbrown.mensajes.cliente.MsgEliminarSala;
 import com.emmettbrown.mensajes.cliente.MsgGenerarObstaculos;
 import com.emmettbrown.mensajes.cliente.MsgIdCliente;
 import com.emmettbrown.servidor.entidades.SvBomberman;
@@ -139,7 +141,6 @@ public class HiloCliente extends Thread {
 
 	@Override
 	public void run() {
-
 		try {
 			ObjectInputStream reciboMsg = new ObjectInputStream(clientSocket.getInputStream());
 
@@ -155,7 +156,8 @@ public class HiloCliente extends Thread {
 		} catch (IOException | ClassNotFoundException ex) {
 			System.out.println("Problemas al querer leer otra petición: " + ex.getMessage());
 			this.map.eliminarBomberman(this.bomber);
-			this.usuariosConectados.remove(this.clientSocket);
+			this.usuariosConectados.remove(this.clientSocket);			
+			eliminarSala(this.idCliente);
 			broadcast(new MsgEliminarBomberman(this.bomber.getIdBomberman()), usuariosConectados);
 			this.estaConectado = false;
 		}
@@ -164,4 +166,17 @@ public class HiloCliente extends Thread {
 	public void agregarSala(Sala sala) {
 		this.listaSalas.add(sala);
 	}	
+	
+	public void eliminarSala(int idCreador) {
+		Iterator<Sala> iter = listaSalas.iterator();
+		
+		while (iter.hasNext()) {
+			Sala sala = iter.next();
+			
+			if (sala.getIdCreador() == idCreador) {
+				broadcast(new MsgEliminarSala(sala.getId()), usuariosConectados);
+				iter.remove();
+			}
+		}
+	}
 }
