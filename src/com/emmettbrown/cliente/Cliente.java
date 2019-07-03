@@ -22,7 +22,7 @@ public class Cliente implements Serializable {
 	private transient Socket clientSocket;
 	private Bomberman bomber;
 	private Mapa mapa;
-	private int nroCliente;
+	private int idCliente;
 	private ArrayList<Sala> listaSalas;
 
 	public Cliente(String ip, int puerto, String username) {
@@ -41,11 +41,11 @@ public class Cliente implements Serializable {
 	}
 	
 	public int getNroCliente() {
-		return this.nroCliente;
+		return this.idCliente;
 	}
 	
-	public void setNroCliente(int num) {
-		this.nroCliente = num;
+	public void setIdCliente(int num) {
+		this.idCliente = num;
 	}
 	
 	public Bomberman getBomber() {

@@ -33,9 +33,9 @@ public class JVentanaGrafica extends JFrame {
 		
 		addKeyListener(teclado);
 		
+		//Refresca esta ventana constantemente
 		RefreshThread thread = new RefreshThread(this,cliente);
 		thread.start();
-
 	}
 
 	public Teclado getTeclado() {

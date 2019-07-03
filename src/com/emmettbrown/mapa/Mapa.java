@@ -2,17 +2,16 @@ package com.emmettbrown.mapa;
 
 import java.awt.Image;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import javax.swing.ImageIcon;
+
 import com.emmettbrown.entidades.Bomba;
 import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entidades.DefConst;
 import com.emmettbrown.entidades.Entidad;
 import com.emmettbrown.entidades.Muro;
-import com.emmettbrown.entidades.Obstaculo;
-import com.emmettbrown.servidor.entidades.SvBomberman;
 
 public class Mapa {
 

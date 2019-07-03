@@ -12,14 +12,14 @@ import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.cliente.MsgAgregarBomberman;
 import com.emmettbrown.mensajes.cliente.MsgEliminarBomberman;
 import com.emmettbrown.mensajes.cliente.MsgGenerarObstaculos;
-import com.emmettbrown.mensajes.cliente.MsgNroCliente;
+import com.emmettbrown.mensajes.cliente.MsgIdCliente;
 import com.emmettbrown.servidor.entidades.SvBomberman;
 import com.emmettbrown.servidor.mapa.ServerMap;
 
 
 public class HiloCliente extends Thread {
 
-	private int nroCliente;
+	private int idCliente;
 	private SvBomberman bomber;
 	private ServerMap map;
 	private transient Socket clientSocket;
@@ -32,7 +32,7 @@ public class HiloCliente extends Thread {
 	private ArrayList<Sala> listaSalas;
 	
 	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ServerMap map, int nroCliente, ArrayList<Sala> salas) {
-		this.nroCliente = nroCliente;
+		this.idCliente = nroCliente;
 		this.map = map;
 		this.clientSocket = cliente;
 		this.usuariosConectados = usuariosConectados;
@@ -41,6 +41,7 @@ public class HiloCliente extends Thread {
 		this.bomber = new SvBomberman(posX*75,posY*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT);
 		//System.out.println("El ID del bomber cli: "+bomber.obtenerID());
 		this.inicializarCliente();
+		
 		
 		if (posY == 1 && posX == 7) {
 			posY = 7;
@@ -95,13 +96,13 @@ public class HiloCliente extends Thread {
 	public void inicializarCliente() {
 		this.movimiento = new HandleMovement(this);
 		this.movimiento.start();
-		enviarMsg(new MsgNroCliente(this.nroCliente));
+		enviarMsg(new MsgIdCliente(this.idCliente));
 		//Le enviamos el  mapa al servidor
 		this.broadcast(new MsgGenerarObstaculos(map.getObstaculos()), usuariosConectados);
 		//Agregamos el bomber del cliente al mapa
 		map.agregarBomberman(bomber);
 		//Le decimos al cliente que añada el bomber
-		this.broadcast(new MsgAgregarBomberman(map.obtenerListaBomberman(), nroCliente), usuariosConectados);
+		this.broadcast(new MsgAgregarBomberman(map.obtenerListaBomberman(), idCliente), usuariosConectados);
 	}
 	
 	public void enviarMsg(Msg msg) {

@@ -48,6 +48,7 @@ public class JVentanaInicial extends JFrame {
 		contentPane.add(lstSalas);
 		df = new DefaultListModel<>();
 		lstSalas.setModel(df);
+		
 		JButton btnUnirseALa = new JButton("Unirse a la Sala");
 		
 		btnUnirseALa.addActionListener(new ActionListener() {
