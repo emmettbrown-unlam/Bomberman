@@ -1,12 +1,13 @@
 package com.emmettbrown.entorno.grafico;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.Timer;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.mensajes.MsgConectarseASala;
+import com.emmettbrown.mensajes.MsgCrearSala;
 
 public class JVentanaInicial extends JFrame {
 
@@ -25,7 +27,8 @@ public class JVentanaInicial extends JFrame {
 	private JList<Sala> lstSalas;
 	private ArrayList<Sala> salasCreadas;
 	private Cliente cliente;
-
+	private DefaultListModel<Sala> df;
+	Timer timer;
 	/**
 	 * Create the frame.
 	 */
@@ -43,9 +46,8 @@ public class JVentanaInicial extends JFrame {
 		lstSalas = new JList<Sala>();
 		lstSalas.setBounds(20, 141, 391, 222);
 		contentPane.add(lstSalas);
-		/*DefaultListModel DModel = new DefaultListModel<>();
-		lstSalas.setModel(DModel);
-		DModel.addElement("Sala1");*/
+		df = new DefaultListModel<>();
+		lstSalas.setModel(df);
 		JButton btnUnirseALa = new JButton("Unirse a la Sala");
 		
 		btnUnirseALa.addActionListener(new ActionListener() {
@@ -59,6 +61,9 @@ public class JVentanaInicial extends JFrame {
 		JButton btnCrearSala = new JButton("Crear Sala");
 		btnCrearSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				cliente.enviarMsg(new MsgCrearSala(cliente.getNroCliente()));
+				refrescarListaSalas();
+				//dispose();
 			}
 		});
 		btnCrearSala.setBounds(20, 374, 108, 23);
@@ -76,6 +81,27 @@ public class JVentanaInicial extends JFrame {
 		txtrBienvenidoAlBomberman.setText("Bienvenido al Bomberman desarrollado por Emmett-Brown. \r\n\r\nPara continuar, por favor cree una sala o seleccione una de las ya creadas y \u00FAnase a la misma.");
 		txtrBienvenidoAlBomberman.setBounds(20, 11, 391, 94);
 		contentPane.add(txtrBienvenidoAlBomberman);
+		timer = new Timer(1000, new miOyente());
+		timer.start();
+		
+	}
+	class miOyente implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			refrescarListaSalas();	
+		}
+	}
+	public void crearSala() {
+		
+	}
+
+	public void refrescarListaSalas() {
+		this.salasCreadas = cliente.getListaSalas();
+		df.clear();
+		for (Sala sala : salasCreadas) {
+			df.addElement(sala);
+		}
+		System.out.println(df.getSize()+"-"+this.salasCreadas.size()+"");
 	}
 	
 	public void unirseASala() {

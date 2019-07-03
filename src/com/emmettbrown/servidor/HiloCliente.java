@@ -7,14 +7,14 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import com.emmettbrown.entidades.DefConst;
+import com.emmettbrown.entorno.grafico.Sala;
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.MsgAgregarBomberman;
 import com.emmettbrown.mensajes.MsgEliminarBomberman;
-import com.emmettbrown.mensajes.MsgGenerarMurosExteriores;
 import com.emmettbrown.mensajes.MsgGenerarObstaculos;
 import com.emmettbrown.mensajes.MsgNroCliente;
+import com.emmettbrown.servidor.entidades.SvBomberman;
 import com.emmettbrown.servidor.mapa.ServerMap;
-import com.emmettbrown.servidor.entidades.*;
 
 
 public class HiloCliente extends Thread {
@@ -29,13 +29,15 @@ public class HiloCliente extends Thread {
 	private static int posX = 1;
 	private static int posY = 1;
 	private static int fin = 1;
+	private ArrayList<Sala> listaSalas;
 	
-	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ServerMap map, int nroCliente) {
+	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ServerMap map, int nroCliente, ArrayList<Sala> salas) {
 		this.nroCliente = nroCliente;
 		this.map = map;
 		this.clientSocket = cliente;
 		this.usuariosConectados = usuariosConectados;
 		this.estaConectado = true;
+		this.listaSalas = salas;
 		this.bomber = new SvBomberman(posX*75,posY*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT);
 		//System.out.println("El ID del bomber cli: "+bomber.obtenerID());
 		this.inicializarCliente();
@@ -95,7 +97,6 @@ public class HiloCliente extends Thread {
 		this.movimiento.start();
 		enviarMsg(new MsgNroCliente(this.nroCliente));
 		//Le enviamos el  mapa al servidor
-		this.broadcast(new MsgGenerarMurosExteriores(), usuariosConectados);
 		this.broadcast(new MsgGenerarObstaculos(map.getObstaculos()), usuariosConectados);
 		//Agregamos el bomber del cliente al mapa
 		map.agregarBomberman(bomber);
@@ -145,5 +146,9 @@ public class HiloCliente extends Thread {
 			broadcast(new MsgEliminarBomberman(this.bomber.getIdBomberman()), usuariosConectados);
 			this.estaConectado = false;
 		}
+	}
+
+	public void agregarSala(Sala sala) {
+		this.listaSalas.add(sala);
 	}	
 }

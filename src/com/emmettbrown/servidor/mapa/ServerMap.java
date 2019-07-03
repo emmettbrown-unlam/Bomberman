@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.emmettbrown.entidades.Bomba;
 import com.emmettbrown.servidor.entidades.SvBomba;
-import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entidades.DefConst;
 import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.servidor.entidades.Entidad;

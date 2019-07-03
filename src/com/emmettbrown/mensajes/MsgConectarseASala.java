@@ -1,5 +1,8 @@
 package com.emmettbrown.mensajes;
 
+import com.emmettbrown.cliente.Cliente;
+import com.emmettbrown.servidor.HiloCliente;
+
 public class MsgConectarseASala extends Msg {
 
 	/**
@@ -15,7 +18,7 @@ public class MsgConectarseASala extends Msg {
 
 	@Override
 	public Object realizarAccion(Object obj) {
-		// TODO Auto-generated method stub
+		HiloCliente hilo = (HiloCliente) obj;
 		return null;
 	}
 	

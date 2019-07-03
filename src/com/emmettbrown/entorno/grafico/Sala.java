@@ -1,7 +1,13 @@
 package com.emmettbrown.entorno.grafico;
 
-public class Sala {
+import java.io.Serializable;
 
+public class Sala implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String nombre;
 	private int jugConectados;
