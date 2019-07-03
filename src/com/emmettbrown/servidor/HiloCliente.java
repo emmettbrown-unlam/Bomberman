@@ -116,7 +116,8 @@ public class HiloCliente extends Thread {
 		//Agregamos el bomber del cliente al mapa
 		map.agregarBomberman(bomber);
 		//Le decimos al cliente que añada el bomber
-		this.broadcast(new MsgAgregarBomberman(map.obtenerListaBomberman(), idCliente), usuariosConectados);
+		this.broadcast(new MsgAgregarBomberman(bomber, idCliente), usuariosConectados);
+		//this.broadcast(new MsgAgregarBomberman(map.obtenerListaBomberman(), idCliente), usuariosConectados);
 	}
 	
 	public void enviarMsg(Msg msg) {
@@ -124,7 +125,7 @@ public class HiloCliente extends Thread {
 			ObjectOutputStream salidaACliente = new ObjectOutputStream(clientSocket.getOutputStream());
 			salidaACliente.writeObject(msg);
 		} catch (Exception e) {
-			System.out.println("LA CONCHA DE TU MADRE");
+			System.out.println("¡No se pudo enviar el mensaje! :)");
 		}
 	}
 	
