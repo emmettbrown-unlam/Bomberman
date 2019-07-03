@@ -5,14 +5,12 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.Timer;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
@@ -23,12 +21,12 @@ import com.emmettbrown.mensajes.servidor.MsgCrearSala;
 public class JVentanaInicial extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	private JPanelInicial contentPane;
 	private JList<Sala> lstSalas;
-	private ArrayList<Sala> salasCreadas;
 	private Cliente cliente;
+	private ArrayList<Sala> salasCreadas;
 	private DefaultListModel<Sala> df;
-	Timer timer;
+	
 	/**
 	 * Create the frame.
 	 */
@@ -36,7 +34,7 @@ public class JVentanaInicial extends JFrame {
 		setTitle("Bomberman");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 447);
-		contentPane = new JPanel();
+		contentPane = new JPanelInicial(this);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -62,9 +60,7 @@ public class JVentanaInicial extends JFrame {
 		JButton btnCrearSala = new JButton("Crear Sala");
 		btnCrearSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cliente.enviarMsg(new MsgCrearSala(cliente.getNroCliente()));
-				refrescarListaSalas();
-				//dispose();
+				crearSala();
 			}
 		});
 		btnCrearSala.setBounds(20, 374, 108, 23);
@@ -82,32 +78,32 @@ public class JVentanaInicial extends JFrame {
 		txtrBienvenidoAlBomberman.setText("Bienvenido al Bomberman desarrollado por Emmett-Brown. \r\n\r\nPara continuar, por favor cree una sala o seleccione una de las ya creadas y \u00FAnase a la misma.");
 		txtrBienvenidoAlBomberman.setBounds(20, 11, 391, 94);
 		contentPane.add(txtrBienvenidoAlBomberman);
-		timer = new Timer(1000, new miOyente());
-		timer.start();
+		
+		//Refresh rate = 1 frame per second
+		RefreshThread thread = new RefreshThread(this, 1);
+		thread.start();
 		
 	}
-	class miOyente implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			refrescarListaSalas();	
-		}
-	}
+		
 	public void crearSala() {
-		
+		cliente.enviarMsg(new MsgCrearSala(cliente.getIdCliente()));
+		refrescarListaSalas();
+		//dispose();
 	}
 
 	public void refrescarListaSalas() {
 		this.salasCreadas = cliente.getListaSalas();
+		
 		df.clear();
+		
 		for (Sala sala : salasCreadas) {
 			df.addElement(sala);
 		}
-		System.out.println(df.getSize()+"-"+this.salasCreadas.size()+"");
 	}
 	
 	public void unirseASala() {
 		Sala seleccionada = lstSalas.getSelectedValue();
 		
-		cliente.enviarMsg(new MsgConectarseASala(seleccionada.getId()));		
+		cliente.enviarMsg(new MsgConectarseASala(seleccionada.getId(), cliente.getIdCliente()));		
 	}
 }

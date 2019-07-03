@@ -19,9 +19,9 @@ public class MsgActualizarListaSalas extends Msg {
 	
 	@Override
 	public Object realizarAccion(Object obj) {
-		Cliente c = (Cliente) obj;
-		c.getListaSalas().add(sala);
-		System.out.println("sdasdasd + sdasdasd "+c.getListaSalas().size());
+		Cliente cliente = (Cliente) obj;
+		cliente.getListaSalas().add(sala);
+		//System.out.println("sdasdasd + sdasdasd "+c.getListaSalas().size());
 		
 		return null;
 	}

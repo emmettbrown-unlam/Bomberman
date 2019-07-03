@@ -20,26 +20,34 @@ import com.emmettbrown.servidor.mapa.ServerMap;
 public class HiloCliente extends Thread {
 
 	private int idCliente;
+	private boolean estaConectado;
+	private transient Socket clientSocket;
+	//Bomberman relacionado a este cliente
 	private SvBomberman bomber;
 	private ServerMap map;
-	private transient Socket clientSocket;
-	private boolean estaConectado;
+	//Lista de usuarios conectados (de todo el server)
 	private ArrayList<Socket> usuariosConectados;
-	private HandleMovement movimiento;
+	//Thread de movimiento
+	private HandleMovement movimiento;	
+	//Listado de salas del servidor
+	private ArrayList<Sala> listaSalas;
+	//Contador estático de ids de los clientes
+	private static int idCounter = 0;
+	
 	private static int posX = 1;
 	private static int posY = 1;
 	private static int fin = 1;
-	private ArrayList<Sala> listaSalas;
 	
-	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ServerMap map, int nroCliente, ArrayList<Sala> salas) {
-		this.idCliente = nroCliente;
+	
+	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ServerMap map, ArrayList<Sala> salas) {
+		this.idCliente = idCounter++;
 		this.map = map;
 		this.clientSocket = cliente;
 		this.usuariosConectados = usuariosConectados;
 		this.estaConectado = true;
 		this.listaSalas = salas;
 		this.bomber = new SvBomberman(posX*75,posY*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT);
-		//System.out.println("El ID del bomber cli: "+bomber.obtenerID());
+		
 		this.inicializarCliente();
 		
 		

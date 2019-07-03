@@ -39,7 +39,7 @@ public class MsgAgregarBomberman extends Msg {
 			if (!creado) {
 				Bomberman bomber = new Bomberman(bomberman.getX(), bomberman.getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT);
 				
-				if (cliente.getNroCliente() == nroCliente) {
+				if (cliente.getIdCliente() == nroCliente) {
 					cliente.setBomber(bomber);
 				}
 				

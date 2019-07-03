@@ -22,9 +22,9 @@ public class MsgCrearSala extends Msg {
 	public Object realizarAccion(Object obj) {
 		HiloCliente hilo = (HiloCliente) obj;
 
-		Sala sala = new Sala(Servidor.idSalas++, "Sala de " + this.idCliente, 0, Integer.MAX_VALUE);
+		Sala sala = new Sala(Servidor.idSalas++, this.idCliente, "Sala de " + this.idCliente, 0, Integer.MAX_VALUE);
 		hilo.agregarSala(sala);
-		System.out.println("MsgCrearSala");
+		//System.out.println("MsgCrearSala");
 		hilo.broadcast(new MsgActualizarListaSalas(sala), hilo.getUsuariosConectados());
 		
 		return null;

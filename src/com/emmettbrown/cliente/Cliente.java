@@ -40,7 +40,7 @@ public class Cliente implements Serializable {
 		}
 	}
 	
-	public int getNroCliente() {
+	public int getIdCliente() {
 		return this.idCliente;
 	}
 	

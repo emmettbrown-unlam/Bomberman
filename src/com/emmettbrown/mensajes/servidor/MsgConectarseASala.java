@@ -10,9 +10,11 @@ public class MsgConectarseASala extends Msg {
 	 */
 	private static final long serialVersionUID = 1L;
 	private int idSala;
+	private int idCliente;
 	
-	public MsgConectarseASala(int idSala) {
+	public MsgConectarseASala(int idSala, int idCliente) {
 		this.idSala = idSala;
+		this.idCliente = idCliente;
 	}
 	
 

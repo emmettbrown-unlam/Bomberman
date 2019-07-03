@@ -16,9 +16,11 @@ public class Servidor {
 	private ServerSocket serverSocket;
 	//Lista de Sockets de los clientes conectados
 	private ArrayList<Socket> usuariosConectados;
-	private ServerMap map;
-	private int nroCliente;
+	//Listado de salas creadas en el server
 	private ArrayList<Sala> listaSalas;
+	//El mapa del servidor?
+	private ServerMap map;
+	//private int nroCliente;
 	public static int idSalas = 0;
 
 	public Servidor(int puerto) {
@@ -27,7 +29,7 @@ public class Servidor {
 		this.listaSalas = new ArrayList<Sala>();
 		this.map = new ServerMap();
 		this.map.generarMapa();
-		this.nroCliente = 0;
+		//this.nroCliente = 0;
 	}
 
 	public static void main(String[] args) {
@@ -51,7 +53,7 @@ public class Servidor {
 				
 				//Creamos un hilo para el cliente (evitando así el bloqueo que se genera en este mismo hilo)
 				//Le envíamos como datos el socket del cliente, y los la lista de usuarios conectados
-				HiloCliente hiloCliente = new HiloCliente(clientSocket, usuariosConectados, map, nroCliente++, listaSalas);
+				HiloCliente hiloCliente = new HiloCliente(clientSocket, usuariosConectados, map, listaSalas);
 				//Iniciamos el hilo
 				hiloCliente.start();
 

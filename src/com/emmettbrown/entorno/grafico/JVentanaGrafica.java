@@ -33,8 +33,8 @@ public class JVentanaGrafica extends JFrame {
 		
 		addKeyListener(teclado);
 		
-		//Refresca esta ventana constantemente
-		RefreshThread thread = new RefreshThread(this,cliente);
+		//Refresca esta ventana constantemente, 30 fps
+		RefreshThread thread = new RefreshThread(this, 30);
 		thread.start();
 	}
 

@@ -18,7 +18,6 @@ public class ServerMap {
 	private HashMap<Ubicacion, Entidad> conjuntoEntidades;
 	private ArrayList<SvObstaculo> obstaculos;
 	private List<SvBomberman> listaBomberman;
-	//private double seed;
 	
 	///////////////////////////////////////
 	// 									//
