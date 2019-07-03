@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 
 import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.controles.Teclado;
-import com.emmettbrown.entidades.DefConst;
 
 public class JVentanaGrafica extends JFrame {
 	/**

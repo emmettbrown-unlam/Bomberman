@@ -25,7 +25,7 @@ public class Sala implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Sala [nombre=" + nombre + ", jugConectados=" + jugConectados + ", limJugadores=" + limJugadores + "]";
+		return nombre + " ---- Jugadores conectados: " + jugConectados + "/" + limJugadores;
 	}
 	
 	public int getId() {

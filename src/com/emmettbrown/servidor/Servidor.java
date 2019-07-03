@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import com.emmettbrown.entidades.DefConst;
+import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.entorno.grafico.Sala;
 import com.emmettbrown.servidor.mapa.ServerMap;
 

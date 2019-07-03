@@ -3,11 +3,11 @@ package com.emmettbrown.mensajes.cliente;
 import java.util.HashMap;
 
 import com.emmettbrown.cliente.Cliente;
-import com.emmettbrown.entidades.DefConst;
 import com.emmettbrown.entidades.Entidad;
 import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.entidades.Muro;
+import com.emmettbrown.entorno.grafico.DefConst;
 
 public class MsgGenerarMurosExteriores extends Msg {
 

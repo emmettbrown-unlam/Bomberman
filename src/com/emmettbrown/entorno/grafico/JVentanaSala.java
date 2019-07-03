@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.emmettbrown.cliente.Cliente;
-import com.emmettbrown.entidades.DefConst;
 
 import javax.swing.JList;
 import javax.swing.DefaultListModel;

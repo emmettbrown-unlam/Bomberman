@@ -9,9 +9,9 @@ import javax.swing.ImageIcon;
 
 import com.emmettbrown.entidades.Bomba;
 import com.emmettbrown.entidades.Bomberman;
-import com.emmettbrown.entidades.DefConst;
 import com.emmettbrown.entidades.Entidad;
 import com.emmettbrown.entidades.Muro;
+import com.emmettbrown.entorno.grafico.DefConst;
 
 public class Mapa {
 

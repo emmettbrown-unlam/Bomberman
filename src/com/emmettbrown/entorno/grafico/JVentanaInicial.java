@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.mensajes.servidor.MsgConectarseASala;
 import com.emmettbrown.mensajes.servidor.MsgCrearSala;
+import com.emmettbrown.mensajes.servidor.MsgObtenerSalas;
 
 public class JVentanaInicial extends JFrame {
 
@@ -79,10 +80,10 @@ public class JVentanaInicial extends JFrame {
 		txtrBienvenidoAlBomberman.setBounds(20, 11, 391, 94);
 		contentPane.add(txtrBienvenidoAlBomberman);
 		
+		obtenerSalas();
 		//Refresh rate = 1 frame per second
 		RefreshThread thread = new RefreshThread(this, 1);
-		thread.start();
-		
+		thread.start();				
 	}
 		
 	public void crearSala() {
@@ -105,5 +106,9 @@ public class JVentanaInicial extends JFrame {
 		Sala seleccionada = lstSalas.getSelectedValue();
 		
 		cliente.enviarMsg(new MsgConectarseASala(seleccionada.getId(), cliente.getIdCliente()));		
+	}
+	
+	public void obtenerSalas() {
+		cliente.enviarMsg(new MsgObtenerSalas());
 	}
 }

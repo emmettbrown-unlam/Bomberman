@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 
 import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.entidades.Bomberman;
-import com.emmettbrown.entidades.DefConst;
 import com.emmettbrown.entidades.Entidad;
 import com.emmettbrown.mapa.Ubicacion;
 

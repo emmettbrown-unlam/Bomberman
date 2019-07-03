@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.emmettbrown.entidades.Bomberman;
-import com.emmettbrown.entidades.DefConst;
+import com.emmettbrown.entorno.grafico.DefConst;
 
 public class TestMapa {
 //	@Test

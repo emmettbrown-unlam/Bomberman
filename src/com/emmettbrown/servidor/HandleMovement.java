@@ -1,7 +1,7 @@
 package com.emmettbrown.servidor;
 
 import com.emmettbrown.controles.Movimientos;
-import com.emmettbrown.entidades.DefConst;
+import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.mensajes.cliente.MsgPonerBomba;
 import com.emmettbrown.mensajes.cliente.MsgPosBomberman;
 

@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import com.emmettbrown.entidades.DefConst;
+import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.entorno.grafico.Sala;
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.cliente.MsgAgregarBomberman;
@@ -99,6 +99,10 @@ public class HiloCliente extends Thread {
 	
 	public SvBomberman getBomber() {
 		return this.bomber;
+	}
+	
+	public ArrayList<Sala> getSalas() {
+		return this.listaSalas;
 	}
 
 	public void inicializarCliente() {
