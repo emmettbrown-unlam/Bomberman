@@ -17,9 +17,10 @@ public class JPanelInicial extends JPanel {
 	}
 	
 	public void paintComponent(Graphics g) {
+		int index = ventana.getLstSalas().getSelectedIndex();
 		super.paintComponent(g);
 		ventana.refrescarListaSalas();
-
+		ventana.getLstSalas().setSelectedIndex(index);
 	}
 
 }

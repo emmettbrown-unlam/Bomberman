@@ -17,6 +17,10 @@ import javax.swing.JLabel;
 
 public class JVentanaSala extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Cliente cliente;
 	/**

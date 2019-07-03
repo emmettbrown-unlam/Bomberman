@@ -73,6 +73,7 @@ public class JVentanaInicial extends JFrame {
 		contentPane.add(lblTextoSalas);
 		
 		JTextArea txtrBienvenidoAlBomberman = new JTextArea();
+		txtrBienvenidoAlBomberman.setEditable(false);
 		txtrBienvenidoAlBomberman.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtrBienvenidoAlBomberman.setBackground(SystemColor.menu);
 		txtrBienvenidoAlBomberman.setLineWrap(true);
@@ -110,5 +111,9 @@ public class JVentanaInicial extends JFrame {
 	
 	public void obtenerSalas() {
 		cliente.enviarMsg(new MsgObtenerSalas());
+	}
+	
+	public JList<Sala> getLstSalas() {
+		return this.lstSalas;
 	}
 }
