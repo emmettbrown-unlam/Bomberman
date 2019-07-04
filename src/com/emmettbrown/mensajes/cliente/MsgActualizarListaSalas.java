@@ -11,10 +11,10 @@ public class MsgActualizarListaSalas extends Msg {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Sala sala;
+	private String sala;
 	
-	public MsgActualizarListaSalas(Sala s) {
-		this.sala = s;
+	public MsgActualizarListaSalas(String nombreSala) {
+		this.sala = nombreSala;
 	}
 	
 	@Override
@@ -22,8 +22,6 @@ public class MsgActualizarListaSalas extends Msg {
 		Cliente cliente = (Cliente) obj;
 		cliente.getListaSalas().add(sala);
 		//System.out.println("sdasdasd + sdasdasd "+c.getListaSalas().size());
-		
 		return null;
 	}
-
 }

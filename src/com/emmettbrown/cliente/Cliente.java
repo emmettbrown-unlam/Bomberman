@@ -23,7 +23,8 @@ public class Cliente implements Serializable {
 	private Bomberman bomber;
 	private Mapa mapa;
 	private int idCliente;
-	private ArrayList<Sala> listaSalas;
+	private ArrayList<String> listaSalas;
+	private ArrayList<String> listaUsuariosxSala;
 
 	public Cliente(String ip, int puerto, String username) {
 		try {
@@ -31,7 +32,8 @@ public class Cliente implements Serializable {
 			this.clientSocket = new Socket(host, puerto);
 			this.username = username;
 			this.mapa = new Mapa();
-			this.listaSalas = new ArrayList<Sala>();
+			this.listaSalas = new ArrayList<String>();
+			listaUsuariosxSala = new ArrayList<String>();
 			ListenerThread listener = new ListenerThread(this);
 			listener.start();
 		} catch (IOException e) {
@@ -76,6 +78,10 @@ public class Cliente implements Serializable {
 		return mensajeError;
 	}
 	
+	public void setListaUsuariosXSala(ArrayList<String> lista) {
+		this.listaUsuariosxSala = lista;
+	}
+	
 	public void enviarMsg(Msg consultaAlServidor) {
 		try {
 			ObjectOutputStream outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -107,8 +113,21 @@ public class Cliente implements Serializable {
 		}
 	}
 
-	public ArrayList<Sala> getListaSalas() {
+	public ArrayList<String> getListaSalas() {
 		return this.listaSalas;
+	}
+
+	public void limpiarSalas() {
+		listaSalas.clear();		
+	}
+	public void limpiarUsuarios() {
+		listaUsuariosxSala.clear();		
+	}
+	public ArrayList<String> getListaUsuariosSala() {
+		return listaUsuariosxSala;
+	}
+	public void agregarUsuario (String nombre) {
+		this.listaUsuariosxSala.add(nombre);
 	}
 
 }

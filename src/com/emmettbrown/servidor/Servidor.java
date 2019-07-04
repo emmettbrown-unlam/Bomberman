@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.entorno.grafico.Sala;
+import com.emmettbrown.servidor.entidades.SvSala;
 import com.emmettbrown.servidor.mapa.ServerMap;
 
 public class Servidor {
@@ -17,7 +18,7 @@ public class Servidor {
 	//Lista de Sockets de los clientes conectados
 	private ArrayList<Socket> usuariosConectados;
 	//Listado de salas creadas en el server
-	private ArrayList<Sala> listaSalas;
+	private ArrayList<SvSala> listaSalas;
 	//El mapa del servidor?
 	private ServerMap map;
 	//private int nroCliente;
@@ -26,7 +27,7 @@ public class Servidor {
 	public Servidor(int puerto) {
 		this.port = puerto;
 		this.usuariosConectados = new ArrayList<Socket>();
-		this.listaSalas = new ArrayList<Sala>();
+		this.listaSalas = new ArrayList<SvSala>();
 		this.map = new ServerMap();
 		this.map.generarMapa();
 		//this.nroCliente = 0;

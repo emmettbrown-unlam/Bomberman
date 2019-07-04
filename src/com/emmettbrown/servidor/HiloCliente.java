@@ -17,6 +17,7 @@ import com.emmettbrown.mensajes.cliente.MsgEliminarSala;
 import com.emmettbrown.mensajes.cliente.MsgGenerarObstaculos;
 import com.emmettbrown.mensajes.cliente.MsgIdCliente;
 import com.emmettbrown.servidor.entidades.SvBomberman;
+import com.emmettbrown.servidor.entidades.SvSala;
 import com.emmettbrown.servidor.mapa.ServerMap;
 
 
@@ -33,11 +34,11 @@ public class HiloCliente extends Thread {
 	//Thread de movimiento
 	private HandleMovement movimiento;	
 	//Listado de salas del servidor
-	private ArrayList<Sala> listaSalas;
+	private ArrayList<SvSala> listaSalas;
 	//Contador estático de ids de los clientes
-	private static int idCounter = 0;
-		
-	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ServerMap map, ArrayList<Sala> salas) {
+	private static int idCounter = 0;	
+	
+	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ServerMap map, ArrayList<SvSala> salas) {
 		this.idCliente = idCounter++;
 		this.map = map;
 		this.clientSocket = cliente;
@@ -87,7 +88,7 @@ public class HiloCliente extends Thread {
 		return this.bomber;
 	}
 	
-	public ArrayList<Sala> getSalas() {
+	public ArrayList<SvSala> getSalas() {
 		return this.listaSalas;
 	}
 
@@ -148,15 +149,15 @@ public class HiloCliente extends Thread {
 		}
 	}
 
-	public void agregarSala(Sala sala) {
+	public void agregarSala(SvSala sala) {
 		this.listaSalas.add(sala);
 	}	
 	
 	public void eliminarSala(int idCreador) {
-		Iterator<Sala> iter = listaSalas.iterator();
+		Iterator<SvSala> iter = listaSalas.iterator();
 		
 		while (iter.hasNext()) {
-			Sala sala = iter.next();
+			SvSala sala = iter.next();
 			
 			if (sala.getIdCreador() == idCreador) {
 				broadcast(new MsgEliminarSala(sala.getId()), usuariosConectados);
