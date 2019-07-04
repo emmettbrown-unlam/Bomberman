@@ -18,6 +18,7 @@ public class ServerMap {
 	private HashMap<Ubicacion, Entidad> conjuntoEntidades;
 	private ArrayList<SvObstaculo> obstaculos;
 	private List<SvBomberman> listaBomberman;
+	private ArrayList<Ubicacion> ubicacionesInicio;
 	
 	///////////////////////////////////////
 	// 									//
@@ -29,6 +30,7 @@ public class ServerMap {
 		conjuntoEntidades = new HashMap<Ubicacion, Entidad>();
 		listaBomberman = new ArrayList<SvBomberman>();
 		obstaculos = new ArrayList<SvObstaculo>();
+		ubicacionesInicio = generarUbicacionesInicio();		
 	}
 
 	////////////////////////////////////////
@@ -83,6 +85,26 @@ public class ServerMap {
 		return true;
 	}
 	
+	public ArrayList<Ubicacion> generarUbicacionesInicio() {
+		ArrayList<Ubicacion> ubic = new ArrayList<Ubicacion>();
+		ubic.add(new Ubicacion(1, 1));
+		ubic.add(new Ubicacion(7,1));
+		ubic.add(new Ubicacion(1,7));
+		ubic.add(new Ubicacion(7,7));
+		
+		return ubic;
+	}
+	
+	public Ubicacion obtenerUbicacionInicio() {
+		if (ubicacionesInicio.size() > 0) {
+			Ubicacion ubic = ubicacionesInicio.get(0);
+			ubicacionesInicio.remove(0);
+			
+			return ubic;
+		}
+		
+		return new Ubicacion(1,1);
+	}
 	
 	///////////////////////////////////////
 	// 									//
@@ -178,6 +200,16 @@ public class ServerMap {
 		}
 
 		return null;
+	}
+	
+	/** Remueve un obstaculo de la lista de obstaculos
+	 * 
+	 * @param obs
+	 */
+	
+	public void removerObstaculo(SvObstaculo obs) {
+		this.obstaculos.remove(obs);
+		
 	}
 	
 	public void moverBomberman(SvBomberman bomberman, int despX, int despY) {
@@ -407,11 +439,5 @@ public class ServerMap {
 	public void explotarBomba(SvBomba bomba) {
 		bomba.explotar(this);
 	}
-	
-	public void removerObstaculo(SvObstaculo obs) {
-		this.obstaculos.remove(obs);
-		
-	}
-
 
 }

@@ -21,8 +21,8 @@ public class HandleMovement extends Thread {
 	
 	public void handleInput() {
 		switch(mov) {
+		
 		case IZQUIERDA:
-
 			hilo.getMap().moverBombermanIzq(hilo.getBomber(), DefConst.VELOCIDAD);
 			hilo.broadcast(new MsgPosBomberman(hilo.getBomber().obtenerID(), hilo.getBomber().getX(), hilo.getBomber().getY()), hilo.getUsuariosConectados());
 			break;
@@ -41,6 +41,7 @@ public class HandleMovement extends Thread {
 			hilo.getMap().moverBombermanAbajo(hilo.getBomber(), DefConst.VELOCIDAD);
 			hilo.broadcast(new MsgPosBomberman(hilo.getBomber().obtenerID(), hilo.getBomber().getX(), hilo.getBomber().getY()), hilo.getUsuariosConectados());
 			break;
+			
 		case BOMBA:
 			hilo.getMap().agregarBomba(hilo.getBomber().getX(), hilo.getBomber().getY(), hilo.getBomber());
 			hilo.broadcast(new MsgPonerBomba(hilo.getBomber().getX(), hilo.getBomber().getY(), hilo.getBomber()), hilo.getUsuariosConectados());
@@ -50,7 +51,7 @@ public class HandleMovement extends Thread {
 			break;
 			
 		default:
-			break;	
+			break;
 		}
 	}
 	
@@ -58,6 +59,7 @@ public class HandleMovement extends Thread {
 	public void run() {
 		long initialTime = System.nanoTime();
 		final double timeF = 1000000000 / DefConst.FPS;
+		
 		double deltaF = 0; // deltaU = 0, 
 
 	    while (hilo.isEstaConectado()) {	    	

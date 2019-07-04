@@ -102,8 +102,8 @@ public class Cliente implements Serializable {
 			inputStream.close();
 			outputStream.close();
 		} catch (IOException e) {
-			System.out.println(mensajeError);
 			this.mensajeError = "problemas al cerrar comunicacion. " + e;
+			System.out.println(mensajeError);
 		}
 	}
 

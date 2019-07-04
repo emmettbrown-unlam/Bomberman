@@ -9,6 +9,7 @@ import java.util.Iterator;
 
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.entorno.grafico.Sala;
+import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.cliente.MsgAgregarBomberman;
 import com.emmettbrown.mensajes.cliente.MsgEliminarBomberman;
@@ -35,12 +36,7 @@ public class HiloCliente extends Thread {
 	private ArrayList<Sala> listaSalas;
 	//Contador estático de ids de los clientes
 	private static int idCounter = 0;
-	
-	private static int posX = 1;
-	private static int posY = 1;
-	private static int fin = 1;
-	
-	
+		
 	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ServerMap map, ArrayList<Sala> salas) {
 		this.idCliente = idCounter++;
 		this.map = map;
@@ -48,23 +44,11 @@ public class HiloCliente extends Thread {
 		this.usuariosConectados = usuariosConectados;
 		this.estaConectado = true;
 		this.listaSalas = salas;
-		this.bomber = new SvBomberman(posX*75,posY*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT);
+		
+		Ubicacion ubic = map.obtenerUbicacionInicio();		
+		this.bomber = new SvBomberman(ubic.getPosX()*75, ubic.getPosY()*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT);
 		
 		this.inicializarCliente();
-		
-		
-		if (posY == 1 && posX == 7) {
-			posY = 7;
-			posX = 7;
-		}
-		if (posY == 7 && posX != 7) {
-			posY = 1;
-			posX = 7;
-			fin = 0;
-		}
-		if (fin == 1) {
-			posY = 7;
-		}	
 	}
 
 	public Socket getClientSocket() {

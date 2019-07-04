@@ -22,5 +22,4 @@ public class JPanelInicial extends JPanel {
 		ventana.refrescarListaSalas();
 		ventana.getLstSalas().setSelectedIndex(index);
 	}
-
 }
