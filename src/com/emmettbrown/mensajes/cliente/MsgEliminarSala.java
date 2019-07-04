@@ -20,17 +20,17 @@ public class MsgEliminarSala extends Msg {
 
 	@Override
 	public Object realizarAccion(Object obj) {
-//		Cliente cliente = (Cliente) obj;
-//		
-//		Iterator<Sala> iter = cliente.getListaSalas().iterator();
-//		
-//		while (iter.hasNext()) {
-//			Sala sala = iter.next();
-//			
-//			if (sala.getId() == idSala) {
-//				iter.remove();
-//			}
-//		}
+		Cliente cliente = (Cliente) obj;
+		
+		Iterator<Sala> iter = cliente.getListaSalas().iterator();
+		
+		while (iter.hasNext()) {
+			Sala sala = iter.next();
+			
+			if (sala.getId() == idSala) {
+				iter.remove();
+			}
+		}
 		return null;
 	}
 

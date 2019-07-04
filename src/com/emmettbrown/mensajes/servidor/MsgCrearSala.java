@@ -1,7 +1,6 @@
 package com.emmettbrown.mensajes.servidor;
 
 import com.emmettbrown.entorno.grafico.DefConst;
-import com.emmettbrown.entorno.grafico.Sala;
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.cliente.MsgActualizarListaSalas;
 import com.emmettbrown.servidor.HiloCliente;
@@ -14,7 +13,7 @@ public class MsgCrearSala extends Msg {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int idCliente ; 
+	private int idCliente; 
 	
 	public MsgCrearSala(int s) {
 		this.idCliente = s;
@@ -24,10 +23,11 @@ public class MsgCrearSala extends Msg {
 	public Object realizarAccion(Object obj) {
 		HiloCliente hilo = (HiloCliente) obj;
 		Servidor.idSalas+=1;
-		SvSala svSala = new SvSala(Servidor.idSalas, this.idCliente, "Sala "+Servidor.idSalas+" de " + this.idCliente, 0, DefConst.LIMITEJUGADORES);
-		svSala.agregarUsuario(hilo.getClientSocket(),"Usuario "+this.idCliente);
+		SvSala svSala = new SvSala(Servidor.idSalas, this.idCliente, "Sala "+Servidor.idSalas+" de " + this.idCliente, DefConst.LIMITEJUGADORES);
+		svSala.agregarUsuario(hilo.getClientSocket(),"Usuario "+ this.idCliente);
 		hilo.agregarSala(svSala);
-		hilo.broadcast(new MsgActualizarListaSalas(svSala.getNombre()), hilo.getUsuariosConectados());
+		hilo.broadcast(new MsgActualizarListaSalas(svSala.getId(), svSala.getIdCreador(), svSala.getNombre(), 
+				svSala.getUsuariosConectados().size(), svSala.getLimJugadores()), hilo.getUsuariosConectados());
 		
 		return null;
 	}

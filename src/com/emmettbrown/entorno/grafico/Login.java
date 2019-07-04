@@ -89,10 +89,10 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				if (validarUsuario(txtUsername.getText(),new String (txtPassword.getPassword()))) {
 					cliente = new Cliente("localhost", 5000, txtUsername.getText());
-					JVentanaGrafica ventana = new JVentanaGrafica(DefConst.ANCHO, DefConst.ALTO, cliente);
-					ventana.setVisible(true);
-					//JVentanaInicial inicial = new JVentanaInicial(cliente);
-					//inicial.setVisible(true);
+					//JVentanaGrafica ventana = new JVentanaGrafica(DefConst.ANCHO, DefConst.ALTO, cliente);
+					//ventana.setVisible(true);
+					JVentanaInicial inicial = new JVentanaInicial(cliente);
+					inicial.setVisible(true);
 					dispose();					
 				}
 			}

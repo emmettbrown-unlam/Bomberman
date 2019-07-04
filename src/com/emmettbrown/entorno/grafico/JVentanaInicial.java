@@ -23,10 +23,10 @@ public class JVentanaInicial extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanelInicial contentPane;
-	private JList<String> lstSalas;
 	private Cliente cliente;
-	private ArrayList<String> salasCreadas;
-	private DefaultListModel<String> df;
+	private JList<Sala> lstSalas;
+	private ArrayList<Sala> salasCreadas;
+	private DefaultListModel<Sala> df;
 	private RefreshThread thread;
 
 	/**
@@ -43,7 +43,7 @@ public class JVentanaInicial extends JFrame {
 
 		this.cliente = cliente;
 
-		lstSalas = new JList<String>();
+		lstSalas = new JList<Sala>();
 		lstSalas.setBounds(20, 141, 391, 222);
 		contentPane.add(lstSalas);
 		df = new DefaultListModel<>();
@@ -53,12 +53,7 @@ public class JVentanaInicial extends JFrame {
 
 		btnUnirseALa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JVentanaLobby sala = new JVentanaLobby(cliente, false);
-				thread.matarThread();
-				sala.setVisible(true);
 				unirseASala();
-				dispose();
-				
 			}
 		});
 		btnUnirseALa.setBounds(304, 374, 107, 23);
@@ -68,7 +63,14 @@ public class JVentanaInicial extends JFrame {
 		btnCrearSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				crearSala();
-				JVentanaLobby sala = new JVentanaLobby(cliente, true);
+				
+				Sala salaCreador = null;
+				
+				while (salaCreador == null) {
+					salaCreador = getSalaCreador();
+				}
+				
+				JVentanaLobby sala = new JVentanaLobby(cliente, salaCreador, true);				
 				thread.matarThread();
 				sala.setVisible(true);
 				dispose();
@@ -101,7 +103,7 @@ public class JVentanaInicial extends JFrame {
 	public void refrescarListaSalas() {
 		this.salasCreadas = cliente.getListaSalas();
 		df.clear();
-		for (String sala : salasCreadas) {
+		for (Sala sala : salasCreadas) {
 			df.addElement(sala);
 		}
 	}
@@ -112,18 +114,33 @@ public class JVentanaInicial extends JFrame {
 	}
 
 	public void unirseASala() {
-		String seleccionada = lstSalas.getSelectedValue();
-		String[] arr_str = seleccionada.split(" ");
+		Sala seleccionada = lstSalas.getSelectedValue();
+		
+		JVentanaLobby sala = new JVentanaLobby(cliente, seleccionada, false);
+		sala.setVisible(true);
+		thread.matarThread();
+		dispose();	
+		
+		/*String[] arr_str = seleccionada.split(" ");
 		int idSala = (int) Integer.parseInt(arr_str[1]);
-		System.out.println(idSala);
-		cliente.enviarMsg(new MsgConectarseASala(idSala, cliente.getIdCliente()));
+		System.out.println(idSala);*/
+		cliente.enviarMsg(new MsgConectarseASala(seleccionada.getId(), cliente.getIdCliente()));
 	}
 
 	public void obtenerSalas() {
 		cliente.enviarMsg(new MsgObtenerSalas());
 	}
 
-	public JList<String> getLstSalas() {
+	public JList<Sala> getLstSalas() {
 		return this.lstSalas;
+	}
+	
+	public Sala getSalaCreador() {
+		for (Sala sala : salasCreadas) {
+			if (sala.getIdCreador() == cliente.getIdCliente()) 
+				return sala;
+		}
+		
+		return null;
 	}
 }

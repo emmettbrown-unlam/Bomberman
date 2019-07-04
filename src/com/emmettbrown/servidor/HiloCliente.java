@@ -1,6 +1,7 @@
 package com.emmettbrown.servidor;
 
 import java.io.IOException;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -8,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.emmettbrown.entorno.grafico.DefConst;
-import com.emmettbrown.entorno.grafico.Sala;
 import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.cliente.MsgAgregarBomberman;
@@ -28,7 +28,6 @@ public class HiloCliente extends Thread {
 	private transient Socket clientSocket;
 	//Bomberman relacionado a este cliente
 	private SvBomberman bomber;
-	private ServerMap map;
 	//Lista de usuarios conectados (de todo el server)
 	private ArrayList<Socket> usuariosConectados;
 	//Thread de movimiento
@@ -38,7 +37,7 @@ public class HiloCliente extends Thread {
 	//Contador estático de ids de los clientes
 	private static int idCounter = 0;	
 	
-	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ServerMap map, ArrayList<SvSala> salas) {
+	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ArrayList<SvSala> salas) {
 		this.idCliente = idCounter++;
 		this.map = map;
 		this.clientSocket = cliente;

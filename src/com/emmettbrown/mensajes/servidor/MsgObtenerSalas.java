@@ -1,6 +1,5 @@
 package com.emmettbrown.mensajes.servidor;
 
-import com.emmettbrown.entorno.grafico.Sala;
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.cliente.MsgActualizarListaSalas;
 import com.emmettbrown.servidor.HiloCliente;
@@ -20,7 +19,8 @@ public class MsgObtenerSalas extends Msg {
 		HiloCliente hilo = (HiloCliente) obj;
 				
 		for (SvSala sala : hilo.getSalas()) {
-			hilo.enviarMsg(new MsgActualizarListaSalas(sala.getId()+"-"+sala.getNombre()));
+			hilo.enviarMsg(new MsgActualizarListaSalas(sala.getId(), sala.getIdCreador(), sala.getNombre(), sala.getUsuariosConectados().size(),
+					sala.getLimJugadores()));
 		}
 		
 		return null;

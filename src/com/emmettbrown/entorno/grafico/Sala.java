@@ -1,20 +1,15 @@
 package com.emmettbrown.entorno.grafico;
 
-import java.io.Serializable;
-import java.net.Socket;
 import java.util.ArrayList;
 
-public class Sala implements Serializable{
+public class Sala {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private int idSala;
 	private int idCreador;
 	private String nombre;
-	private int jugConectados;
 	private int limJugadores;
+	private int jugConectados;
+	private ArrayList<String> usuarios;
 	
 	public Sala (int id, int idCreador, String nombre, int jugConectados, int limJugadores) {
 		this.idSala = id;
@@ -22,11 +17,12 @@ public class Sala implements Serializable{
 		this.nombre = nombre;
 		this.jugConectados = jugConectados;
 		this.limJugadores = limJugadores;
+		this.usuarios = new ArrayList<String>();
 	}
 
 	@Override
 	public String toString() {
-		return nombre;
+		return nombre + " ---- Jugadores conectados: " + jugConectados + "/" + limJugadores;
 	}
 	
 	public int getId() {
@@ -37,4 +33,19 @@ public class Sala implements Serializable{
 		return this.idCreador;
 	}
 	
+	public void setJugConectados(int jugConectados) {
+		this.jugConectados = jugConectados;
+	}
+	
+	public ArrayList<String> getUsuarios() {
+		return this.usuarios;
+	}
+	
+	public void agregarUsuario(int cliente) {
+		usuarios.add("Usuario: " + cliente);
+	}
+	
+	public void setUsuarios(ArrayList<String> usuarios) {
+		this.usuarios = usuarios;
+	}
 }
