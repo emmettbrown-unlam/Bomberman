@@ -6,6 +6,7 @@ import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.cliente.MsgActualizarListaSalas;
 import com.emmettbrown.servidor.HiloCliente;
 import com.emmettbrown.servidor.Servidor;
+import com.emmettbrown.servidor.entidades.SvSala;
 
 public class MsgCrearSala extends Msg {
 
@@ -13,7 +14,7 @@ public class MsgCrearSala extends Msg {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int idCliente ;
+	private int idCliente ; 
 	
 	public MsgCrearSala(int s) {
 		this.idCliente = s;
@@ -22,11 +23,11 @@ public class MsgCrearSala extends Msg {
 	@Override
 	public Object realizarAccion(Object obj) {
 		HiloCliente hilo = (HiloCliente) obj;
-
-		Sala sala = new Sala(Servidor.idSalas++, this.idCliente, "Sala de " + this.idCliente, 0, DefConst.LIMITEJUGADORES);
-		hilo.agregarSala(sala);
-		//System.out.println("MsgCrearSala");
-		hilo.broadcast(new MsgActualizarListaSalas(sala), hilo.getUsuariosConectados());
+		Servidor.idSalas+=1;
+		SvSala svSala = new SvSala(Servidor.idSalas, this.idCliente, "Sala "+Servidor.idSalas+" de " + this.idCliente, 0, DefConst.LIMITEJUGADORES);
+		svSala.agregarUsuario(hilo.getClientSocket(),"Usuario "+this.idCliente);
+		hilo.agregarSala(svSala);
+		hilo.broadcast(new MsgActualizarListaSalas(svSala.getNombre()), hilo.getUsuariosConectados());
 		
 		return null;
 	}
