@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 
 import com.emmettbrown.cliente.Cliente;
+import com.emmettbrown.mensajes.servidor.MsgComenzarPartida;
 
 public class JVentanaLobby extends JFrame {
 
@@ -49,7 +50,7 @@ public class JVentanaLobby extends JFrame {
 		JButton btnCrearPartida = new JButton("Comenzar partida");
 		btnCrearPartida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
-				
+				comenzarPartida();
 			}
 		});
 		
@@ -65,6 +66,12 @@ public class JVentanaLobby extends JFrame {
 		btnCrearPartida.setEnabled(puedeCrearPartida);
 	}
 
+	public void comenzarPartida() {
+		cliente.enviarMsg(new MsgComenzarPartida());
+		refreshThread.matarThread();
+		dispose();
+	}
+	
 	public void refrescarListaUsuarios() {
 		this.usuariosConectados = sala.getUsuarios();
 		

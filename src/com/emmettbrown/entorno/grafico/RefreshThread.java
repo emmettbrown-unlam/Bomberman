@@ -34,6 +34,7 @@ public class RefreshThread extends Thread {
 	
 	public void matarThread() {
 		this.corriendo = false;
+		//ventana.dispo
 	}
 
 	public void refrescar() {

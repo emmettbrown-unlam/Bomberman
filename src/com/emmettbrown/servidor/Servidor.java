@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.servidor.entidades.SvSala;
-import com.emmettbrown.servidor.mapa.ServerMap;
 
 public class Servidor {
 	//El puerto del servidor
@@ -49,7 +48,7 @@ public class Servidor {
 				
 				//Creamos un hilo para el cliente (evitando así el bloqueo que se genera en este mismo hilo)
 				//Le envíamos como datos el socket del cliente, y los la lista de usuarios conectados
-				HiloCliente hiloCliente = new HiloCliente(clientSocket, usuariosConectados, map, listaSalas);
+				HiloCliente hiloCliente = new HiloCliente(clientSocket, usuariosConectados, listaSalas);
 				//Iniciamos el hilo
 				hiloCliente.start();
 

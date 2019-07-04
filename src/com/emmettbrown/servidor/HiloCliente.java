@@ -36,19 +36,17 @@ public class HiloCliente extends Thread {
 	private ArrayList<SvSala> listaSalas;
 	//Contador estático de ids de los clientes
 	private static int idCounter = 0;	
+	private SvSala salaConectada;
+	private ServerMap map;
 	
 	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ArrayList<SvSala> salas) {
 		this.idCliente = idCounter++;
-		this.map = map;
 		this.clientSocket = cliente;
 		this.usuariosConectados = usuariosConectados;
 		this.estaConectado = true;
 		this.listaSalas = salas;
-		
-		Ubicacion ubic = map.obtenerUbicacionInicio();		
-		this.bomber = new SvBomberman(ubic.getPosX()*75, ubic.getPosY()*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT);
-		
-		this.inicializarCliente();
+		//Le comunicamos al cliente cual es su ID
+		enviarMsg(new MsgIdCliente(this.idCliente));
 	}
 
 	public Socket getClientSocket() {
@@ -90,18 +88,23 @@ public class HiloCliente extends Thread {
 	public ArrayList<SvSala> getSalas() {
 		return this.listaSalas;
 	}
+	
+	public SvSala getSalaConectada() {
+		return this.salaConectada;
+	}
 
-	public void inicializarCliente() {
+	public void inicializarCliente(ServerMap map) {
+		this.map = map;
+		Ubicacion ubic = map.obtenerUbicacionInicio();		
+		this.bomber = new SvBomberman(ubic.getPosX()*75, ubic.getPosY()*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT);
 		this.movimiento = new HandleMovement(this);
 		this.movimiento.start();
-		enviarMsg(new MsgIdCliente(this.idCliente));
-		//Le enviamos el  mapa al servidor
+		//Enviamos los obtasculos a todos los clientes
 		this.broadcast(new MsgGenerarObstaculos(map.getObstaculos()), usuariosConectados);
 		//Agregamos el bomber del cliente al mapa
 		map.agregarBomberman(bomber);
 		//Le decimos al cliente que añada el bomber
 		this.broadcast(new MsgAgregarBomberman(bomber, idCliente), usuariosConectados);
-		//this.broadcast(new MsgAgregarBomberman(map.obtenerListaBomberman(), idCliente), usuariosConectados);
 	}
 	
 	public void enviarMsg(Msg msg) {
@@ -140,6 +143,8 @@ public class HiloCliente extends Thread {
 			clientSocket.close();
 		} catch (IOException | ClassNotFoundException ex) {
 			System.out.println("Problemas al querer leer otra petición: " + ex.getMessage());
+			
+			
 			this.map.eliminarBomberman(this.bomber);
 			this.usuariosConectados.remove(this.clientSocket);			
 			eliminarSala(this.idCliente);
@@ -151,6 +156,10 @@ public class HiloCliente extends Thread {
 	public void agregarSala(SvSala sala) {
 		this.listaSalas.add(sala);
 	}	
+	
+	public void setSalaConectada(SvSala sala) {
+		this.salaConectada = sala;
+	}
 	
 	public void eliminarSala(int idCreador) {
 		Iterator<SvSala> iter = listaSalas.iterator();

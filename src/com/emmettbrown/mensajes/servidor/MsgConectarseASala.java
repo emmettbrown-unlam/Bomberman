@@ -33,12 +33,15 @@ public class MsgConectarseASala extends Msg {
 		for (SvSala sala : listaSalas) {
 			if (sala.getId() == idSala) {
 				salaSeleccionada = sala;
-				sala.agregarUsuario(hilo.getClientSocket(),"Usuario "+this.idCliente);
+				sala.agregarUsuario(hilo,"Usuario "+this.idCliente);
+				
 			}
 		}
-		hilo.broadcast(new MsgActualizarDatosSala(idSala, salaSeleccionada.getUsuariosConectados().size()), hilo.getUsuariosConectados());
 		
-		hilo.broadcast(new MsgActualizarListaUsuarios(salaSeleccionada.getId(), salaSeleccionada.obtenerUsuarios()), salaSeleccionada.getUsuariosConectados());
+		hilo.setSalaConectada(salaSeleccionada);
+		hilo.broadcast(new MsgActualizarDatosSala(idSala, salaSeleccionada.getClientesConectadosSize()), hilo.getUsuariosConectados());
+		
+		hilo.broadcast(new MsgActualizarListaUsuarios(salaSeleccionada.getId(), salaSeleccionada.obtenerUsuarios()), salaSeleccionada.getSockets());
 		return null;
 	}
 

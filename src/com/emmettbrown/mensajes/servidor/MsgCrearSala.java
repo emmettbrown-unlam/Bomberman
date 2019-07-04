@@ -24,10 +24,14 @@ public class MsgCrearSala extends Msg {
 		HiloCliente hilo = (HiloCliente) obj;
 		Servidor.idSalas+=1;
 		SvSala svSala = new SvSala(Servidor.idSalas, this.idCliente, "Sala "+Servidor.idSalas+" de " + this.idCliente, DefConst.LIMITEJUGADORES);
-		svSala.agregarUsuario(hilo.getClientSocket(),"Usuario "+ this.idCliente);
+		svSala.agregarUsuario(hilo,"Usuario "+ this.idCliente);
 		hilo.agregarSala(svSala);
+		
+		//Seteamos la sala del cliente
+		hilo.setSalaConectada(svSala);
+		
 		hilo.broadcast(new MsgActualizarListaSalas(svSala.getId(), svSala.getIdCreador(), svSala.getNombre(), 
-				svSala.getUsuariosConectados().size(), svSala.getLimJugadores()), hilo.getUsuariosConectados());
+				svSala.getClientesConectadosSize(), svSala.getLimJugadores()), hilo.getUsuariosConectados());
 		
 		return null;
 	}

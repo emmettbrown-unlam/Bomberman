@@ -19,7 +19,7 @@ public class MsgObtenerSalas extends Msg {
 		HiloCliente hilo = (HiloCliente) obj;
 				
 		for (SvSala sala : hilo.getSalas()) {
-			hilo.enviarMsg(new MsgActualizarListaSalas(sala.getId(), sala.getIdCreador(), sala.getNombre(), sala.getUsuariosConectados().size(),
+			hilo.enviarMsg(new MsgActualizarListaSalas(sala.getId(), sala.getIdCreador(), sala.getNombre(), sala.getClientesConectadosSize(),
 					sala.getLimJugadores()));
 		}
 		

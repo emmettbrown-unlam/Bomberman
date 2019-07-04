@@ -3,6 +3,8 @@ package com.emmettbrown.servidor.entidades;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import com.emmettbrown.mensajes.cliente.MsgIniciarMotor;
+import com.emmettbrown.servidor.HiloCliente;
 import com.emmettbrown.servidor.mapa.ServerMap;
 
 public class SvSala {
@@ -11,7 +13,8 @@ public class SvSala {
 	private int idCreador;
 	private String nombre;
 	private int limJugadores;
-	private ArrayList<Socket> socketsUsuariosConectados;
+	//private ArrayList<Socket> socketsUsuariosConectados;
+	private ArrayList<HiloCliente> clientesConectados;
 	private ArrayList<String> nombresUsuariosConectados;
 	//El mapa de la sala
 	private ServerMap map;
@@ -21,12 +24,23 @@ public class SvSala {
 		this.idCreador = idCreador;
 		this.nombre = nombre;
 		this.limJugadores = limJugadores;
-		socketsUsuariosConectados = new ArrayList<Socket>();
+		//socketsUsuariosConectados = new ArrayList<Socket>();
+		this.clientesConectados = new ArrayList<HiloCliente>();
 		nombresUsuariosConectados = new ArrayList<String>();
 	}
 
-	public ArrayList<Socket> getUsuariosConectados() {
-		return socketsUsuariosConectados;
+	public ArrayList<Socket> getSockets() {
+		ArrayList<Socket> sockets = new ArrayList<Socket>();
+		
+		for (HiloCliente hilo : clientesConectados) {
+			sockets.add(hilo.getClientSocket());
+		}
+		
+		return sockets;		
+	}
+	
+	public int getClientesConectadosSize() {
+		return this.clientesConectados.size();
 	}
 
 	public int getId() {
@@ -37,17 +51,14 @@ public class SvSala {
 		return this.idCreador;
 	}
 
-	public void agregarUsuario(Socket cliente,String usuario) {
-		socketsUsuariosConectados.add(cliente);
+	public void agregarUsuario(HiloCliente cliente, String usuario) {
+		//socketsUsuariosConectados.add(cliente);
+		clientesConectados.add(cliente);
 		nombresUsuariosConectados.add(usuario);
 	}
 
 	public String getNombre() {
 		return nombre;
-	}
-
-	public int getJConect() {
-		return socketsUsuariosConectados.size();
 	}
 
 	public ArrayList<String> obtenerUsuarios() {
@@ -61,6 +72,13 @@ public class SvSala {
 	public void iniciarPartida() {
 		this.map = new ServerMap();
 		this.map.generarMapa();
+		
+		for (HiloCliente hiloCliente : clientesConectados) {
+			hiloCliente.inicializarCliente(map);
+		}
+		for (HiloCliente hiloCliente : clientesConectados) {
+			hiloCliente.enviarMsg(new MsgIniciarMotor());
+		}
 	}
 
 }
