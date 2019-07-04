@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import com.emmettbrown.entidades.Bomberman;
+import com.emmettbrown.entorno.grafico.JVentanaLobby;
 import com.emmettbrown.entorno.grafico.Sala;
 import com.emmettbrown.mapa.Mapa;
 import com.emmettbrown.mensajes.Msg;
@@ -24,6 +25,7 @@ public class Cliente implements Serializable {
 	private Mapa mapa;
 	private int idCliente;
 	private ArrayList<Sala> listaSalas;
+	private JVentanaLobby lobbyActual;
 
 	public Cliente(String ip, int puerto, String username) {
 		try {
@@ -113,5 +115,13 @@ public class Cliente implements Serializable {
 
 	public void limpiarSalas() {
 		listaSalas.clear();		
+	}
+
+	public void setearLobby(JVentanaLobby lobby) {
+		this.lobbyActual = lobby;
+	}
+	
+	public JVentanaLobby getLobby() {
+		return this.lobbyActual;
 	}
 }

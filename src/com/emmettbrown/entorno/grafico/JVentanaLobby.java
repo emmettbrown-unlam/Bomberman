@@ -64,12 +64,13 @@ public class JVentanaLobby extends JFrame {
 		refreshThread = new RefreshThread(this, 1);
 		refreshThread.start();
 		btnCrearPartida.setEnabled(puedeCrearPartida);
+		cliente.setearLobby(this);
 	}
 
 	public void comenzarPartida() {
 		cliente.enviarMsg(new MsgComenzarPartida());
-		refreshThread.matarThread();
-		dispose();
+		/*refreshThread.matarThread();
+		dispose();*/
 	}
 	
 	public void refrescarListaUsuarios() {
@@ -79,5 +80,10 @@ public class JVentanaLobby extends JFrame {
 		for (String usr : usuariosConectados) {
 			df.addElement(usr);
 		}
+	}
+	
+	public void eliminarVentana() {
+		refreshThread.matarThread();
+		dispose();
 	}
 }

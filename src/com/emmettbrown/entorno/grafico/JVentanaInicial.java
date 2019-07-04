@@ -114,16 +114,11 @@ public class JVentanaInicial extends JFrame {
 	}
 
 	public void unirseASala() {
-		Sala seleccionada = lstSalas.getSelectedValue();
-		
+		Sala seleccionada = lstSalas.getSelectedValue();		
 		JVentanaLobby sala = new JVentanaLobby(cliente, seleccionada, false);
 		sala.setVisible(true);
 		thread.matarThread();
 		dispose();	
-		
-		/*String[] arr_str = seleccionada.split(" ");
-		int idSala = (int) Integer.parseInt(arr_str[1]);
-		System.out.println(idSala);*/
 		cliente.enviarMsg(new MsgConectarseASala(seleccionada.getId(), cliente.getIdCliente()));
 	}
 
