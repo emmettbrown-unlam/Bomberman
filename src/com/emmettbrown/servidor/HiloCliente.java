@@ -161,6 +161,7 @@ public class HiloCliente extends Thread {
 		this.salaConectada = sala;
 	}
 	
+	//Elimina una sala tanto del lado servidor como cliente
 	public void eliminarSala(int idCreador) {
 		Iterator<SvSala> iter = listaSalas.iterator();
 		
@@ -172,5 +173,9 @@ public class HiloCliente extends Thread {
 				iter.remove();
 			}
 		}
+	}
+	
+	public int getIdCliente() {
+		return this.idCliente;
 	}
 }

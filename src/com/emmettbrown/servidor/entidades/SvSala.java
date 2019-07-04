@@ -13,7 +13,6 @@ public class SvSala {
 	private int idCreador;
 	private String nombre;
 	private int limJugadores;
-	//private ArrayList<Socket> socketsUsuariosConectados;
 	private ArrayList<HiloCliente> clientesConectados;
 	private ArrayList<String> nombresUsuariosConectados;
 	//El mapa de la sala
@@ -24,7 +23,6 @@ public class SvSala {
 		this.idCreador = idCreador;
 		this.nombre = nombre;
 		this.limJugadores = limJugadores;
-		//socketsUsuariosConectados = new ArrayList<Socket>();
 		this.clientesConectados = new ArrayList<HiloCliente>();
 		nombresUsuariosConectados = new ArrayList<String>();
 	}
@@ -52,7 +50,6 @@ public class SvSala {
 	}
 
 	public void agregarUsuario(HiloCliente cliente, String usuario) {
-		//socketsUsuariosConectados.add(cliente);
 		clientesConectados.add(cliente);
 		nombresUsuariosConectados.add(usuario);
 	}
@@ -73,10 +70,13 @@ public class SvSala {
 		this.map = new ServerMap();
 		this.map.generarMapa();
 		
+		//Removemos la sala actual
+		HiloCliente creador = clientesConectados.get(0);
+		clientesConectados.get(0).eliminarSala(creador.getIdCliente());
+		
 		for (HiloCliente hiloCliente : clientesConectados) {
 			hiloCliente.inicializarCliente(map);
-		}
-		for (HiloCliente hiloCliente : clientesConectados) {
+			//Inicializamos el motor despues de todo así le damos la ilusión al cliente de que todo es rápido
 			hiloCliente.enviarMsg(new MsgIniciarMotor());
 		}
 	}

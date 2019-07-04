@@ -113,13 +113,17 @@ public class JVentanaInicial extends JFrame {
 		refrescarListaSalas();
 	}
 
-	public void unirseASala() {
-		Sala seleccionada = lstSalas.getSelectedValue();		
-		JVentanaLobby sala = new JVentanaLobby(cliente, seleccionada, false);
-		sala.setVisible(true);
-		thread.matarThread();
-		dispose();	
-		cliente.enviarMsg(new MsgConectarseASala(seleccionada.getId(), cliente.getIdCliente()));
+	public void unirseASala() {		
+		Sala seleccionada = lstSalas.getSelectedValue();	
+		
+		if (seleccionada != null) {
+			JVentanaLobby sala = new JVentanaLobby(cliente, seleccionada, false);
+			sala.setVisible(true);
+			thread.matarThread();
+			dispose();	
+			cliente.enviarMsg(new MsgConectarseASala(seleccionada.getId(), cliente.getIdCliente()));			
+		}
+		System.out.println("No seleccionaste nada, bobo.");		
 	}
 
 	public void obtenerSalas() {
