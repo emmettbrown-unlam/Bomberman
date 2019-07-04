@@ -97,14 +97,14 @@ public class HiloCliente extends Thread {
 		this.map = map;
 		Ubicacion ubic = map.obtenerUbicacionInicio();		
 		this.bomber = new SvBomberman(ubic.getPosX()*75, ubic.getPosY()*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT);
-		this.movimiento = new HandleMovement(this);
+		this.movimiento = new HandleMovement(this, salaConectada.getSockets());
 		this.movimiento.start();
 		//Enviamos los obtasculos a todos los clientes
-		this.broadcast(new MsgGenerarObstaculos(map.getObstaculos()), usuariosConectados);
+		this.broadcast(new MsgGenerarObstaculos(map.getObstaculos()), salaConectada.getSockets());
 		//Agregamos el bomber del cliente al mapa
 		map.agregarBomberman(bomber);
 		//Le decimos al cliente que añada el bomber
-		this.broadcast(new MsgAgregarBomberman(bomber, idCliente), usuariosConectados);
+		this.broadcast(new MsgAgregarBomberman(bomber, idCliente), salaConectada.getSockets());
 	}
 	
 	public void enviarMsg(Msg msg) {
