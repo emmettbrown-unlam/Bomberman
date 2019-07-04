@@ -100,7 +100,7 @@ public class JVentanaInicial extends JFrame {
 		thread.start();
 	}
 
-	public void refrescarListaSalas() {
+	public synchronized void refrescarListaSalas() {
 		this.salasCreadas = cliente.getListaSalas();
 		df.clear();
 		for (Sala sala : salasCreadas) {
@@ -134,7 +134,7 @@ public class JVentanaInicial extends JFrame {
 		return this.lstSalas;
 	}
 	
-	public Sala getSalaCreador() {
+	public synchronized Sala getSalaCreador() {
 		for (Sala sala : salasCreadas) {
 			if (sala.getIdCreador() == cliente.getIdCliente()) 
 				return sala;
