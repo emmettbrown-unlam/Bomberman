@@ -1,12 +1,11 @@
 package com.emmettbrown.cliente;
 
 import java.io.IOException;
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entorno.grafico.JVentanaLobby;
@@ -25,8 +24,8 @@ public class Cliente implements Serializable {
 	private Bomberman bomber;
 	private Mapa mapa;
 	private int idCliente;
-	private ArrayList<Sala> listaSalas;
 	private JVentanaLobby lobbyActual;
+	private ConcurrentLinkedQueue<Sala> listaSalas;
 
 	public Cliente(String ip, int puerto, String username) {
 		try {
@@ -34,7 +33,7 @@ public class Cliente implements Serializable {
 			this.clientSocket = new Socket(host, puerto);
 			this.username = username;
 			this.mapa = new Mapa();
-			this.listaSalas = new ArrayList<Sala>();
+			this.listaSalas = new ConcurrentLinkedQueue<Sala>();
 			ListenerThread listener = new ListenerThread(this);
 			listener.start();
 			enviarMsg(new MsgActualizarNombre(this.username));
@@ -111,7 +110,7 @@ public class Cliente implements Serializable {
 		}
 	}
 
-	public ArrayList<Sala> getListaSalas() {
+	public ConcurrentLinkedQueue<Sala> getListaSalas() {
 		return this.listaSalas;
 	}
 

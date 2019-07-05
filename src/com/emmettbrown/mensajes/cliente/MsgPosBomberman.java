@@ -5,6 +5,10 @@ import com.emmettbrown.mensajes.Msg;
 
 public class MsgPosBomberman extends Msg {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int idBomber;
 	private int x;
 	private int y;

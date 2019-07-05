@@ -4,7 +4,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -25,7 +25,7 @@ public class JVentanaInicial extends JFrame {
 	private JPanelInicial contentPane;
 	private Cliente cliente;
 	private JList<Sala> lstSalas;
-	private ArrayList<Sala> salasCreadas;
+	private ConcurrentLinkedQueue<Sala> salasCreadas;
 	private DefaultListModel<Sala> df;
 	private RefreshThread thread;
 
@@ -121,7 +121,7 @@ public class JVentanaInicial extends JFrame {
 			sala.setVisible(true);
 			thread.matarThread();
 			dispose();	
-			cliente.enviarMsg(new MsgConectarseASala(seleccionada.getId(), cliente.getIdCliente()));			
+			cliente.enviarMsg(new MsgConectarseASala(seleccionada.getId()));			
 		}
 		System.out.println("No seleccionaste nada, bobo.");		
 	}

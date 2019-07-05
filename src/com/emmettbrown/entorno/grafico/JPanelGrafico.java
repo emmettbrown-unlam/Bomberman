@@ -2,6 +2,7 @@ package com.emmettbrown.entorno.grafico;
 
 import java.awt.Color;
 
+
 import java.awt.Graphics;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,6 @@ import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entidades.Entidad;
 import com.emmettbrown.mapa.Ubicacion;
-import com.sun.corba.se.impl.ior.GenericTaggedComponent;
 
 public class JPanelGrafico extends JPanel {
 

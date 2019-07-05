@@ -15,12 +15,10 @@ public class MsgConectarseASala extends Msg {
 	 */
 	private static final long serialVersionUID = 1L;
 	private int idSala;
-	private int idCliente;
 	private ArrayList<SvSala> listaSalas;
 
-	public MsgConectarseASala(int idSala, int idCliente) {
+	public MsgConectarseASala(int idSala) {
 		this.idSala = idSala;
-		this.idCliente = idCliente;
 	}
 
 	@Override

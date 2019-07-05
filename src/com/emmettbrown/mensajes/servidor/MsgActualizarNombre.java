@@ -5,6 +5,10 @@ import com.emmettbrown.servidor.HiloCliente;
 
 public class MsgActualizarNombre extends Msg {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String nombre;
 	public MsgActualizarNombre(String nombre) {
 		this.nombre = nombre;
