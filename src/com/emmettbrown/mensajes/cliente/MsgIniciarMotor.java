@@ -15,11 +15,11 @@ public class MsgIniciarMotor extends Msg {
 	@Override
 	public Object realizarAccion(Object obj) {
 		Cliente cliente = (Cliente) obj;
-		
+		cliente.getLobby().eliminarVentana();
 		JVentanaGrafica ventana = new JVentanaGrafica(DefConst.ANCHO, DefConst.ALTO, cliente);
 		ventana.setVisible(true);
 		
-		cliente.getLobby().eliminarVentana();
+		
 		
 		return null;
 	}

@@ -142,6 +142,9 @@ public class Mapa {
 			if (bomberman.getIdBomberman() == idBomber) {
 				bomberman.cambiarPosX(despX);
 				bomberman.cambiarPosY(despY);
+				System.out.println("lo encontre!: "+bomberman.getIdBomberman()+" = "+idBomber);
+			}else {
+				System.out.println("No se encuentra el ID del bomber: "+idBomber);
 			}
 
 		}

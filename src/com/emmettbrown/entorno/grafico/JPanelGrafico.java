@@ -32,7 +32,7 @@ public class JPanelGrafico extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-				
+
 		Entidad entidades[] = conjuntoEntidades.values().toArray(new Entidad[0]);
 			
 		for (int i = 0; i < entidades.length; i++) {

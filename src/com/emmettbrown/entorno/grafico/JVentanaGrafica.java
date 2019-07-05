@@ -14,10 +14,12 @@ public class JVentanaGrafica extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanelGrafico contentPane;
 	private Teclado teclado;
+	private Cliente cliente;
 
-	public JVentanaGrafica(int ancho, int alto, Cliente cliente) {
+	public JVentanaGrafica(int ancho, int alto, Cliente clien) {
 		super(DefConst.TITLE);
 		setResizable(false);
+		this.cliente = clien;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(20, 20, ancho, alto);
 		setBackground(Color.RED);

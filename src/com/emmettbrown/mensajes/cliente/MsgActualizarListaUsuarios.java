@@ -28,9 +28,6 @@ public class MsgActualizarListaUsuarios extends Msg {
 				sala.setUsuarios(usuarios);
 			}
 		}
-		
-		/*System.out.println(usuarios.get(0));
-		System.out.println(usuarios.get(1));*/
 		return null;
 	}
 

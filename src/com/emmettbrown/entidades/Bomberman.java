@@ -8,7 +8,7 @@ import com.emmettbrown.mapa.Ubicacion;
 import com.sun.javafx.geom.Rectangle;
 
 public class Bomberman extends Entidad {
-	private static int nroBomberman = 0;
+//	private static int nroBomberman = 0;
 	private int idBomberman;
 	private ImageIcon bomberIzq;
 	private ImageIcon bomberDer;
@@ -16,9 +16,9 @@ public class Bomberman extends Entidad {
 	private ImageIcon bomberAba;
 	private ArrayList<Bomba> bombas;
 
-	public Bomberman(int posX, int posY, int width, int height) {
+	public Bomberman(int posX, int posY, int width, int height,int idBomber) {
 		super(posX, posY, width, height);
-		idBomberman = nroBomberman++;
+		idBomberman = idBomber;
 		this.destructible = true;
 		this.img = new ImageIcon("./src/resources/character/bomberman.png");
 		bomberIzq = new ImageIcon("./src/resources/character/bombermanIzq.png");

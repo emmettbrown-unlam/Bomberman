@@ -14,7 +14,7 @@ public class SvBomberman extends Entidad implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static int nroBomberman = 0;
+	public static int nroBomberman;
 	private int idBomberman;
 	private ArrayList<SvBomba> bombas;
 
