@@ -140,7 +140,16 @@ public class Mapa {
 	public void moverBomberman(int idBomber, int despX, int despY) {
 		for (Bomberman bomberman : listaBomberman) {
 			if (bomberman.getIdBomberman() == idBomber) {
+				if(bomberman.getX() > despX)
+					bomberman.cambiarImagenIzquierda();
+				if(bomberman.getX() < despX)
+					bomberman.cambiarImagenDerecha();
+				if(bomberman.getY() > despY)
+					bomberman.cambiarImagenArriba();
+				if(bomberman.getY() < despY)
+					bomberman.cambiarImagenAbajo();
 				bomberman.cambiarPosX(despX);
+			
 				bomberman.cambiarPosY(despY);
 				System.out.println("lo encontre!: "+bomberman.getIdBomberman()+" = "+idBomber);
 			}else {
