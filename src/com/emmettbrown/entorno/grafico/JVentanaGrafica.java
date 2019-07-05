@@ -24,7 +24,7 @@ public class JVentanaGrafica extends JFrame {
 		setBounds(20, 20, ancho, alto);
 		setBackground(Color.RED);
 		setLocationRelativeTo(null);
-
+		
 		contentPane = new JPanelGrafico(cliente);
 		contentPane.setBackground(new Color(32,155,221));
 		setContentPane(contentPane);

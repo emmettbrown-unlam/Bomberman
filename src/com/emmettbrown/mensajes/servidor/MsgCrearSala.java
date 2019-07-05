@@ -22,9 +22,9 @@ public class MsgCrearSala extends Msg {
 	@Override
 	public Object realizarAccion(Object obj) {
 		HiloCliente hilo = (HiloCliente) obj;
-		Servidor.idSalas+=1;
-		SvSala svSala = new SvSala(Servidor.idSalas, this.idCliente, "Sala "+Servidor.idSalas+" de " + this.idCliente, DefConst.LIMITEJUGADORES);
-		svSala.agregarUsuario(hilo,"Usuario "+ this.idCliente);
+		Servidor.idSalas++;
+		SvSala svSala = new SvSala(Servidor.idSalas, this.idCliente, "Sala "+Servidor.idSalas+" de " +hilo.getNombreUsuario(), DefConst.LIMITEJUGADORES);
+		svSala.agregarUsuario(hilo,hilo.getNombreUsuario());
 		hilo.agregarSala(svSala);
 		
 		//Seteamos la sala del cliente

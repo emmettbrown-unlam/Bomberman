@@ -12,6 +12,7 @@ import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entidades.Entidad;
 import com.emmettbrown.mapa.Ubicacion;
+import com.sun.corba.se.impl.ior.GenericTaggedComponent;
 
 public class JPanelGrafico extends JPanel {
 
@@ -25,9 +26,6 @@ public class JPanelGrafico extends JPanel {
 		this.cliente = cliente;
 		conjuntoEntidades = this.cliente.getMapa().getListaEntidades();
 		listaBomberman = this.cliente.getMapa().obtenerListaBomberman();
-		/*for (Bomberman bomberman : listaBomberman) {
-			System.out.println("los ID"+bomberman.getIdBomberman());
-		}*/
 	}
 
 	public void paintComponent(Graphics g) {
@@ -42,11 +40,14 @@ public class JPanelGrafico extends JPanel {
 		g.setColor(Color.GREEN);
 		
 		Bomberman bombermans[] = listaBomberman.toArray(new Bomberman[0]);
-		
 		for (int i = 0; i < bombermans.length; i++) {
-			if (bombermans[i].verSiEsVisible())
-			g.drawImage(bombermans[i].getImagen(), bombermans[i].getX(), bombermans[i].getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT, null);
+			if (bombermans[i].verSiEsVisible()) {
+				g.setColor(Color.BLACK);
+				g.drawString(bombermans[i].getNombre(), bombermans[i].getX()+DefConst.DXNAME, bombermans[i].getY()+DefConst.DYNAME);
+				g.drawImage(bombermans[i].getImagen(), bombermans[i].getX(), bombermans[i].getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT, null);
+			
+			}
+			
 		}
-
 	}
 }

@@ -16,4 +16,6 @@ public final class DefConst {
 	public static final String IP = "localhost";
 	public static final int PORT = 5000;
 	public static final int LIMITEJUGADORES = 4;
+	public static final int DXNAME =  9;
+	public static final int DYNAME =  -5;
 }

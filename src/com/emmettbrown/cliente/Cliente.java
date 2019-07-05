@@ -13,6 +13,7 @@ import com.emmettbrown.entorno.grafico.JVentanaLobby;
 import com.emmettbrown.entorno.grafico.Sala;
 import com.emmettbrown.mapa.Mapa;
 import com.emmettbrown.mensajes.Msg;
+import com.emmettbrown.mensajes.servidor.MsgActualizarNombre;
 
 public class Cliente implements Serializable {
 
@@ -36,6 +37,7 @@ public class Cliente implements Serializable {
 			this.listaSalas = new ArrayList<Sala>();
 			ListenerThread listener = new ListenerThread(this);
 			listener.start();
+			enviarMsg(new MsgActualizarNombre(this.username));
 		} catch (IOException e) {
 			this.mensajeError = "No se encontro ningun servidor al cual conectarse!";
 			System.out.println(mensajeError);

@@ -38,6 +38,7 @@ public class HiloCliente extends Thread {
 	private static int idCounter = 0;	
 	private SvSala salaConectada;
 	private ServerMap map;
+	private String nombreUsuario;
 	
 	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ArrayList<SvSala> salas) {
 		this.idCliente = idCounter++;
@@ -96,7 +97,7 @@ public class HiloCliente extends Thread {
 	public void inicializarCliente(ServerMap map) {
 		this.map = map;
 		Ubicacion ubic = map.obtenerUbicacionInicio();		
-		this.bomber = new SvBomberman(ubic.getPosX()*75, ubic.getPosY()*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT);
+		this.bomber = new SvBomberman(ubic.getPosX()*75, ubic.getPosY()*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT,this.getNombreUsuario());
 		this.movimiento = new HandleMovement(this, salaConectada.getSockets());
 		this.movimiento.start();
 		//Enviamos los obtasculos a todos los clientes
@@ -177,5 +178,12 @@ public class HiloCliente extends Thread {
 	
 	public int getIdCliente() {
 		return this.idCliente;
+	}
+
+	public void setNombreUsuario(String nombre) {
+		nombreUsuario = nombre;
+	}
+	public String getNombreUsuario() {
+		return nombreUsuario;
 	}
 }

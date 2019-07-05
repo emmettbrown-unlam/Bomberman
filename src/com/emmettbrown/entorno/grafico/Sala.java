@@ -41,8 +41,8 @@ public class Sala {
 		return this.usuarios;
 	}
 	
-	public void agregarUsuario(int cliente) {
-		usuarios.add("Usuario: " + cliente);
+	public void agregarUsuario(String cliente) {
+		usuarios.add(cliente);
 	}
 	
 	public void setUsuarios(ArrayList<String> usuarios) {

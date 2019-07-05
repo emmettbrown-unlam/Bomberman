@@ -33,7 +33,7 @@ public class MsgConectarseASala extends Msg {
 		for (SvSala sala : listaSalas) {
 			if (sala.getId() == idSala) {
 				salaSeleccionada = sala;
-				sala.agregarUsuario(hilo,"Usuario "+this.idCliente);
+				sala.agregarUsuario(hilo,hilo.getNombreUsuario());
 				
 			}
 		}

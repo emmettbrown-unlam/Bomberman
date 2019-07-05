@@ -32,7 +32,7 @@ public class JVentanaLobby extends JFrame {
 		setTitle("Sala: ");
 		this.sala = sala;
 		this.cliente = cliente;
-		sala.agregarUsuario(cliente.getIdCliente());
+		sala.agregarUsuario(cliente.getUsername());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

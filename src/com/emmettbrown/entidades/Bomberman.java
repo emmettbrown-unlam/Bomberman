@@ -15,11 +15,13 @@ public class Bomberman extends Entidad {
 	private ImageIcon bomberArr;
 	private ImageIcon bomberAba;
 	private ArrayList<Bomba> bombas;
+	private String nombre;
 
-	public Bomberman(int posX, int posY, int width, int height,int idBomber) {
+	public Bomberman(int posX, int posY, int width, int height,int idBomber,String nombre) {
 		super(posX, posY, width, height);
 		idBomberman = idBomber;
 		this.destructible = true;
+		this.nombre = nombre;
 		this.img = new ImageIcon("./src/resources/character/bomberman.png");
 		bomberIzq = new ImageIcon("./src/resources/character/bombermanIzq.png");
 		bomberDer = new ImageIcon("./src/resources/character/bombermanDer.png");
@@ -27,7 +29,9 @@ public class Bomberman extends Entidad {
 		bomberAba = new ImageIcon("./src/resources/character/bombermanAba.png");
 		this.bombas = new ArrayList<Bomba>();
 	}
-
+	public String getNombre() {
+		return nombre;
+	}
 	public void morir() {
 		esVisible = false;
 	}

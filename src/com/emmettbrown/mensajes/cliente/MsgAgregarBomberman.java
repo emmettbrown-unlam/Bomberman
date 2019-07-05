@@ -24,7 +24,7 @@ public class MsgAgregarBomberman extends Msg {
 	public Object realizarAccion(Object obj) {
 		Cliente cliente = ((Cliente) obj);
 		
-		Bomberman bomber = new Bomberman(bomberman.getX(), bomberman.getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT,bomberman.getIdBomberman());
+		Bomberman bomber = new Bomberman(bomberman.getX(), bomberman.getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT,bomberman.getIdBomberman(),bomberman.getNombre());
 		if (cliente.getIdCliente() == idCliente) {
 			cliente.setBomber(bomber);
 		}

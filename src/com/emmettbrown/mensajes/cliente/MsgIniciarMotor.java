@@ -19,8 +19,6 @@ public class MsgIniciarMotor extends Msg {
 		JVentanaGrafica ventana = new JVentanaGrafica(DefConst.ANCHO, DefConst.ALTO, cliente);
 		ventana.setVisible(true);
 		
-		
-		
 		return null;
 	}
 }

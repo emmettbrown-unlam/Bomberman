@@ -17,14 +17,19 @@ public class SvBomberman extends Entidad implements Serializable{
 	public static int nroBomberman;
 	private int idBomberman;
 	private ArrayList<SvBomba> bombas;
+	private String nombre;
 
-	public SvBomberman(int posX, int posY, int width, int height) {
+	public SvBomberman(int posX, int posY, int width, int height,String nombre) {
 		super(posX, posY, width, height);
 		idBomberman = nroBomberman++;
 		this.destructible = true;
+		this.nombre = nombre;
 		this.bombas = new ArrayList<SvBomba>();
 	}
-
+	
+	public String getNombre() {
+		return nombre;
+	}
 	public void morir() {
 		esVisible = false;
 	}
