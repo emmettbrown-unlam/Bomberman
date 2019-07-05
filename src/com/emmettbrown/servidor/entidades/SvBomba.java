@@ -146,9 +146,8 @@ public class SvBomba extends Entidad {
 		SvBomberman bomber = map.obtenerBombermanEn(ubic);
 
 		// en la ubicacion no explota.
-		if (bomber != null) {
+		if (bomber != null && bomber.esVisible == true) {
 			bomber.morir();
-			return true;
 		}
 
 		//ent != this no queremos explotarnos de vuelta a nosotros mismos

@@ -16,7 +16,6 @@ import com.sun.corba.se.impl.ior.GenericTaggedComponent;
 
 public class JPanelGrafico extends JPanel {
 
-	//private Mapa miMapa;
 	private Map<Ubicacion, Entidad> conjuntoEntidades;
 	private List<Bomberman> listaBomberman;
 	private Cliente cliente;

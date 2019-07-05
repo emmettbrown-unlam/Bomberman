@@ -88,9 +88,9 @@ public class ServerMap {
 	public ArrayList<Ubicacion> generarUbicacionesInicio() {
 		ArrayList<Ubicacion> ubic = new ArrayList<Ubicacion>();
 		ubic.add(new Ubicacion(1, 1));
-		ubic.add(new Ubicacion(7,1));
-		ubic.add(new Ubicacion(1,7));
-		ubic.add(new Ubicacion(7,7));
+		ubic.add(new Ubicacion((DefConst.ANCHOMAPA-2),1));
+		ubic.add(new Ubicacion(1,(DefConst.ALTOMAPA-2)));
+		ubic.add(new Ubicacion((DefConst.ANCHOMAPA-2),(DefConst.ALTOMAPA-2)));
 		
 		return ubic;
 	}
