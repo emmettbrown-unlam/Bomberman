@@ -18,7 +18,7 @@ public final class DefConst {
 	public static final int LIMITEJUGADORES = 4;
 	public static final int DXNAME =  9;
 	public static final int DYNAME =  -5;
-	public static final int TIMEOUT = 1860;//31s
+	public static final int TIMEOUT = 2400;//31s
 	public static final String TITLETAB ="PUNTUACIONES";
 	public static final int MAXROUND = 4;
 }
