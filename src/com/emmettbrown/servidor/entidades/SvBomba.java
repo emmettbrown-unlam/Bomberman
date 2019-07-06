@@ -19,7 +19,7 @@ public class SvBomba extends SvEntidad {
 	private SvBomberman creador;
 	private boolean ignorarColisionCreador;
 	private Timer timer;
-	private HiloCliente hilo ;
+	private HiloCliente hilo;
 
 	///////////////////////////////////////
 	// 									//

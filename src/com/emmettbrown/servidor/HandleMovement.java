@@ -1,7 +1,6 @@
 package com.emmettbrown.servidor;
 
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 
 import com.emmettbrown.controles.Movimientos;
@@ -14,7 +13,6 @@ import com.emmettbrown.servidor.entidades.SvBomberman;
 public class HandleMovement extends Thread {
 	
 	private HiloCliente hilo;
-	//private ArrayList<Socket> socketsSala;
 	private ArrayList<ObjectOutputStream> outputStreams;
 	private Movimientos mov;
 	private SvBomberman bomberActual;

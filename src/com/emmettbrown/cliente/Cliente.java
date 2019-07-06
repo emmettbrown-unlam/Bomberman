@@ -105,7 +105,7 @@ public class Cliente implements Serializable {
 		
 	public void enviarMsg(Msg consultaAlServidor) {
 		try {
-			//ObjectOutputStream outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
+			//Reseteamos el outputStream para enviar un nuevo mensaje
 			outputStream.reset();
 			outputStream.writeObject(consultaAlServidor);
 		} catch (IOException e) {
@@ -116,7 +116,6 @@ public class Cliente implements Serializable {
 	public Object recibirMsg() {
 		Object obj = null;
 		try {
-			//ObjectInputStream inputStream = new ObjectInputStream(readSocket.getInputStream());
 			obj = inputStream.readObject();
 		} catch (IOException | ClassNotFoundException e) {
 			this.mensajeError = "Comunicacion cerrada en recibir msg1. " + e;
@@ -125,7 +124,7 @@ public class Cliente implements Serializable {
 		return obj;
 	}
 
-	public void cerrarComunicacion(ObjectInputStream inputStream, ObjectOutputStream outputStream) {
+	public void cerrarComunicacion() {
 		try {
 			inputStream.close();
 			outputStream.close();

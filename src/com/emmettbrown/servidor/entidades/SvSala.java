@@ -1,7 +1,6 @@
 package com.emmettbrown.servidor.entidades;
 
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -30,12 +29,10 @@ public class SvSala {
 		nombresUsuariosConectados = new ArrayList<String>();
 	}
 
-	public ArrayList<ObjectOutputStream> getWriteSockets() {
-		//ArrayList<Socket> sockets = new ArrayList<Socket>();
+	public ArrayList<ObjectOutputStream> getOutputStreams() {
 		ArrayList<ObjectOutputStream> obs = new ArrayList<ObjectOutputStream>();
 		
 		for (HiloCliente hilo : clientesConectados) {
-			//sockets.add(hilo.getWriteSocket());
 			obs.add(hilo.getOutputStream());
 		}
 		
@@ -89,7 +86,7 @@ public class SvSala {
 		for (HiloCliente hiloCliente : clientesConectados) {
 			hiloCliente.guardarPuntaje(h);
 		}
-		creador.broadcast(new MsgActualizarPuntajes(h), creador.getSalaConectada().getWriteSockets());
+		creador.broadcast(new MsgActualizarPuntajes(h), creador.getSalaConectada().getOutputStreams());
 		
 //		creador.comenzarPartida(creador.getIdCliente());	
 	}

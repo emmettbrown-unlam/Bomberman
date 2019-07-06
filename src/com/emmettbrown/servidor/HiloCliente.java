@@ -49,7 +49,6 @@ public class HiloCliente extends Thread {
 	
 	public HiloCliente(Socket writeSocket, Socket readSocket, ArrayList<ObjectOutputStream> usuariosConectados, ArrayList<SvSala> salas) {
 		this.idCliente = idCounter++;
-		//this.clientSocket = cliente;
 		this.writeSocket = writeSocket;
 		this.readSocket = readSocket;
 		
@@ -114,20 +113,18 @@ public class HiloCliente extends Thread {
 		this.map = map;
 		Ubicacion ubic = map.obtenerUbicacionInicio();		
 		this.bomber = new SvBomberman(ubic.getPosX()*75, ubic.getPosY()*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT,this.getNombreUsuario());
-		this.movimiento = new HandleMovement(this, salaConectada.getWriteSockets());
+		this.movimiento = new HandleMovement(this, salaConectada.getOutputStreams());
 		this.movimiento.start();
 		//Enviamos los obtasculos a todos los clientes
-		this.broadcast(new MsgGenerarObstaculos(map.getObstaculos()), salaConectada.getWriteSockets());
+		this.broadcast(new MsgGenerarObstaculos(map.getObstaculos()), salaConectada.getOutputStreams());
 		//Agregamos el bomber del cliente al mapa
 		map.agregarBomberman(bomber);
 		//Le decimos al cliente que añada el bomber
-		this.broadcast(new MsgAgregarBomberman(bomber, idCliente), salaConectada.getWriteSockets());
+		this.broadcast(new MsgAgregarBomberman(bomber, idCliente), salaConectada.getOutputStreams());
 	}
 	
 	public void enviarMsg(Msg msg) {
 		try {
-			//ObjectOutputStream salidaACliente = new ObjectOutputStream(writeSocket.getOutputStream());
-			//salidaACliente.writeObject(msg);
 			outputStream.writeObject(msg);
 			outputStream.reset();
 		} catch (Exception e) {
@@ -138,7 +135,6 @@ public class HiloCliente extends Thread {
 	public void broadcast(Msg msg, ArrayList<ObjectOutputStream> usuariosConectados) {		
 		for (ObjectOutputStream salidaACliente : usuariosConectados) {
 			try {
-				//ObjectOutputStream salidaACliente = new ObjectOutputStream(writeSocket.getOutputStream());
 				salidaACliente.reset();
 				salidaACliente.writeObject(msg);
 			} catch (IOException e) {
@@ -149,20 +145,13 @@ public class HiloCliente extends Thread {
 
 	@Override
 	public void run() {
-		try {
-			//ObjectInputStream reciboMsg = new ObjectInputStream(readSocket.getInputStream());
-			
+		try {			
 			while (estaConectado) {
 				/* Recibo Consulta de cliente */
-				/*Msg msgRecibo = (Msg) reciboMsg.readObject();
-				msgRecibo.realizarAccion(this);
-				reciboMsg = new ObjectInputStream(readSocket.getInputStream());*/
 				Msg msgRecibo = (Msg) inputStream.readObject();
 				msgRecibo.realizarAccion(this);
-				//reciboMsg = new ObjectInputStream(readSocket.getInputStream());
 			}
 
-			//reciboMsg.close();
 			inputStream.close();
 			readSocket.close();
 		} catch (IOException | ClassNotFoundException ex) {
@@ -170,7 +159,7 @@ public class HiloCliente extends Thread {
 			
 			
 			this.map.eliminarBomberman(this.bomber);
-			this.usuariosConectados.remove(this.writeSocket);			
+			this.usuariosConectados.remove(outputStream);			
 			eliminarSala(this.idCliente);
 			broadcast(new MsgEliminarBomberman(this.bomber.getIdBomberman()), usuariosConectados);
 			this.estaConectado = false;
