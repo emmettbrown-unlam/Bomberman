@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -27,15 +29,26 @@ public class JPanelGrafico extends JPanel {
 	private Cliente cliente;
 	private HashMap<String, Integer> puntajes;
 	private static final long serialVersionUID = 1L;
-	private Timer t;
 	private Reloj rl;
+	
 	public JPanelGrafico(Cliente cliente) {
 		this.cliente = cliente;
 		conjuntoEntidades = this.cliente.getMapa().getListaEntidades();
 		listaBomberman = this.cliente.getMapa().obtenerListaBomberman();
 		puntajes = this.cliente.getTablero().getPuntuacion();
-		rl = new Reloj(00, 00, 38);
-		startTimer(38);	
+		rl = new Reloj(00, 00, DefConst.SEG);
+		iniciarReloj();
+		cliente.setPanelGrafico(this);
+	}
+	
+	public void resetearVariables(HashMap<Ubicacion, Entidad> a , List<Bomberman> b , HashMap<String, Integer> c ) {
+		this.conjuntoEntidades = a;
+		this.listaBomberman = b;
+		this.puntajes = c;
+		iniciarReloj();
+	}
+	public void iniciarReloj() {
+		rl.startTimer();
 	}
 
 	public void paintComponent(Graphics g) {
@@ -58,39 +71,16 @@ public class JPanelGrafico extends JPanel {
 			}
 		}
 		int dy = 0;
-		Integer puntajes1[] = puntajes.values().toArray(new Integer[0]);
 		
         g.setFont(new Font("Monospaced", Font.BOLD, 36));
 		g.drawString(DefConst.TITLETAB, 750, 30);
 		g.drawString("Ronda: "+cliente.getRoundActual(), 750, 55);
 		
-		for (int i = 0; i < puntajes1.length; i++) { 
-			g.drawString(bombermans[i].getNombre()+": "+puntajes1[i],680,85+dy);
+		for (Entry<String, Integer> entry : puntajes.entrySet()) {
+			g.drawString(entry.getKey()+": "+entry.getValue(),680,85+dy);
 			dy+=30;
 		}
 		
 		g.drawString(rl.toString(), 760,9*75-75);
-	}
-	public void startTimer(int limit) {
-		t = new Timer(1000, new miOyente(limit));
-		t.start();
-	}
-	
-	class miOyente implements ActionListener {
-		private int limit;
-		public miOyente(int limit) {
-			this.limit = limit;
-		}
-		
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			limit--;
-			rl = rl.restarSegundo();
-			if (limit == 0) {
-				//Se acabo el tiempo. TIMEOUT
-				cliente.enviarMsg(new MsgActualizarPts());
-				t.stop();
-			}	
-		}
 	}
 }

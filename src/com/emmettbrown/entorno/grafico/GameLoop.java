@@ -13,6 +13,7 @@ public class GameLoop extends Thread {
 	private boolean corriendo;
 	private int cantidadRondas;
 	private int segXRonda;
+	private int cantSeg;
 	public GameLoop(JVentanaGrafica ventana, int FPS,int segXRonda) {
 		this.ventana = ventana;
 		this.FPS = FPS;
@@ -26,7 +27,7 @@ public class GameLoop extends Thread {
 		long initialTime = System.nanoTime();
 		final double timeF = 1000000000 / FPS;
 		double deltaF = 0;
-		int cantSeg = 0;
+		cantSeg = 0;
 		while (corriendo) {
 			long currentTime = System.nanoTime();
 			deltaF += (currentTime - initialTime) / timeF;
@@ -37,18 +38,23 @@ public class GameLoop extends Thread {
 				cantSeg ++;
 				deltaF--;
 			}
+			
 			if ( cantSeg == segXRonda ) {
 				//Pasan 60 segundos y tengo que cortar el thread
-				JOptionPane.showMessageDialog(null, "La ronda "+cantidadRondas+" ha finalizado!");
+				
 				if (cantidadRondas == DefConst.MAXROUND) {
 					corriendo = false;
+					JOptionPane.showMessageDialog(null, "La partida a finalizado!");
+				}else {
+					JOptionPane.showMessageDialog(null, "La ronda "+cantidadRondas+" ha finalizado!"); //Esto bloquea el repaint no el thread. no se porque tendriamos que buscar algo bloqueante
+					System.out.println("paso!!");
 					cantidadRondas++;
 					ventana.obtenerCliente().setRound(cantidadRondas);
-				}else {
 					ventana.obtenerCliente().enviarMsg(new MsgReestablecerMotor(ventana.obtenerCliente().getIdCliente()));
-				}
-				
-			}
+					ventana.obtenerCliente().getPanelGrafico().iniciarReloj();
+					cantSeg = 0;
+				}	
+			}	
 		}
 	}
 	

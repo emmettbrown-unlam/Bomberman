@@ -43,9 +43,6 @@ public class Login extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Login() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/resources/icons/bomb.png")));
 		setTitle("Iniciar sesi\u00F3n");
@@ -103,7 +100,7 @@ public class Login extends JFrame {
 		contentPane.add(btnCrearUsuario);
 	}
 
-	//Esto debería ser server side...
+	//Esto deberï¿½a ser server side...
 	public boolean validarUsuario(String user, String pass){
 		if (pass.equals("1234")){ //if (user.equals("bomber") && pass.equals("1234")){
 			return true;

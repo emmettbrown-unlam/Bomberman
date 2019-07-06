@@ -371,6 +371,10 @@ public class ServerMap {
 	public ArrayList<SvObstaculo> getObstaculos() {
 		return this.obstaculos;
 	}
+	public void setObstaculos( ArrayList<SvObstaculo> s) {
+		this.obstaculos.clear();
+		this.obstaculos = s;
+	}
 	
 	///////////////////////////////////////
 	// 									//

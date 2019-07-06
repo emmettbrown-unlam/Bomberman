@@ -156,8 +156,6 @@ public class HiloCliente extends Thread {
 			readSocket.close();
 		} catch (IOException | ClassNotFoundException ex) {
 			System.out.println("Problemas al querer leer otra petición: " + ex.getMessage());
-			
-			
 			this.map.eliminarBomberman(this.bomber);
 			this.usuariosConectados.remove(outputStream);			
 			eliminarSala(this.idCliente);
@@ -201,9 +199,6 @@ public class HiloCliente extends Thread {
 
 	public void guardarPuntaje(HashMap<String, Integer> puntajes) {
 		this.puntajes = puntajes;
-//		for (Entry<String, Integer> entry : puntajes.entrySet()) {
-//			this.puntajes.put(entry.getKey(),entry.getValue());
-//		}
 	}
 
 	public HashMap<String, Integer> getPuntajes() {

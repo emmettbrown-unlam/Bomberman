@@ -29,22 +29,28 @@ public class MsgReestablecerMotor extends Msg {
 			ServerMap mapa = new ServerMap();
 			mapa.generarMapa();
 			HashMap<Ubicacion, SvEntidad> ent = mapa.getListaEntidades();
-			hilo.getMap().setEntidades(ent);
+			hilo.getMap().setObstaculos(mapa.getObstaculos());
 			Ubicacion ubicBomber = null;
 			List<SvBomberman> bomber = hilo.getMap().obtenerListaBomberman();
 			for (SvBomberman bomberman : bomber) {
 				Ubicacion ubic = mapa.obtenerUbicacionInicio();
-				bomberman.cambiarVisibilidad();
+				if (!bomberman.estaVivo()) {
+					bomberman.cambiarVisibilidad();
+				}
 				bomberman.setUbicacion(ubic);
 				if (bomberman.getIdBomberman() == hilo.getBomber().getIdBomberman()) {
 					ubicBomber = new Ubicacion(ubic.getPosX(), ubic.getPosY());
 				}
+				System.out.println("ubcacion x bomber: "+bomberman.getX()+","+bomberman.getY());
 			}
-			hilo.getBomber().cambiarVisibilidad();
+			if (!hilo.getBomber().estaVivo()) {
+				hilo.getBomber().cambiarVisibilidad();
+			}
+			
 			hilo.getBomber().setUbicacion(ubicBomber);
 			
-			hilo.broadcast(new MsgReset(hilo.getMap().getObstaculos(),bomber,hilo.getPuntajes()), hilo.getSalaConectada().getOutputStreams());
-			
+			hilo.broadcast(new MsgReset(hilo.getMap().getObstaculos(),bomber,hilo.getSalaConectada().obtenerTablero().getPuntuacion()), hilo.getSalaConectada().getWriteSockets());
+			hilo.getSalaConectada().reiniciarReloj();
 		}
 		return null;
 	}

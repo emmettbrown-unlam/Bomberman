@@ -14,12 +14,15 @@ import com.emmettbrown.mapa.Mapa;
 import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.servidor.entidades.SvBomberman;
-import com.emmettbrown.servidor.entidades.SvEntidad;
 import com.emmettbrown.servidor.entidades.SvObstaculo;
 
 public class MsgReset extends Msg {
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<SvObstaculo> lista;
 	private List<SvBomberman> bomber;
 	private HashMap<String, Integer> puntajes;
@@ -34,7 +37,10 @@ public class MsgReset extends Msg {
 	public Object realizarAccion(Object obj) {
 		Cliente c = (Cliente) obj;
 		c.getMapa().limpiarEntidades();
-		c.getBomber().cambiarVisibilidad();
+		if (!c.getBomber().verSiEsVisible()) {
+			c.getBomber().cambiarVisibilidad();
+		}
+		
 		Mapa m = new Mapa();
 		for (SvObstaculo obs : lista) {
 			c.getMapa().agregarEntidadAlConjunto(obs.obtenerUbicacion(), new Obstaculo(obs.getX(), obs.getY()));
@@ -43,15 +49,19 @@ public class MsgReset extends Msg {
 		for (Entry<Ubicacion, Entidad> entry : aux.entrySet()) {
 			c.getMapa().agregarEntidadAlConjunto(entry.getKey(),entry.getValue());
 		}
-		
+		c.getMapa().limpiarBombermans();
 		for (SvBomberman bomberman : bomber) {
-			c.getMapa().obtenerBombermanEn(new Ubicacion(bomberman.getX(), bomberman.getY())).cambiarUbicacion(new Ubicacion(bomberman.getX(), bomberman.getY()));
+			Bomberman bomber = new Bomberman(bomberman.getX(), bomberman.getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT,bomberman.getIdBomberman(),bomberman.getNombre());
+			c.getMapa().agregarBomberman(bomber);
+//			c.getMapa().obtenerBombermanEn(new Ubicacion(bomberman.getX(), bomberman.getY())).cambiarUbicacion(new Ubicacion(bomberman.getX(), bomberman.getY()));
 		}
 		
 		for (Entry<String, Integer> entry : puntajes.entrySet()) {
 			c.getTablero().agregarPuntuacion(entry.getKey(),entry.getValue());
 		}
 		
+		c.getPanelGrafico().resetearVariables(c.getMapa().getListaEntidades(),c.getMapa().obtenerListaBomberman(),c.getTablero().getPuntuacion());
+//		c.getPanelGrafico().iniciarReloj();
 		return null;
 	}
 

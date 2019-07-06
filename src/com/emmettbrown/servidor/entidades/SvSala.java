@@ -1,9 +1,17 @@
 package com.emmettbrown.servidor.entidades;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.Socket;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.Timer;
+
+import com.emmettbrown.entidades.Reloj;
+import com.emmettbrown.entorno.grafico.DefConst;
+import com.emmettbrown.entorno.grafico.Tablero;
 import com.emmettbrown.mensajes.cliente.MsgActualizarPuntajes;
 import com.emmettbrown.mensajes.cliente.MsgIniciarMotor;
 import com.emmettbrown.servidor.HiloCliente;
@@ -17,8 +25,10 @@ public class SvSala {
 	private int limJugadores;
 	private ArrayList<HiloCliente> clientesConectados;
 	private ArrayList<String> nombresUsuariosConectados;
+	private Tablero tablero;
 	//El mapa de la sala
 	private ServerMap map;
+	private SvReloj reloj;
 
 	public SvSala(int id, int idCreador, String nombre, int limJugadores) {
 		this.idSala = id;
@@ -27,6 +37,8 @@ public class SvSala {
 		this.limJugadores = limJugadores;
 		this.clientesConectados = new ArrayList<HiloCliente>();
 		nombresUsuariosConectados = new ArrayList<String>();
+		this.tablero = new Tablero();
+		this.reloj = new SvReloj(0, 0, DefConst.SEG);
 	}
 
 	public ArrayList<ObjectOutputStream> getOutputStreams() {
@@ -59,6 +71,14 @@ public class SvSala {
 	public String getNombre() {
 		return nombre;
 	}
+	
+	public Tablero obtenerTablero() {
+		return tablero;
+	}
+	
+	public ArrayList<HiloCliente> obtenerHilosSala() {
+		return clientesConectados;
+	}
 
 	public ArrayList<String> obtenerUsuarios() {
 		return nombresUsuariosConectados;
@@ -79,16 +99,19 @@ public class SvSala {
 		
 		for (HiloCliente hiloCliente : clientesConectados) {
 			hiloCliente.inicializarCliente(map);
-			//Inicializamos el motor despues de todo así le damos la ilusión al cliente de que todo es rápido
+			//Inicializamos el motor despues de todo asï¿½ le damos la ilusiï¿½n al cliente de que todo es rï¿½pido
 			hiloCliente.enviarMsg(new MsgIniciarMotor());
-			h.put(hiloCliente.getNombreUsuario(), 0);	
+			h.put(hiloCliente.getNombreUsuario(), 0);
+			tablero.agregarPuntuacion(hiloCliente.getNombreUsuario(), 0);
 		}
-		for (HiloCliente hiloCliente : clientesConectados) {
-			hiloCliente.guardarPuntaje(h);
-		}
-		creador.broadcast(new MsgActualizarPuntajes(h), creador.getSalaConectada().getOutputStreams());
-		
-//		creador.comenzarPartida(creador.getIdCliente());	
+//		for (HiloCliente hiloCliente : clientesConectados) {
+//			hiloCliente.guardarPuntaje(h);
+//		}
+//		creador.broadcast(new MsgActualizarPuntajes(h),creador.getSalaConectada().getWriteSockets());
+		reloj.startTimer(this);
 	}
-
+	
+	public void reiniciarReloj() {
+		reloj.startTimer(this);
+	}
 }

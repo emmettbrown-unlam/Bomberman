@@ -28,9 +28,6 @@ public class MsgActualizarPts extends Msg{
 			}
 			puntajes.put(bb.getNombre(), puntaje + puntajes.get(bb.getNombre() ));
 		}
-		for (Entry<String, Integer> entry : puntajes.entrySet()) {
-			System.out.println(entry.getKey()+"-"+entry.getValue());
-		}
 		
 		h.guardarPuntaje(puntajes);
 		h.enviarMsg(new MsgActualizarPuntajes(puntajes));

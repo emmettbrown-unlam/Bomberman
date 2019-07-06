@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.emmettbrown.entidades.Bomberman;
+import com.emmettbrown.entorno.grafico.JPanelGrafico;
 import com.emmettbrown.entorno.grafico.JVentanaLobby;
 import com.emmettbrown.entorno.grafico.Sala;
 import com.emmettbrown.entorno.grafico.Tablero;
@@ -34,6 +35,7 @@ public class Cliente implements Serializable {
 	private HashMap<String,Integer> puntajesJugadores;
 	private Tablero tab;
 	private int rondaActual;
+	private JPanelGrafico panelGrafico;
 
 	public Cliente(String ip, int puerto, String username) {
 		try {
@@ -168,6 +170,14 @@ public class Cliente implements Serializable {
 	
 	public int getRoundActual() {
 		return this.rondaActual;
+	}
+
+	public void setPanelGrafico(JPanelGrafico jPanelGrafico) {
+		this.panelGrafico = jPanelGrafico;
+	}
+	
+	public JPanelGrafico getPanelGrafico() {
+		return this.panelGrafico ;
 	}
 	
 }

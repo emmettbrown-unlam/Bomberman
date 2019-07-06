@@ -35,8 +35,6 @@ public class JVentanaGrafica extends JFrame {
 		//Refresca esta ventana constantemente, 30 fps
 		GameLoop gameloop = new GameLoop(this, 60,DefConst.TIMEOUT);
 		gameloop.start();
-//		RefreshThread thread = new RefreshThread(this, 60);
-//		thread.start();
 	}
 
 	public Teclado getTeclado() {
