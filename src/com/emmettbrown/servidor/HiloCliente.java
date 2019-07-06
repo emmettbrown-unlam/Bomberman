@@ -77,7 +77,7 @@ public class HiloCliente extends Thread {
 		return this.writeSocket;
 	}
 
-	public boolean isEstaConectado() {
+	public boolean siEstaConectado() {
 		return estaConectado;
 	}
 
