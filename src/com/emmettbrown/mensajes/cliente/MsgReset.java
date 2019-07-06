@@ -60,7 +60,7 @@ public class MsgReset extends Msg {
 			c.getTablero().agregarPuntuacion(entry.getKey(),entry.getValue());
 		}
 		
-		c.getPanelGrafico().resetearVariables(c.getMapa().getListaEntidades(),c.getMapa().obtenerListaBomberman(),c.getTablero().getPuntuacion());
+//		c.getPanelGrafico().resetearVariables(c.getMapa().getListaEntidades(),c.getMapa().obtenerListaBomberman(),c.getTablero().getPuntuacion());
 //		c.getPanelGrafico().iniciarReloj();
 		return null;
 	}

@@ -44,23 +44,33 @@ public class GameLoop extends Thread {
 				
 				if (cantidadRondas == DefConst.MAXROUND) {
 					corriendo = false;
-					JOptionPane.showMessageDialog(null, "La partida a finalizado!");
+					JOptionPane.showMessageDialog(null, "La partida a finalizado!","Tiempo muerto",JOptionPane.WARNING_MESSAGE);
 				}else {
-					JOptionPane.showMessageDialog(null, "La ronda "+cantidadRondas+" ha finalizado!"); //Esto bloquea el repaint no el thread. no se porque tendriamos que buscar algo bloqueante
-					System.out.println("paso!!");
+					JOptionPane.showMessageDialog(null, "La ronda "+cantidadRondas+" ha finalizado!. Siguiente ronda en 5s");
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					cantidadRondas++;
+					cantSeg = 0;
+					deltaF = 0;
+					initialTime = System.nanoTime();
 					ventana.obtenerCliente().setRound(cantidadRondas);
 					ventana.obtenerCliente().enviarMsg(new MsgReestablecerMotor(ventana.obtenerCliente().getIdCliente()));
 					ventana.obtenerCliente().getPanelGrafico().iniciarReloj();
-					cantSeg = 0;
+		
 				}	
 			}	
 		}
 	}
 	
+	public void setCantRondas(int s) {
+		this.cantidadRondas = s;
+	}
 	public void matarThread() {
 		this.corriendo = false;
-		//ventana.dispo
 	}
 
 	public void refrescar() {

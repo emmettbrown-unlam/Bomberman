@@ -75,7 +75,7 @@ public class SvReloj {
 					puntajes.put(bb.getNombre(), puntaje + puntajes.get(bb.getNombre() ));
 				}
 				
-				h.broadcast(new MsgActualizarPuntajes(puntajes), h.getSalaConectada().getWriteSockets());
+				h.broadcast(new MsgActualizarPuntajes(puntajes), h.getSalaConectada().getOutputStreams());
 				t.stop();
 			}	
 		}

@@ -41,12 +41,12 @@ public class JPanelGrafico extends JPanel {
 		cliente.setPanelGrafico(this);
 	}
 	
-	public void resetearVariables(HashMap<Ubicacion, Entidad> a , List<Bomberman> b , HashMap<String, Integer> c ) {
-		this.conjuntoEntidades = a;
-		this.listaBomberman = b;
-		this.puntajes = c;
-		iniciarReloj();
-	}
+//	public void resetearVariables(HashMap<Ubicacion, Entidad> a , List<Bomberman> b , HashMap<String, Integer> c ) {
+//		this.conjuntoEntidades = a;
+//		this.listaBomberman = b;
+//		this.puntajes = c;
+//		iniciarReloj();
+//	}
 	public void iniciarReloj() {
 		rl.startTimer();
 	}
