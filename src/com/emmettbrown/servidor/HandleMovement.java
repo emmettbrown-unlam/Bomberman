@@ -5,15 +5,17 @@ import java.util.ArrayList;
 
 import com.emmettbrown.controles.Movimientos;
 import com.emmettbrown.entorno.grafico.DefConst;
+import com.emmettbrown.mensajes.cliente.MsgEliminarBomberman;
 import com.emmettbrown.mensajes.cliente.MsgPonerBomba;
 import com.emmettbrown.mensajes.cliente.MsgPosBomberman;
+import com.emmettbrown.servidor.entidades.SvBomberman;
 
 public class HandleMovement extends Thread {
 	
 	private HiloCliente hilo;
 	private ArrayList<Socket> socketsSala;
 	private Movimientos mov;
-	
+	private SvBomberman bomberActual;
 	public void setMovimiento(Movimientos mov) {
 		this.mov = mov;
 	}
@@ -25,31 +27,44 @@ public class HandleMovement extends Thread {
 	}
 	
 	public void handleInput() {
+		bomberActual = hilo.getBomber();
 		switch(mov) {
-		
 		case IZQUIERDA:
-			hilo.getMap().moverBombermanIzq(hilo.getBomber(), DefConst.VELOCIDAD);
-			hilo.broadcast(new MsgPosBomberman(hilo.getBomber().obtenerID(), hilo.getBomber().getX(), hilo.getBomber().getY()), socketsSala);
+			
+			hilo.getMap().moverBombermanIzq(bomberActual, DefConst.VELOCIDAD);
+			if(bomberActual.estaVivo() == false)
+				hilo.broadcast(new MsgEliminarBomberman(bomberActual.getIdBomberman()), socketsSala);
+			else
+				hilo.broadcast(new MsgPosBomberman(bomberActual.obtenerID(), bomberActual.getX(), bomberActual.getY()), socketsSala);
 			break;
 			
 		case DERECHA:
-			hilo.getMap().moverBombermanDer(hilo.getBomber(), DefConst.VELOCIDAD);
-			hilo.broadcast(new MsgPosBomberman(hilo.getBomber().obtenerID(), hilo.getBomber().getX(), hilo.getBomber().getY()), socketsSala);
+			hilo.getMap().moverBombermanDer(bomberActual, DefConst.VELOCIDAD);
+			if(bomberActual.estaVivo() == false)
+				hilo.broadcast(new MsgEliminarBomberman(bomberActual.getIdBomberman()), socketsSala);
+			else
+			hilo.broadcast(new MsgPosBomberman(bomberActual.obtenerID(), bomberActual.getX(), bomberActual.getY()), socketsSala);
 			break;
 		
 		case ARRIBA: 
-			hilo.getMap().moverBombermanArriba(hilo.getBomber(), DefConst.VELOCIDAD);
-			hilo.broadcast(new MsgPosBomberman(hilo.getBomber().obtenerID(), hilo.getBomber().getX(), hilo.getBomber().getY()), socketsSala);
+			hilo.getMap().moverBombermanArriba(bomberActual, DefConst.VELOCIDAD);
+			if(bomberActual.estaVivo() == false)
+				hilo.broadcast(new MsgEliminarBomberman(bomberActual.getIdBomberman()), socketsSala);
+			else
+			hilo.broadcast(new MsgPosBomberman(bomberActual.obtenerID(), bomberActual.getX(), bomberActual.getY()), socketsSala);
 			break;
 		
 		case ABAJO:
-			hilo.getMap().moverBombermanAbajo(hilo.getBomber(), DefConst.VELOCIDAD);
-			hilo.broadcast(new MsgPosBomberman(hilo.getBomber().obtenerID(), hilo.getBomber().getX(), hilo.getBomber().getY()), socketsSala);
+			hilo.getMap().moverBombermanAbajo(bomberActual, DefConst.VELOCIDAD);
+			if(bomberActual.estaVivo() == false)
+				hilo.broadcast(new MsgEliminarBomberman(bomberActual.getIdBomberman()), socketsSala);
+			else
+				hilo.broadcast(new MsgPosBomberman(bomberActual.obtenerID(), bomberActual.getX(),bomberActual.getY()), socketsSala);
 			break;
 			
 		case BOMBA:
-			hilo.getMap().agregarBomba(hilo.getBomber().getX(), hilo.getBomber().getY(), hilo.getBomber());
-			hilo.broadcast(new MsgPonerBomba(hilo.getBomber().getX(), hilo.getBomber().getY(), hilo.getBomber()), socketsSala);
+			hilo.getMap().agregarBomba(bomberActual.getX(), bomberActual.getY(), bomberActual);
+			hilo.broadcast(new MsgPonerBomba(bomberActual.getX(), bomberActual.getY(), bomberActual), socketsSala);
 			break;
 			
 		case NULL:
