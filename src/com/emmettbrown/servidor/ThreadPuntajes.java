@@ -47,6 +47,6 @@ public class ThreadPuntajes extends Thread{
 			puntajes.put(bb.getNombre(), puntaje);
 		}
 		
-		hilo.broadcast(new MsgActualizarPuntajes(puntajes), hilo.getSalaConectada().getSockets());
+		hilo.broadcast(new MsgActualizarPuntajes(puntajes), hilo.getSalaConectada().getWriteSockets());
 	}
 }

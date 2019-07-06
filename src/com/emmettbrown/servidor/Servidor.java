@@ -35,20 +35,24 @@ public class Servidor {
 	public void iniciarServidor() {		
 		try {
 			serverSocket = new ServerSocket(this.port);
-			// Socket del cliente
-			Socket clientSocket;
+			// Sockets del cliente
+			Socket writeSocket;
+			Socket readSocket;
 			while (true) {
 				System.out.println("Servidor esperando clientes!");
 				//Este método bloquea la ejecución del Thread hasta que se reciba una conexión entrante
 				//de un cliente
-				clientSocket = serverSocket.accept();
+				
+				//Aceptamos ambos sockets
+				writeSocket = serverSocket.accept();
+				readSocket = serverSocket.accept();
 				//Añadimos el socket del cliente a la lista de sockets
-				this.usuariosConectados.add(clientSocket);				
+				this.usuariosConectados.add(writeSocket);				
 				System.out.println("¡Conexion aceptada!");
 				
 				//Creamos un hilo para el cliente (evitando así el bloqueo que se genera en este mismo hilo)
 				//Le envíamos como datos el socket del cliente, y los la lista de usuarios conectados
-				HiloCliente hiloCliente = new HiloCliente(clientSocket, usuariosConectados, listaSalas);
+				HiloCliente hiloCliente = new HiloCliente(writeSocket, readSocket, usuariosConectados, listaSalas);
 				//Iniciamos el hilo
 				hiloCliente.start();
 

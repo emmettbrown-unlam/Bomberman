@@ -39,7 +39,7 @@ public class MsgConectarseASala extends Msg {
 		hilo.setSalaConectada(salaSeleccionada);
 		hilo.broadcast(new MsgActualizarDatosSala(idSala, salaSeleccionada.getClientesConectadosSize()), hilo.getUsuariosConectados());
 		
-		hilo.broadcast(new MsgActualizarListaUsuarios(salaSeleccionada.getId(), salaSeleccionada.obtenerUsuarios()), salaSeleccionada.getSockets());
+		hilo.broadcast(new MsgActualizarListaUsuarios(salaSeleccionada.getId(), salaSeleccionada.obtenerUsuarios()), salaSeleccionada.getWriteSockets());
 		return null;
 	}
 

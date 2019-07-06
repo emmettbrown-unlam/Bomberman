@@ -5,7 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -23,7 +22,8 @@ public class Cliente implements Serializable {
 	private String username;
 	private String host;
 	private String mensajeError;
-	private transient Socket clientSocket;
+	private transient Socket readSocket;
+	private transient Socket writeSocket;
 	private Bomberman bomber;
 	private Mapa mapa;
 	private int idCliente;
@@ -35,15 +35,21 @@ public class Cliente implements Serializable {
 
 	public Cliente(String ip, int puerto, String username) {
 		try {
-			this.host = ip;
-			this.clientSocket = new Socket(host, puerto);
-			this.puntajesJugadores = new HashMap<String,Integer>();
 			this.username = username;
+			this.host = ip;
+			//Creamos los sockets de escritura y lectura
+			this.readSocket = new Socket(host, puerto);
+			this.writeSocket = new Socket(host, puerto);
+			
 			this.mapa = new Mapa();
+			this.puntajesJugadores = new HashMap<String,Integer>();
 			this.listaSalas = new ConcurrentLinkedQueue<Sala>();
 			this.tab = new Tablero();
+
+			//Creamos un hilo escucha que se encargará de leer las cosas que se envíen al readSocket
 			ListenerThread listener = new ListenerThread(this);
 			listener.start();
+			//Enviamos un mensaje al servidor para que setee el nombre de usuario del cliente
 			enviarMsg(new MsgActualizarNombre(this.username));
 		} catch (IOException e) {
 			this.mensajeError = "No se encontro ningun servidor al cual conectarse!";
@@ -94,7 +100,7 @@ public class Cliente implements Serializable {
 		
 	public void enviarMsg(Msg consultaAlServidor) {
 		try {
-			ObjectOutputStream outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+			ObjectOutputStream outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
 			outputStream.writeObject(consultaAlServidor);
 		} catch (IOException e) {
 			System.out.println("Error al querer enviar peticion al sv " + e);
@@ -104,7 +110,7 @@ public class Cliente implements Serializable {
 	public Object recibirMsg() {
 		Object obj = null;
 		try {
-			ObjectInputStream inputStream = new ObjectInputStream(clientSocket.getInputStream());
+			ObjectInputStream inputStream = new ObjectInputStream(readSocket.getInputStream());
 			obj = inputStream.readObject();
 		} catch (IOException | ClassNotFoundException e) {
 			this.mensajeError = "Comunicacion cerrada en recibir msg1. " + e;

@@ -2,15 +2,14 @@ package com.emmettbrown.servidor;
 
 import java.io.IOException;
 
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map.Entry;
 
-import com.emmettbrown.entidades.Entidad;
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.mensajes.Msg;
@@ -28,7 +27,8 @@ public class HiloCliente extends Thread {
 
 	private int idCliente;
 	private boolean estaConectado;
-	private transient Socket clientSocket;
+	private transient Socket readSocket;
+	private transient Socket writeSocket;
 	//Bomberman relacionado a este cliente
 	private SvBomberman bomber;
 	//Lista de usuarios conectados (de todo el server)
@@ -44,9 +44,11 @@ public class HiloCliente extends Thread {
 	private String nombreUsuario;
 	private HashMap<String, Integer> puntajes;
 	
-	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ArrayList<SvSala> salas) {
+	public HiloCliente(Socket writeSocket, Socket readSocket, ArrayList<Socket> usuariosConectados, ArrayList<SvSala> salas) {
 		this.idCliente = idCounter++;
-		this.clientSocket = cliente;
+		//this.clientSocket = cliente;
+		this.writeSocket = writeSocket;
+		this.readSocket = readSocket;
 		this.usuariosConectados = usuariosConectados;
 		this.estaConectado = true;
 		this.listaSalas = salas;
@@ -54,13 +56,9 @@ public class HiloCliente extends Thread {
 		enviarMsg(new MsgIdCliente(this.idCliente));
 		this.puntajes = new HashMap<>();
 	}
-
-	public Socket getClientSocket() {
-		return clientSocket;
-	}
-
-	public void setClientSocket(Socket clientSocket) {
-		this.clientSocket = clientSocket;
+	
+	public Socket getWriteSocket() {
+		return this.writeSocket;
 	}
 
 	public boolean isEstaConectado() {
@@ -103,19 +101,19 @@ public class HiloCliente extends Thread {
 		this.map = map;
 		Ubicacion ubic = map.obtenerUbicacionInicio();		
 		this.bomber = new SvBomberman(ubic.getPosX()*75, ubic.getPosY()*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT,this.getNombreUsuario());
-		this.movimiento = new HandleMovement(this, salaConectada.getSockets());
+		this.movimiento = new HandleMovement(this, salaConectada.getWriteSockets());
 		this.movimiento.start();
 		//Enviamos los obtasculos a todos los clientes
-		this.broadcast(new MsgGenerarObstaculos(map.getObstaculos()), salaConectada.getSockets());
+		this.broadcast(new MsgGenerarObstaculos(map.getObstaculos()), salaConectada.getWriteSockets());
 		//Agregamos el bomber del cliente al mapa
 		map.agregarBomberman(bomber);
 		//Le decimos al cliente que añada el bomber
-		this.broadcast(new MsgAgregarBomberman(bomber, idCliente), salaConectada.getSockets());
+		this.broadcast(new MsgAgregarBomberman(bomber, idCliente), salaConectada.getWriteSockets());
 	}
 	
 	public void enviarMsg(Msg msg) {
 		try {
-			ObjectOutputStream salidaACliente = new ObjectOutputStream(clientSocket.getOutputStream());
+			ObjectOutputStream salidaACliente = new ObjectOutputStream(writeSocket.getOutputStream());
 			salidaACliente.writeObject(msg);
 		} catch (Exception e) {
 			System.out.println("¡No se pudo enviar el mensaje! :)");
@@ -123,9 +121,9 @@ public class HiloCliente extends Thread {
 	}
 	
 	public void broadcast(Msg msg, ArrayList<Socket> usuariosConectados) {		
-		for (Socket clientSocket : usuariosConectados) {
+		for (Socket writeSocket : usuariosConectados) {
 			try {
-				ObjectOutputStream salidaACliente = new ObjectOutputStream(clientSocket.getOutputStream());
+				ObjectOutputStream salidaACliente = new ObjectOutputStream(writeSocket.getOutputStream());
 				salidaACliente.writeObject(msg);
 			} catch (IOException e) {
 				System.out.println(e);
@@ -136,23 +134,23 @@ public class HiloCliente extends Thread {
 	@Override
 	public void run() {
 		try {
-			ObjectInputStream reciboMsg = new ObjectInputStream(clientSocket.getInputStream());
+			ObjectInputStream reciboMsg = new ObjectInputStream(readSocket.getInputStream());
 
 			while (estaConectado) {
 				/* Recibo Consulta de cliente */
 				Msg msgRecibo = (Msg) reciboMsg.readObject();
 				msgRecibo.realizarAccion(this);
-				reciboMsg = new ObjectInputStream(clientSocket.getInputStream());
+				reciboMsg = new ObjectInputStream(readSocket.getInputStream());
 			}
 
 			reciboMsg.close();
-			clientSocket.close();
+			readSocket.close();
 		} catch (IOException | ClassNotFoundException ex) {
 			System.out.println("Problemas al querer leer otra petición: " + ex.getMessage());
 			
 			
 			this.map.eliminarBomberman(this.bomber);
-			this.usuariosConectados.remove(this.clientSocket);			
+			this.usuariosConectados.remove(this.writeSocket);			
 			eliminarSala(this.idCliente);
 			broadcast(new MsgEliminarBomberman(this.bomber.getIdBomberman()), usuariosConectados);
 			this.estaConectado = false;

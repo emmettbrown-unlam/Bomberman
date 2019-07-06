@@ -43,7 +43,7 @@ public class MsgReestablecerMotor extends Msg {
 			hilo.getBomber().cambiarVisibilidad();
 			hilo.getBomber().setUbicacion(ubicBomber);
 			
-			hilo.broadcast(new MsgReset(hilo.getMap().getObstaculos(),bomber,hilo.getPuntajes()), hilo.getSalaConectada().getSockets());
+			hilo.broadcast(new MsgReset(hilo.getMap().getObstaculos(),bomber,hilo.getPuntajes()), hilo.getSalaConectada().getWriteSockets());
 			
 		}
 		return null;

@@ -29,11 +29,11 @@ public class SvSala {
 		nombresUsuariosConectados = new ArrayList<String>();
 	}
 
-	public ArrayList<Socket> getSockets() {
+	public ArrayList<Socket> getWriteSockets() {
 		ArrayList<Socket> sockets = new ArrayList<Socket>();
 		
 		for (HiloCliente hilo : clientesConectados) {
-			sockets.add(hilo.getClientSocket());
+			sockets.add(hilo.getWriteSocket());
 		}
 		
 		return sockets;		
@@ -86,7 +86,7 @@ public class SvSala {
 		for (HiloCliente hiloCliente : clientesConectados) {
 			hiloCliente.guardarPuntaje(h);
 		}
-		creador.broadcast(new MsgActualizarPuntajes(h),creador.getSalaConectada().getSockets());
+		creador.broadcast(new MsgActualizarPuntajes(h),creador.getSalaConectada().getWriteSockets());
 		
 //		creador.comenzarPartida(creador.getIdCliente());	
 	}
