@@ -88,7 +88,7 @@ public class Login extends JFrame {
 		btnIniciarSesin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (validarUsuario(txtUsername.getText(),new String (txtPassword.getPassword()))) {
-					cliente = new Cliente("localhost", 5000, txtUsername.getText());
+					cliente = new Cliente(DefConst.IP, 5000, txtUsername.getText());
 					JVentanaInicial inicial = new JVentanaInicial(cliente);
 					inicial.setVisible(true);
 					dispose();					
