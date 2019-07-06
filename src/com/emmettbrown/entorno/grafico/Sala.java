@@ -10,6 +10,7 @@ public class Sala {
 	private int limJugadores;
 	private int jugConectados;
 	private ArrayList<String> usuarios;
+	private Tablero tableroPuntos;
 	
 	public Sala (int id, int idCreador, String nombre, int jugConectados, int limJugadores) {
 		this.idSala = id;
@@ -18,6 +19,7 @@ public class Sala {
 		this.jugConectados = jugConectados;
 		this.limJugadores = limJugadores;
 		this.usuarios = new ArrayList<String>();
+//		this.tableroPuntos = new Tablero(idSala, 60, usuarios);
 	}
 
 	@Override
@@ -47,5 +49,9 @@ public class Sala {
 	
 	public void setUsuarios(ArrayList<String> usuarios) {
 		this.usuarios = usuarios;
+	}
+	
+	public Tablero obtenerTablero() {
+		return tableroPuntos;
 	}
 }

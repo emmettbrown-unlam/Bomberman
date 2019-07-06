@@ -80,6 +80,9 @@ public class Mapa {
 	 * @param ubic la ubicacion a buscar.
 	 * @return
 	 */
+	public void limpiarBombermans() {
+		this.listaBomberman.clear();
+	}
 
 	public Entidad obtenerEntidadEn(Ubicacion ubic) {
 		Entidad ent;
@@ -95,6 +98,10 @@ public class Mapa {
 			return ent;
 
 		return null;
+	}
+	
+	public void limpiarEntidades() {
+		this.conjuntoEntidades.clear();
 	}
 
 	/**
@@ -130,7 +137,7 @@ public class Mapa {
 	///////////////////////////////////
 
 	/**
-	 * Actualiza gráficamente la posición del Bomberman en el cliente.
+	 * Actualiza grï¿½ficamente la posiciï¿½n del Bomberman en el cliente.
 	 * 
 	 * @param bomberman el bomberman a mover
 	 * @param despX     el desplazamiento en el eje X que realizara el bomberman
@@ -148,11 +155,9 @@ public class Mapa {
 					bomberman.cambiarImagenArriba();
 				if(bomberman.getY() < despY)
 					bomberman.cambiarImagenAbajo();
-				
 				bomberman.cambiarPosX(despX);	
 				bomberman.cambiarPosY(despY);
 			}
-
 		}
 	}
 
@@ -173,7 +178,7 @@ public class Mapa {
 	 * Reciben como parametros el bomberman a mover, y el desplazamiento sin NINGUN
 	 * tipo de signo.
 	 * 
-	 * De igual forma, los valores están forzados a un math.abs. Está todo fool
+	 * De igual forma, los valores estï¿½n forzados a un math.abs. Estï¿½ todo fool
 	 * proofeado.
 	 */
 
@@ -247,13 +252,13 @@ public class Mapa {
 	/////////////////////////////////////
 
 	/**
-	 * Agrega una bomba dependiendo de la posición del bomberman. Realiza un cálculo
-	 * para ver en qué casillero es mejor ubicarla. La bomba es agregada al conjunto
-	 * de entidades del mapa. También se crea un timer que la detona pasados algunos
+	 * Agrega una bomba dependiendo de la posiciï¿½n del bomberman. Realiza un cï¿½lculo
+	 * para ver en quï¿½ casillero es mejor ubicarla. La bomba es agregada al conjunto
+	 * de entidades del mapa. Tambiï¿½n se crea un timer que la detona pasados algunos
 	 * segundos.
 	 * 
-	 * @param x posición X del bomberman
-	 * @param y posición Y del bomberman
+	 * @param x posiciï¿½n X del bomberman
+	 * @param y posiciï¿½n Y del bomberman
 	 */
 
 	public void agregarBomba(int x, int y, Bomberman creador) {
@@ -262,10 +267,10 @@ public class Mapa {
 		Ubicacion ubic = new Ubicacion(x / DefConst.TILESIZE, y / DefConst.TILESIZE);
 
 		if (obtenerEntidadDelConjunto(ubic) == null) {
-			// Si el módulo de la posición con el tamaño del tile da mayor a la mitad del
-			// tamaño,
+			// Si el mï¿½dulo de la posiciï¿½n con el tamaï¿½o del tile da mayor a la mitad del
+			// tamaï¿½o,
 			// movemos la posicion en un casillero para que la bomba se cree en el casillero
-			// aledaño
+			// aledaï¿½o
 			if (x % DefConst.TILESIZE > DefConst.TOLCAMBIOPOS)
 				ubic.cambiarPosX(1);
 			if (y % DefConst.TILESIZE > DefConst.TOLCAMBIOPOS)

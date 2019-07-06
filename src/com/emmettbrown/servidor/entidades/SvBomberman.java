@@ -1,6 +1,6 @@
 package com.emmettbrown.servidor.entidades;
 import com.emmettbrown.servidor.entidades.SvBomba;
-import com.emmettbrown.servidor.entidades.Entidad;
+import com.emmettbrown.servidor.entidades.SvEntidad;
 import com.emmettbrown.servidor.entidades.Explosion;
 import com.emmettbrown.servidor.mapa.ServerMap;
 import com.emmettbrown.mapa.Ubicacion;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import com.sun.javafx.geom.Rectangle;
 
-public class SvBomberman extends Entidad implements Serializable{
+public class SvBomberman extends SvEntidad implements Serializable{
 	/**
 	 * 
 	 */
@@ -26,7 +26,9 @@ public class SvBomberman extends Entidad implements Serializable{
 		this.nombre = nombre;
 		this.bombas = new ArrayList<SvBomba>();
 	}
-	
+	public boolean estaVivo() {
+		return this.esVisible;
+	}
 	public String getNombre() {
 		return nombre;
 	}
@@ -69,7 +71,7 @@ public class SvBomberman extends Entidad implements Serializable{
 		
 	}
 	
-	public boolean manejarColisionCon(Entidad ent) {
+	public boolean manejarColisionCon(SvEntidad ent) {
 		if (ent instanceof SvBomba) {
 			return ((SvBomba) ent).hayColisionConCreador(this);
 		}

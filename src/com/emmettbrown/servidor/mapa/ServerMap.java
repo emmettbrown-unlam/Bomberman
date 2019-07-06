@@ -7,7 +7,7 @@ import java.util.List;
 import com.emmettbrown.servidor.entidades.SvBomba;
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.mapa.Ubicacion;
-import com.emmettbrown.servidor.entidades.Entidad;
+import com.emmettbrown.servidor.entidades.SvEntidad;
 import com.emmettbrown.servidor.entidades.Muro;
 import com.emmettbrown.servidor.entidades.SvObstaculo;
 import com.emmettbrown.servidor.entidades.SvBomberman;
@@ -15,7 +15,7 @@ import com.sun.javafx.geom.Rectangle;
 
 public class ServerMap {
 	
-	private HashMap<Ubicacion, Entidad> conjuntoEntidades;
+	private HashMap<Ubicacion, SvEntidad> conjuntoEntidades;
 	private ArrayList<SvObstaculo> obstaculos;
 	private List<SvBomberman> listaBomberman;
 	private ArrayList<Ubicacion> ubicacionesInicio;
@@ -27,7 +27,7 @@ public class ServerMap {
 	///////////////////////////////////
 
 	public ServerMap() {
-		conjuntoEntidades = new HashMap<Ubicacion, Entidad>();
+		conjuntoEntidades = new HashMap<Ubicacion, SvEntidad>();
 		listaBomberman = new ArrayList<SvBomberman>();
 		obstaculos = new ArrayList<SvObstaculo>();
 		ubicacionesInicio = generarUbicacionesInicio();		
@@ -112,7 +112,7 @@ public class ServerMap {
 	// 									//
 	/////////////////////////////////////
 
-	public HashMap<Ubicacion, Entidad> getListaEntidades() {
+	public HashMap<Ubicacion, SvEntidad> getListaEntidades() {
 		return conjuntoEntidades;
 	}
 
@@ -123,8 +123,8 @@ public class ServerMap {
 	 * @return
 	 */
 
-	public Entidad obtenerEntidadEn(Ubicacion ubic) {
-		Entidad ent;
+	public SvEntidad obtenerEntidadEn(Ubicacion ubic) {
+		SvEntidad ent;
 
 		ent = conjuntoEntidades.get(ubic);
 
@@ -146,7 +146,7 @@ public class ServerMap {
 	 * @return
 	 */
 
-	public Entidad obtenerEntidadDelConjunto(Ubicacion ubic) {
+	public SvEntidad obtenerEntidadDelConjunto(Ubicacion ubic) {
 		return conjuntoEntidades.get(ubic);
 	}
 
@@ -160,7 +160,7 @@ public class ServerMap {
 		conjuntoEntidades.remove(ubic);
 	}
 	
-	public void agregarEntidadAlConjunto(Ubicacion ubic, Entidad ent) {
+	public void agregarEntidadAlConjunto(Ubicacion ubic, SvEntidad ent) {
 		if(conjuntoEntidades.containsKey(ubic)==false)
 			conjuntoEntidades.put(ubic, ent);
 	}
@@ -273,11 +273,11 @@ public class ServerMap {
 		
 		for (int i = 0; i < 3; i++) {
 			//Entidad que se encuentra en la fila superior a la del bomberman
-			Entidad entidadSup = conjuntoEntidades.get(new Ubicacion((ubicDesp.getPosX()-1)+i, ubicDesp.getPosY()-1));		
+			SvEntidad entidadSup = conjuntoEntidades.get(new Ubicacion((ubicDesp.getPosX()-1)+i, ubicDesp.getPosY()-1));		
 			//Entidad que se encuentra en la misma fila que la del bomberman
-			Entidad entidadSame = conjuntoEntidades.get(new Ubicacion((ubicDesp.getPosX()-1)+i, ubicDesp.getPosY()));
+			SvEntidad entidadSame = conjuntoEntidades.get(new Ubicacion((ubicDesp.getPosX()-1)+i, ubicDesp.getPosY()));
 			//Entidad que se encuentra en la fila inferior a la del bomberman
-			Entidad entidadInf = conjuntoEntidades.get(new Ubicacion((ubicDesp.getPosX()-1)+i, ubicDesp.getPosY()+1));
+			SvEntidad entidadInf = conjuntoEntidades.get(new Ubicacion((ubicDesp.getPosX()-1)+i, ubicDesp.getPosY()+1));
 			
 			//Si existe colision con alguna de las tres...
 			if (hayColision(bomberman, x, y, entidadSup) || hayColision(bomberman, x, y, entidadSame) 
@@ -298,7 +298,7 @@ public class ServerMap {
 	 * @return
 	 */
 	
-	public boolean hayColision(SvBomberman bman, int x, int y, Entidad ent)  {
+	public boolean hayColision(SvBomberman bman, int x, int y, SvEntidad ent)  {
 		if (ent != null) {
 			//Si existe una colision de hitboxes
 			if (interseccionHitBox(bman, x, y, ent)) {
@@ -322,7 +322,7 @@ public class ServerMap {
 	 * @return true: hay interseccion de hitbox, false: no hay
 	 */
 	
-	public boolean interseccionHitBox(SvBomberman bman, int x, int y, Entidad ent) {
+	public boolean interseccionHitBox(SvBomberman bman, int x, int y, SvEntidad ent) {
 		//Hitbox del bomberman
 		Rectangle hitBoxBman = new Rectangle(x, y, bman.getWidth(), bman.getHeight());
 		//Hitbox de la entidad
@@ -438,6 +438,10 @@ public class ServerMap {
 	 */
 	public void explotarBomba(SvBomba bomba) {
 		bomba.explotar(this);
+	}
+
+	public void setEntidades(HashMap<Ubicacion, SvEntidad> ent) {
+		this.conjuntoEntidades = ent;
 	}
 
 }

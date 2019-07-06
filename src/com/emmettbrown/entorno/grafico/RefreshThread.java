@@ -8,7 +8,6 @@ public class RefreshThread extends Thread {
 	private JFrame ventana;
 	private int FPS; //Refresh rate
 	private boolean corriendo;
-	
 	public RefreshThread(JFrame ventana, int FPS) {
 		this.ventana = ventana;
 		this.FPS = FPS;
@@ -19,14 +18,13 @@ public class RefreshThread extends Thread {
 		long initialTime = System.nanoTime();
 		final double timeF = 1000000000 / FPS;
 		double deltaF = 0;
-
 		while (corriendo) {
 			long currentTime = System.nanoTime();
 			deltaF += (currentTime - initialTime) / timeF;
 			initialTime = currentTime;
+			
 			if (deltaF >= 1) {
 				ventana.repaint();
-				//refrescar();
 				deltaF--;
 			}
 		}
@@ -34,7 +32,6 @@ public class RefreshThread extends Thread {
 	
 	public void matarThread() {
 		this.corriendo = false;
-		//ventana.dispo
 	}
 
 	public void refrescar() {

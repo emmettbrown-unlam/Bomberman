@@ -69,8 +69,6 @@ public class JVentanaLobby extends JFrame {
 
 	public void comenzarPartida() {
 		cliente.enviarMsg(new MsgComenzarPartida());
-		/*refreshThread.matarThread();
-		dispose();*/
 	}
 	
 	public void refrescarListaUsuarios() {
@@ -81,7 +79,9 @@ public class JVentanaLobby extends JFrame {
 			df.addElement(usr);
 		}
 	}
-	
+	public Sala getSala() {
+		return sala;
+	}
 	public void eliminarVentana() {
 		refreshThread.matarThread();
 		dispose();

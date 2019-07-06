@@ -2,7 +2,9 @@ package com.emmettbrown.servidor.entidades;
 
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import com.emmettbrown.mensajes.cliente.MsgActualizarPuntajes;
 import com.emmettbrown.mensajes.cliente.MsgIniciarMotor;
 import com.emmettbrown.servidor.HiloCliente;
 import com.emmettbrown.servidor.mapa.ServerMap;
@@ -73,12 +75,20 @@ public class SvSala {
 		//Removemos la sala actual
 		HiloCliente creador = clientesConectados.get(0);
 		clientesConectados.get(0).eliminarSala(creador.getIdCliente());
+		HashMap<String, Integer> h = new  HashMap<>();
 		
 		for (HiloCliente hiloCliente : clientesConectados) {
 			hiloCliente.inicializarCliente(map);
 			//Inicializamos el motor despues de todo así le damos la ilusión al cliente de que todo es rápido
 			hiloCliente.enviarMsg(new MsgIniciarMotor());
+			h.put(hiloCliente.getNombreUsuario(), 0);	
 		}
+		for (HiloCliente hiloCliente : clientesConectados) {
+			hiloCliente.guardarPuntaje(h);
+		}
+		creador.broadcast(new MsgActualizarPuntajes(h),creador.getSalaConectada().getSockets());
+		
+//		creador.comenzarPartida(creador.getIdCliente());	
 	}
 
 }

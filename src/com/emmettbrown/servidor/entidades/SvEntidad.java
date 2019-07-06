@@ -7,7 +7,7 @@ import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.servidor.mapa.ServerMap;
 import com.sun.javafx.geom.Rectangle;
 
-public abstract class Entidad implements Serializable {
+public abstract class SvEntidad implements Serializable {
 	
 	/**
 	 * 
@@ -21,7 +21,7 @@ public abstract class Entidad implements Serializable {
 	protected int width;
 	protected int height;
 	
-	public Entidad(int posX, int posY, int width, int height)
+	public SvEntidad(int posX, int posY, int width, int height)
 	{
 		this.ubicacion = new Ubicacion(posX/DefConst.TILESIZE, posY/DefConst.TILESIZE);
 		this.x = posX;
@@ -31,7 +31,7 @@ public abstract class Entidad implements Serializable {
 		this.esVisible = true;
 	}
 	
-	public Entidad(Ubicacion ubic, int width, int height)
+	public SvEntidad(Ubicacion ubic, int width, int height)
 	{
 		this.ubicacion = ubic;
 		this.x = ubicacion.getPosX()*DefConst.TILESIZE;
@@ -41,7 +41,7 @@ public abstract class Entidad implements Serializable {
 		this.esVisible = true;
 	}
 	
-	public boolean verSiEsVisible() {
+	public boolean estaVivo() {
 		return this.esVisible;
 	}
 	

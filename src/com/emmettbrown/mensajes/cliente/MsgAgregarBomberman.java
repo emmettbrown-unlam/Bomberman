@@ -29,7 +29,7 @@ public class MsgAgregarBomberman extends Msg {
 			cliente.setBomber(bomber);
 		}
 		cliente.getMapa().agregarBomberman(bomber);
-		
+		cliente.agregarPuntaje(cliente.getUsername(),0);
 		return null;
 	}
 

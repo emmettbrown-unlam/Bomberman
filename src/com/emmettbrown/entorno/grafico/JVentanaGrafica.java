@@ -3,7 +3,6 @@ package com.emmettbrown.entorno.grafico;
 import java.awt.Color;
 
 import javax.swing.JFrame;
-
 import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.controles.Teclado;
 
@@ -33,13 +32,17 @@ public class JVentanaGrafica extends JFrame {
 		this.teclado = new Teclado(cliente);
 		
 		addKeyListener(teclado);
-		
 		//Refresca esta ventana constantemente, 30 fps
-		RefreshThread thread = new RefreshThread(this, 30);
-		thread.start();
+		GameLoop gameloop = new GameLoop(this, 60,DefConst.TIMEOUT);
+		gameloop.start();
+//		RefreshThread thread = new RefreshThread(this, 60);
+//		thread.start();
 	}
 
 	public Teclado getTeclado() {
 		return this.teclado;
+	}
+	public Cliente obtenerCliente() {
+		return cliente;
 	}
 }

@@ -7,6 +7,7 @@ import com.emmettbrown.mensajes.Msg;
 
 public class MsgIniciarMotor extends Msg {
 
+
 	/**
 	 * 
 	 */
@@ -16,7 +17,7 @@ public class MsgIniciarMotor extends Msg {
 	public Object realizarAccion(Object obj) {
 		Cliente cliente = (Cliente) obj;
 		cliente.getLobby().eliminarVentana();
-		JVentanaGrafica ventana = new JVentanaGrafica(DefConst.ANCHO, DefConst.ALTO, cliente);
+		JVentanaGrafica ventana = new JVentanaGrafica(DefConst.ANCHO+400, DefConst.ALTO, cliente);		
 		ventana.setVisible(true);
 		
 		return null;

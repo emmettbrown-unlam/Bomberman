@@ -5,11 +5,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entorno.grafico.JVentanaLobby;
 import com.emmettbrown.entorno.grafico.Sala;
+import com.emmettbrown.entorno.grafico.Tablero;
 import com.emmettbrown.mapa.Mapa;
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.servidor.MsgActualizarNombre;
@@ -26,14 +29,19 @@ public class Cliente implements Serializable {
 	private int idCliente;
 	private JVentanaLobby lobbyActual;
 	private ConcurrentLinkedQueue<Sala> listaSalas;
+	private HashMap<String,Integer> puntajesJugadores;
+	private Tablero tab;
+	private int rondaActual;
 
 	public Cliente(String ip, int puerto, String username) {
 		try {
 			this.host = ip;
 			this.clientSocket = new Socket(host, puerto);
+			this.puntajesJugadores = new HashMap<String,Integer>();
 			this.username = username;
 			this.mapa = new Mapa();
 			this.listaSalas = new ConcurrentLinkedQueue<Sala>();
+			this.tab = new Tablero();
 			ListenerThread listener = new ListenerThread(this);
 			listener.start();
 			enviarMsg(new MsgActualizarNombre(this.username));
@@ -49,6 +57,10 @@ public class Cliente implements Serializable {
 	
 	public void setIdCliente(int num) {
 		this.idCliente = num;
+	}
+	
+	public Tablero getTablero() {
+		return tab;
 	}
 	
 	public Bomberman getBomber() {
@@ -67,6 +79,7 @@ public class Cliente implements Serializable {
 		return this.mapa;
 	}
 	
+
 	public String getUsername() {
 		return username;
 	}
@@ -125,4 +138,25 @@ public class Cliente implements Serializable {
 	public JVentanaLobby getLobby() {
 		return this.lobbyActual;
 	}
+
+	public HashMap<String,Integer> getPuntajes() {
+		return this.puntajesJugadores;
+	}
+	
+	public void agregarPuntaje(String k,int v) {
+		this.tab.agregarPuntuacion(k, v);
+	}
+
+	public void setPuntajes(HashMap<String, Integer> hash) {
+		this.puntajesJugadores = hash;
+	}
+
+	public void setRound(int cantidadRondas) {
+		this.rondaActual = cantidadRondas;
+	}
+	
+	public int getRoundActual() {
+		return this.rondaActual;
+	}
+	
 }

@@ -4,13 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 import com.emmettbrown.servidor.entidades.SvBomberman;
-import com.emmettbrown.servidor.entidades.Entidad;
+import com.emmettbrown.servidor.HiloCliente;
+import com.emmettbrown.servidor.entidades.SvEntidad;
 import com.emmettbrown.servidor.entidades.Explosion;
 import com.emmettbrown.servidor.mapa.ServerMap;
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.mapa.Ubicacion;
 
-public class SvBomba extends Entidad {
+public class SvBomba extends SvEntidad {
 
 	private static final long serialVersionUID = 1L;
 	private int segsExplosion;
@@ -18,6 +19,7 @@ public class SvBomba extends Entidad {
 	private SvBomberman creador;
 	private boolean ignorarColisionCreador;
 	private Timer timer;
+	private HiloCliente hilo ;
 
 	///////////////////////////////////////
 	// 									//
@@ -25,8 +27,9 @@ public class SvBomba extends Entidad {
 	// 									//
 	/////////////////////////////////////
 
-	public SvBomba(int posX, int posY, SvBomberman bman) {
+	public SvBomba(int posX, int posY, SvBomberman bman,HiloCliente hilo) {
 		super(posX, posY, DefConst.TILESIZE, DefConst.TILESIZE);
+		this.hilo = hilo;
 		segsExplosion = 3;
 		this.destructible = true;
 		this.rango = 2;
@@ -142,7 +145,7 @@ public class SvBomba extends Entidad {
 	private boolean explosion(Ubicacion ubic, ServerMap map) {		
 		// Buscamos una entidad en dicha ubicación. Solo puede haber una, así
 		// que buscamos la que esté ahí
-		Entidad ent = map.obtenerEntidadDelConjunto(ubic);
+		SvEntidad ent = map.obtenerEntidadDelConjunto(ubic);
 		SvBomberman bomber = map.obtenerBombermanEn(ubic);
 
 		// en la ubicacion no explota.

@@ -6,8 +6,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
+import com.emmettbrown.entidades.Entidad;
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.mensajes.Msg;
@@ -39,6 +42,7 @@ public class HiloCliente extends Thread {
 	private SvSala salaConectada;
 	private ServerMap map;
 	private String nombreUsuario;
+	private HashMap<String, Integer> puntajes;
 	
 	public HiloCliente(Socket cliente, ArrayList<Socket> usuariosConectados, ArrayList<SvSala> salas) {
 		this.idCliente = idCounter++;
@@ -48,6 +52,7 @@ public class HiloCliente extends Thread {
 		this.listaSalas = salas;
 		//Le comunicamos al cliente cual es su ID
 		enviarMsg(new MsgIdCliente(this.idCliente));
+		this.puntajes = new HashMap<>();
 	}
 
 	public Socket getClientSocket() {
@@ -185,5 +190,16 @@ public class HiloCliente extends Thread {
 	}
 	public String getNombreUsuario() {
 		return nombreUsuario;
+	}
+
+	public void guardarPuntaje(HashMap<String, Integer> puntajes) {
+		this.puntajes = puntajes;
+//		for (Entry<String, Integer> entry : puntajes.entrySet()) {
+//			this.puntajes.put(entry.getKey(),entry.getValue());
+//		}
+	}
+
+	public HashMap<String, Integer> getPuntajes() {
+		return puntajes;
 	}
 }

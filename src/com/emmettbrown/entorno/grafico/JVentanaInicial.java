@@ -69,7 +69,6 @@ public class JVentanaInicial extends JFrame {
 				while (salaCreador == null) {
 					salaCreador = getSalaCreador();
 				}
-				
 				JVentanaLobby sala = new JVentanaLobby(cliente, salaCreador, true);				
 				thread.matarThread();
 				sala.setVisible(true);
