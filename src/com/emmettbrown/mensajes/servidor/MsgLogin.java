@@ -26,7 +26,7 @@ public class MsgLogin extends Msg {
 			if ((this.usuario.equals("Usuario") && this.clave.equals("clave"))
 					|| (this.usuario.equals("Usuario2") && this.clave.equals("clave2"))) {
 
-				hilo.getUsuariosConectados().add(hilo.getWriteSocket());			
+				//hilo.getUsuariosConectados().add(hilo.getWriteSocket());			
 				//Le mandamos un OK al cliente
 				salidaACliente.writeObject("OK");				
 			}

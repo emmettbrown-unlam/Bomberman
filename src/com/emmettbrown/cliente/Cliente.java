@@ -24,6 +24,8 @@ public class Cliente implements Serializable {
 	private String mensajeError;
 	private transient Socket readSocket;
 	private transient Socket writeSocket;
+	private ObjectInputStream inputStream;
+	private ObjectOutputStream outputStream;
 	private Bomberman bomber;
 	private Mapa mapa;
 	private int idCliente;
@@ -40,6 +42,9 @@ public class Cliente implements Serializable {
 			//Creamos los sockets de escritura y lectura
 			this.readSocket = new Socket(host, puerto);
 			this.writeSocket = new Socket(host, puerto);
+			
+			this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
+			this.inputStream = new ObjectInputStream(readSocket.getInputStream());
 			
 			this.mapa = new Mapa();
 			this.puntajesJugadores = new HashMap<String,Integer>();
@@ -100,7 +105,8 @@ public class Cliente implements Serializable {
 		
 	public void enviarMsg(Msg consultaAlServidor) {
 		try {
-			ObjectOutputStream outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
+			//ObjectOutputStream outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
+			outputStream.reset();
 			outputStream.writeObject(consultaAlServidor);
 		} catch (IOException e) {
 			System.out.println("Error al querer enviar peticion al sv " + e);
@@ -110,7 +116,7 @@ public class Cliente implements Serializable {
 	public Object recibirMsg() {
 		Object obj = null;
 		try {
-			ObjectInputStream inputStream = new ObjectInputStream(readSocket.getInputStream());
+			//ObjectInputStream inputStream = new ObjectInputStream(readSocket.getInputStream());
 			obj = inputStream.readObject();
 		} catch (IOException | ClassNotFoundException e) {
 			this.mensajeError = "Comunicacion cerrada en recibir msg1. " + e;

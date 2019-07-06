@@ -29,10 +29,13 @@ public class HiloCliente extends Thread {
 	private boolean estaConectado;
 	private transient Socket readSocket;
 	private transient Socket writeSocket;
+	private ObjectInputStream inputStream;
+	private ObjectOutputStream outputStream;
 	//Bomberman relacionado a este cliente
 	private SvBomberman bomber;
 	//Lista de usuarios conectados (de todo el server)
-	private ArrayList<Socket> usuariosConectados;
+	//private ArrayList<Socket> usuariosConectados;
+	private ArrayList<ObjectOutputStream> usuariosConectados;
 	//Thread de movimiento
 	private HandleMovement movimiento;	
 	//Listado de salas del servidor
@@ -44,17 +47,31 @@ public class HiloCliente extends Thread {
 	private String nombreUsuario;
 	private HashMap<String, Integer> puntajes;
 	
-	public HiloCliente(Socket writeSocket, Socket readSocket, ArrayList<Socket> usuariosConectados, ArrayList<SvSala> salas) {
+	public HiloCliente(Socket writeSocket, Socket readSocket, ArrayList<ObjectOutputStream> usuariosConectados, ArrayList<SvSala> salas) {
 		this.idCliente = idCounter++;
 		//this.clientSocket = cliente;
 		this.writeSocket = writeSocket;
 		this.readSocket = readSocket;
+		
+		try {
+			this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
+			usuariosConectados.add(outputStream);
+			this.inputStream = new ObjectInputStream(readSocket.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
 		this.usuariosConectados = usuariosConectados;
 		this.estaConectado = true;
 		this.listaSalas = salas;
 		//Le comunicamos al cliente cual es su ID
 		enviarMsg(new MsgIdCliente(this.idCliente));
 		this.puntajes = new HashMap<>();
+	}
+	
+	public ObjectOutputStream getOutputStream() {
+		return this.outputStream;
 	}
 	
 	public Socket getWriteSocket() {
@@ -69,12 +86,8 @@ public class HiloCliente extends Thread {
 		this.estaConectado = estaConectado;
 	}
 
-	public ArrayList<Socket> getUsuariosConectados() {
+	public ArrayList<ObjectOutputStream> getUsuariosConectados() {
 		return usuariosConectados;
-	}
-
-	public void setUsuariosConectados(ArrayList<Socket> usuariosConectados) {
-		this.usuariosConectados = usuariosConectados;
 	}
 	
 	public ServerMap getMap() {
@@ -113,17 +126,20 @@ public class HiloCliente extends Thread {
 	
 	public void enviarMsg(Msg msg) {
 		try {
-			ObjectOutputStream salidaACliente = new ObjectOutputStream(writeSocket.getOutputStream());
-			salidaACliente.writeObject(msg);
+			//ObjectOutputStream salidaACliente = new ObjectOutputStream(writeSocket.getOutputStream());
+			//salidaACliente.writeObject(msg);
+			outputStream.writeObject(msg);
+			outputStream.reset();
 		} catch (Exception e) {
 			System.out.println("¡No se pudo enviar el mensaje! :)");
 		}
 	}
 	
-	public void broadcast(Msg msg, ArrayList<Socket> usuariosConectados) {		
-		for (Socket writeSocket : usuariosConectados) {
+	public void broadcast(Msg msg, ArrayList<ObjectOutputStream> usuariosConectados) {		
+		for (ObjectOutputStream salidaACliente : usuariosConectados) {
 			try {
-				ObjectOutputStream salidaACliente = new ObjectOutputStream(writeSocket.getOutputStream());
+				//ObjectOutputStream salidaACliente = new ObjectOutputStream(writeSocket.getOutputStream());
+				salidaACliente.reset();
 				salidaACliente.writeObject(msg);
 			} catch (IOException e) {
 				System.out.println(e);
@@ -134,16 +150,20 @@ public class HiloCliente extends Thread {
 	@Override
 	public void run() {
 		try {
-			ObjectInputStream reciboMsg = new ObjectInputStream(readSocket.getInputStream());
-
+			//ObjectInputStream reciboMsg = new ObjectInputStream(readSocket.getInputStream());
+			
 			while (estaConectado) {
 				/* Recibo Consulta de cliente */
-				Msg msgRecibo = (Msg) reciboMsg.readObject();
+				/*Msg msgRecibo = (Msg) reciboMsg.readObject();
 				msgRecibo.realizarAccion(this);
-				reciboMsg = new ObjectInputStream(readSocket.getInputStream());
+				reciboMsg = new ObjectInputStream(readSocket.getInputStream());*/
+				Msg msgRecibo = (Msg) inputStream.readObject();
+				msgRecibo.realizarAccion(this);
+				//reciboMsg = new ObjectInputStream(readSocket.getInputStream());
 			}
 
-			reciboMsg.close();
+			//reciboMsg.close();
+			inputStream.close();
 			readSocket.close();
 		} catch (IOException | ClassNotFoundException ex) {
 			System.out.println("Problemas al querer leer otra petición: " + ex.getMessage());
