@@ -34,8 +34,8 @@ public class JPanelGrafico extends JPanel {
 		conjuntoEntidades = this.cliente.getMapa().getListaEntidades();
 		listaBomberman = this.cliente.getMapa().obtenerListaBomberman();
 		puntajes = this.cliente.getTablero().getPuntuacion();
-		rl = new Reloj(00, 00, 30);
-		startTimer(30);	
+		rl = new Reloj(00, 00, 38);
+		startTimer(38);	
 	}
 
 	public void paintComponent(Graphics g) {
