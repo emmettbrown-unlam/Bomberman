@@ -2,25 +2,18 @@ package com.emmettbrown.entorno.grafico;
 
 import java.awt.Color;
 import java.awt.Font;
-
-
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entidades.Entidad;
 import com.emmettbrown.entidades.Reloj;
 import com.emmettbrown.mapa.Ubicacion;
-import com.emmettbrown.mensajes.servidor.MsgActualizarPts;
 
 public class JPanelGrafico extends JPanel {
 

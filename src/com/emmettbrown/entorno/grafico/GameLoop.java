@@ -1,9 +1,7 @@
 package com.emmettbrown.entorno.grafico;
 
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
 import com.emmettbrown.mensajes.servidor.MsgReestablecerMotor;
 
 public class GameLoop extends Thread {

@@ -1,11 +1,10 @@
 package com.emmettbrown.mensajes.servidor;
-import java.util.HashMap;
+
 import java.util.List;
 import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.cliente.MsgReset;
 import com.emmettbrown.servidor.HiloCliente;
-import com.emmettbrown.servidor.entidades.SvEntidad;
 import com.emmettbrown.servidor.entidades.SvBomberman;
 import com.emmettbrown.servidor.mapa.ServerMap;
 
@@ -28,7 +27,7 @@ public class MsgReestablecerMotor extends Msg {
 		if (cliente == hilo.getSalaConectada().getIdCreador()) {
 			ServerMap mapa = new ServerMap();
 			mapa.generarMapa();
-			HashMap<Ubicacion, SvEntidad> ent = mapa.getListaEntidades();
+			//HashMap<Ubicacion, SvEntidad> ent = mapa.getListaEntidades();
 			hilo.getMap().setObstaculos(mapa.getObstaculos());
 			Ubicacion ubicBomber = null;
 			List<SvBomberman> bomber = hilo.getMap().obtenerListaBomberman();

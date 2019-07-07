@@ -1,13 +1,10 @@
 package com.emmettbrown.servidor;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.JFrame;
-
 import com.emmettbrown.entorno.grafico.DefConst;
-import com.emmettbrown.mensajes.cliente.MsgActualizarDatosSala;
 import com.emmettbrown.mensajes.cliente.MsgActualizarPuntajes;
 import com.emmettbrown.servidor.entidades.SvBomberman;
 

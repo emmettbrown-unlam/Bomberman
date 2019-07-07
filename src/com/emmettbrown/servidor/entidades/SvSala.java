@@ -1,18 +1,12 @@
 package com.emmettbrown.servidor.entidades;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.Socket;
+
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.Timer;
-
-import com.emmettbrown.entidades.Reloj;
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.entorno.grafico.Tablero;
-import com.emmettbrown.mensajes.cliente.MsgActualizarPuntajes;
 import com.emmettbrown.mensajes.cliente.MsgIniciarMotor;
 import com.emmettbrown.servidor.HiloCliente;
 import com.emmettbrown.servidor.mapa.ServerMap;
