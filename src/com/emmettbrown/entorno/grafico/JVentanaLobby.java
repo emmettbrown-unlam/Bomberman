@@ -64,7 +64,8 @@ public class JVentanaLobby extends JFrame {
 		refreshThread = new RefreshThread(this, 1);
 		refreshThread.start();
 		btnCrearPartida.setEnabled(puedeCrearPartida);
-		cliente.setearLobby(this);
+		cliente.setLobby(this);
+		cliente.setSalaActual(sala);
 	}
 
 	public void comenzarPartida() {
@@ -79,9 +80,11 @@ public class JVentanaLobby extends JFrame {
 			df.addElement(usr);
 		}
 	}
+	
 	public Sala getSala() {
 		return sala;
 	}
+	
 	public void eliminarVentana() {
 		refreshThread.matarThread();
 		dispose();

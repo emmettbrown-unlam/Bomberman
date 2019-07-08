@@ -19,7 +19,7 @@ public class SvBomberman extends SvEntidad implements Serializable{
 	private ArrayList<SvBomba> bombas;
 	private String nombre;
 
-	public SvBomberman(int posX, int posY, int width, int height,String nombre) {
+	public SvBomberman(int posX, int posY, int width, int height, String nombre) {
 		super(posX, posY, width, height);
 		idBomberman = nroBomberman++;
 		this.destructible = true;

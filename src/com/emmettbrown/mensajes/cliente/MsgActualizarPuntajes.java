@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.emmettbrown.cliente.Cliente;
+import com.emmettbrown.entorno.grafico.Sala;
 import com.emmettbrown.mensajes.Msg;
 
 public class MsgActualizarPuntajes extends Msg {
@@ -20,12 +21,18 @@ public class MsgActualizarPuntajes extends Msg {
 	
 	@Override
 	public Object realizarAccion(Object obj) {
-		Cliente cli = (Cliente) obj;
+		Cliente cliente = (Cliente) obj;
+		
+		Sala sala = cliente.getSalaActual();
 		
 		for (Entry<String, Integer> entry : hash.entrySet()) {
-			System.out.println("Datos: "+entry.getKey()+"-"+entry.getValue());
-			cli.agregarPuntaje(entry.getKey(), entry.getValue());
+			sala.agregarPuntaje(entry.getKey(), entry.getValue());
 		}
+		
+		/*for (Entry<String, Integer> entry : hash.entrySet()) {
+			//System.out.println("Datos: "+entry.getKey()+"-"+entry.getValue());
+			cli.agregarPuntaje(entry.getKey(), entry.getValue());
+		}*/
 		return null;
 	}
 

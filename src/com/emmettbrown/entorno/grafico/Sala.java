@@ -1,23 +1,18 @@
 package com.emmettbrown.entorno.grafico;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.Timer;
-
-import com.emmettbrown.entidades.Reloj;
 public class Sala {
 
 	private int idSala;
 	private int idCreador;
 	private String nombre;
 	private int limJugadores;
-	private int jugConectados;
+	private int jugConectados;	
 	private ArrayList<String> usuarios;
 	private Tablero tableroPuntos;
-	private Timer t;
 	private Reloj reloj;
+	private int rondaActual;
 	
 	public Sala (int id, int idCreador, String nombre, int jugConectados, int limJugadores) {
 		this.idSala = id;
@@ -27,7 +22,8 @@ public class Sala {
 		this.limJugadores = limJugadores;
 		this.usuarios = new ArrayList<String>();
 		this.tableroPuntos = new Tablero();
-		
+		this.reloj = new Reloj(00, 00, DefConst.SEG);		
+		this.rondaActual = 1;
 	}
 
 	@Override
@@ -59,33 +55,27 @@ public class Sala {
 		this.usuarios = usuarios;
 	}
 	
-	public Tablero obtenerTablero() {
+	public Tablero getTableroPuntos() {
 		return tableroPuntos;
 	}
 	
-	public void startTimer(int limit) {
-		t = new Timer(1000, new miOyente(limit));
-		t.start();
+	public void setRondaActual(int ronda) {
+		this.rondaActual = ronda;
 	}
 	
-	public Reloj obtenerReloj () {
+	public int getRondaActual() {
+		return this.rondaActual;
+	}
+	
+	public void agregarPuntaje(String nombre, int puntos) {
+		tableroPuntos.agregarPuntuacion(nombre, puntos);
+	}
+		
+	public Reloj getReloj () {
 		return reloj;
 	}
-	class miOyente implements ActionListener {
-		private int limit;
-		public miOyente(int limit) {
-			this.limit = limit;
-			reloj = new Reloj(00,00,limit);
-		}
-		
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			reloj.restarSegundo();
-			if (reloj.timeOut()) {
-				//Se acabo el tiempo. TIMEOUT
-				reloj = new Reloj(00,00,limit);
-				t.stop();
-			}	
-		}
+	
+	public void iniciarReloj() {
+		this.reloj.startTimer();
 	}
 }

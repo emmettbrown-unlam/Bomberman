@@ -13,6 +13,7 @@ import java.util.Iterator;
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.mensajes.Msg;
+import com.emmettbrown.mensajes.cliente.MsgActualizarRonda;
 import com.emmettbrown.mensajes.cliente.MsgAgregarBomberman;
 import com.emmettbrown.mensajes.cliente.MsgEliminarBomberman;
 import com.emmettbrown.mensajes.cliente.MsgEliminarSala;
@@ -112,14 +113,17 @@ public class HiloCliente extends Thread {
 	public void inicializarCliente(ServerMap map) {
 		this.map = map;
 		Ubicacion ubic = map.obtenerUbicacionInicio();		
-		this.bomber = new SvBomberman(ubic.getPosX()*75, ubic.getPosY()*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT,this.getNombreUsuario());
+		this.bomber = new SvBomberman(ubic.getPosX()*75, ubic.getPosY()*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT, this.getNombreUsuario());
 		this.movimiento = new HandleMovement(this, salaConectada.getOutputStreams());
 		this.movimiento.start();
-		//Enviamos los obtasculos a todos los clientes
-		this.broadcast(new MsgGenerarObstaculos(map.getObstaculos()), salaConectada.getOutputStreams());
+		
+		//Le enviamos la ronda actual 
+		this.enviarMsg(new MsgActualizarRonda(salaConectada.getRondaActual()));		
+		//Enviamos los obtasculos al cliente actual
+		this.enviarMsg(new MsgGenerarObstaculos(map.getObstaculos()));
 		//Agregamos el bomber del cliente al mapa
 		map.agregarBomberman(bomber);
-		//Le decimos al cliente que añada el bomber
+		//Le decimos a los clientes que añadan el bomber
 		this.broadcast(new MsgAgregarBomberman(bomber, idCliente), salaConectada.getOutputStreams());
 	}
 	
@@ -156,7 +160,7 @@ public class HiloCliente extends Thread {
 			readSocket.close();
 		} catch (IOException | ClassNotFoundException ex) {
 			System.out.println("Problemas al querer leer otra petición: " + ex.getMessage());
-			this.map.eliminarBomberman(this.bomber);
+			this.salaConectada.getMap().eliminarBomberman(this.bomber);
 			this.usuariosConectados.remove(outputStream);			
 			eliminarSala(this.idCliente);
 			broadcast(new MsgEliminarBomberman(this.bomber.getIdBomberman()), usuariosConectados);

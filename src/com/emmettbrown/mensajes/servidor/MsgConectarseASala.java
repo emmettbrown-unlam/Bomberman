@@ -27,12 +27,11 @@ public class MsgConectarseASala extends Msg {
 		listaSalas = hilo.getSalas();
 
 		SvSala salaSeleccionada = null;
-		//ESTE FOR SIRVE PARA ACTUALIZAR NOMBRE DE SALAS DE LA VENTANA DE SALAS
+
 		for (SvSala sala : listaSalas) {
 			if (sala.getId() == idSala) {
 				salaSeleccionada = sala;
-				sala.agregarUsuario(hilo,hilo.getNombreUsuario());
-				
+				sala.agregarUsuario(hilo,hilo.getNombreUsuario());				
 			}
 		}
 		

@@ -1,18 +1,18 @@
 package com.emmettbrown.cliente;
 
 import java.io.IOException;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entorno.grafico.JPanelGrafico;
+import com.emmettbrown.entorno.grafico.JVentanaGrafica;
 import com.emmettbrown.entorno.grafico.JVentanaLobby;
 import com.emmettbrown.entorno.grafico.Sala;
-import com.emmettbrown.entorno.grafico.Tablero;
 import com.emmettbrown.mapa.Mapa;
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.servidor.MsgActualizarNombre;
@@ -32,10 +32,9 @@ public class Cliente implements Serializable {
 	private int idCliente;
 	private JVentanaLobby lobbyActual;
 	private ConcurrentLinkedQueue<Sala> listaSalas;
-	private HashMap<String,Integer> puntajesJugadores;
-	private Tablero tab;
-	private int rondaActual;
+	private Sala salaActual;
 	private JPanelGrafico panelGrafico;
+	private JVentanaGrafica ventanaGrafica;
 
 	public Cliente(String ip, int puerto, String username) {
 		try {
@@ -48,10 +47,8 @@ public class Cliente implements Serializable {
 			this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
 			this.inputStream = new ObjectInputStream(readSocket.getInputStream());
 			
-			this.mapa = new Mapa();
-			this.puntajesJugadores = new HashMap<String,Integer>();
+			//this.mapa = new Mapa();
 			this.listaSalas = new ConcurrentLinkedQueue<Sala>();
-			this.tab = new Tablero();
 
 			//Creamos un hilo escucha que se encargará de leer las cosas que se envíen al readSocket
 			ListenerThread listener = new ListenerThread(this);
@@ -72,10 +69,6 @@ public class Cliente implements Serializable {
 		this.idCliente = num;
 	}
 	
-	public Tablero getTablero() {
-		return tab;
-	}
-	
 	public Bomberman getBomber() {
 		return this.bomber;
 	}
@@ -90,9 +83,8 @@ public class Cliente implements Serializable {
 	
 	public Mapa getMapa() {
 		return this.mapa;
-	}
+	}	
 	
-
 	public String getUsername() {
 		return username;
 	}
@@ -144,32 +136,12 @@ public class Cliente implements Serializable {
 		listaSalas.clear();		
 	}
 
-	public void setearLobby(JVentanaLobby lobby) {
+	public void setLobby(JVentanaLobby lobby) {
 		this.lobbyActual = lobby;
 	}
 	
 	public JVentanaLobby getLobby() {
 		return this.lobbyActual;
-	}
-
-	public HashMap<String,Integer> getPuntajes() {
-		return this.puntajesJugadores;
-	}
-	
-	public void agregarPuntaje(String k,int v) {
-		this.tab.agregarPuntuacion(k, v);
-	}
-
-	public void setPuntajes(HashMap<String, Integer> hash) {
-		this.puntajesJugadores = hash;
-	}
-
-	public void setRound(int cantidadRondas) {
-		this.rondaActual = cantidadRondas;
-	}
-	
-	public int getRoundActual() {
-		return this.rondaActual;
 	}
 
 	public void setPanelGrafico(JPanelGrafico jPanelGrafico) {
@@ -178,6 +150,22 @@ public class Cliente implements Serializable {
 	
 	public JPanelGrafico getPanelGrafico() {
 		return this.panelGrafico ;
+	}
+	
+	public void setVentanaGrafica(JVentanaGrafica ventana) {
+		this.ventanaGrafica = ventana;
+	}
+	
+	public JVentanaGrafica getVentanaGrafica() {
+		return this.ventanaGrafica;
+	}
+	
+	public void setSalaActual(Sala sala) {
+		this.salaActual = sala;
+	}
+	
+	public Sala getSalaActual() {
+		return this.salaActual;
 	}
 	
 }

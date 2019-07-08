@@ -3,7 +3,6 @@ package com.emmettbrown.entorno.grafico;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -12,7 +11,6 @@ import javax.swing.JPanel;
 import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entidades.Entidad;
-import com.emmettbrown.entidades.Reloj;
 import com.emmettbrown.mapa.Ubicacion;
 
 public class JPanelGrafico extends JPanel {
@@ -20,41 +18,29 @@ public class JPanelGrafico extends JPanel {
 	private Map<Ubicacion, Entidad> conjuntoEntidades;
 	private List<Bomberman> listaBomberman;
 	private Cliente cliente;
-	private HashMap<String, Integer> puntajes;
+	private Sala sala;
 	private static final long serialVersionUID = 1L;
-	private Reloj rl;
-	
+
 	public JPanelGrafico(Cliente cliente) {
 		this.cliente = cliente;
 		conjuntoEntidades = this.cliente.getMapa().getListaEntidades();
 		listaBomberman = this.cliente.getMapa().obtenerListaBomberman();
-		puntajes = this.cliente.getTablero().getPuntuacion();
-		rl = new Reloj(00, 00, DefConst.SEG);
-		iniciarReloj();
+		this.sala = cliente.getSalaActual();
 		cliente.setPanelGrafico(this);
 	}
 	
-//	public void resetearVariables(HashMap<Ubicacion, Entidad> a , List<Bomberman> b , HashMap<String, Integer> c ) {
-//		this.conjuntoEntidades = a;
-//		this.listaBomberman = b;
-//		this.puntajes = c;
-//		iniciarReloj();
-//	}
-	public void iniciarReloj() {
-		rl.startTimer();
-	}
-
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		Entidad entidades[] = conjuntoEntidades.values().toArray(new Entidad[0]);
-			
+		//Dibujamos las entidades del mapa
+		Entidad entidades[] = conjuntoEntidades.values().toArray(new Entidad[0]);			
 		for (int i = 0; i < entidades.length; i++) {
 			g.drawImage(entidades[i].getImagen(), entidades[i].getX(), entidades[i].getY(), DefConst.TILESIZE, DefConst.TILESIZE, null);
 		}
 		
 		g.setColor(Color.GREEN);
 		
+		//Dibujamos los bombermans con sus nombres
 		Bomberman bombermans[] = listaBomberman.toArray(new Bomberman[0]);
 		for (int i = 0; i < bombermans.length; i++) {
 			if (bombermans[i].verSiEsVisible()) {
@@ -64,16 +50,24 @@ public class JPanelGrafico extends JPanel {
 			}
 		}
 		int dy = 0;
-		
+				
+		//Dibujamos el texto de las rondas
         g.setFont(new Font("Monospaced", Font.BOLD, 36));
 		g.drawString(DefConst.TITLETAB, 750, 30);
-		g.drawString("Ronda: "+cliente.getRoundActual(), 750, 55);
+		g.drawString("Ronda: "+ sala.getRondaActual(), 750, 55);
 		
-		for (Entry<String, Integer> entry : puntajes.entrySet()) {
-			g.drawString(entry.getKey()+": "+entry.getValue(),680,85+dy);
+		//Dibujamos el tablero con puntajes
+		for (Entry<String, Integer> entry : sala.getTableroPuntos().getPuntajes().entrySet()) {
+			g.drawString(entry.getKey()+": "+ entry.getValue(), 680, 85+dy);
 			dy+=30;
 		}
 		
-		g.drawString(rl.toString(), 760,9*75-75);
+		//Dibujamos el reloj que muestra el tiempo de ronda
+		g.drawString(sala.getReloj().toString(), 760, 9*75-75);
+	}
+	
+	public void actualizarListas() {
+		this.conjuntoEntidades = this.cliente.getMapa().getListaEntidades();
+		this.listaBomberman = this.cliente.getMapa().obtenerListaBomberman();
 	}
 }

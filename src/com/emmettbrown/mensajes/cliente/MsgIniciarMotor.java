@@ -19,6 +19,7 @@ public class MsgIniciarMotor extends Msg {
 		cliente.getLobby().eliminarVentana();
 		JVentanaGrafica ventana = new JVentanaGrafica(DefConst.ANCHO+400, DefConst.ALTO, cliente);		
 		ventana.setVisible(true);
+		cliente.setVentanaGrafica(ventana);
 		
 		return null;
 	}

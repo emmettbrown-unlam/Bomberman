@@ -1,13 +1,8 @@
 package com.emmettbrown.servidor.entidades;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.List;
-
 import javax.swing.Timer;
-
-import com.emmettbrown.mensajes.cliente.MsgActualizarPuntajes;
-import com.emmettbrown.servidor.HiloCliente;
 
 public class SvReloj {
 
@@ -43,39 +38,28 @@ public class SvReloj {
 	}
 	
 	public void startTimer(SvSala sala) {
-		t = new Timer(1000, new miOyente(sala,seg));
+		t = new Timer(1000, new miOyente(sala, seg));
 		t.start();
 	}
 	
 	class miOyente implements ActionListener {
 		private int limit;
-		private SvSala s;
-		public miOyente(SvSala s,int limit) {
+		//La sala asociada al timer
+		private SvSala sala;
+		
+		public miOyente(SvSala sala, int limit) {
 			this.limit = limit;
-			this.s = s;
+			this.sala = sala;
 		}
 		
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			restarSegundo();
-			if (timeOut()) {
-				
+			if (timeOut()) {				
 				hora= 0;
 				min = 0;
-				seg = limit;
-				
-				HiloCliente h = s.obtenerHilosSala().get(0);
-				List<SvBomberman> bombers = h.getMap().obtenerListaBomberman();
-				HashMap <String,Integer> puntajes = s.obtenerTablero().getPuntuacion();
-				for (SvBomberman bb : bombers) {
-					int puntaje = 0;
-					if (bb.estaVivo()) {
-						puntaje = 1;
-					}
-					puntajes.put(bb.getNombre(), puntaje + puntajes.get(bb.getNombre() ));
-				}
-				
-				h.broadcast(new MsgActualizarPuntajes(puntajes), h.getSalaConectada().getOutputStreams());
+				seg = limit;				
+				sala.finalizarRonda();
 				t.stop();
 			}	
 		}

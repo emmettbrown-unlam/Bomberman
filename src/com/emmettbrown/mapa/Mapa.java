@@ -20,10 +20,10 @@ public class Mapa {
 	private ImageIcon fondo;
 
 	///////////////////////////////////////
-	// //
-	// CONSTUCTORES //
-	// //
-	///////////////////////////////////
+	// 									//
+	// 			CONSTUCTORES			//
+	// 									//
+	/////////////////////////////////////
 
 	public Mapa() {
 		conjuntoEntidades = new HashMap<Ubicacion, Entidad>();
@@ -49,9 +49,9 @@ public class Mapa {
 	}
 
 	////////////////////////////////////////
-	// //
-	// METODOS //
-	// //
+	//									 //
+	// 				METODOS 			//
+	//								   //
 	////////////////////////////////////
 
 	/// LIBERA LAS POSICIONES 11 12 21 PARA QUE EL BOMBERMAN PUEDA RESPAWNEAR EN
@@ -61,9 +61,9 @@ public class Mapa {
 		return fondo.getImage();
 	}
 	///////////////////////////////////////
-	// //
-	// ENTIDADES //
-	// //
+	// 									//
+	//			 ENTIDADES				//
+	// 									//
 	/////////////////////////////////////
 
 	public void setListaEntidades(HashMap<Ubicacion, Entidad> conjunto) {
@@ -131,9 +131,9 @@ public class Mapa {
 	}
 
 	///////////////////////////////////////
-	// //
-	// BOMBERMANS //
-	// //
+	// 									//
+	// 			BOMBERMANS			   //
+	// 								  //
 	///////////////////////////////////
 
 	/**
@@ -246,9 +246,9 @@ public class Mapa {
 	}
 
 	///////////////////////////////////////
-	// //
-	// BOMBAS //
-	// //
+	// 									//
+	// 				BOMBAS			    //
+	// 								    //
 	/////////////////////////////////////
 
 	/**

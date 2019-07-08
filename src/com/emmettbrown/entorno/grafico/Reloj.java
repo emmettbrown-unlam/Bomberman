@@ -1,4 +1,4 @@
-package com.emmettbrown.entidades;
+package com.emmettbrown.entorno.grafico;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,14 +9,13 @@ public class Reloj {
 	private int hora,min,seg;
 	private Timer t;
 	
-	public Reloj (int h,int m,int s ) {
+	public Reloj (int h, int m, int s) {
 		this.hora = h;
 		this.min = m;
 		this.seg = s;
 	}
 	
 	public void restarSegundo () {
-
 		if (this.seg == 0) {
 			if (this.min == 0) {
 				if (this.hora > 0) {
