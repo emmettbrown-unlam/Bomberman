@@ -3,8 +3,8 @@ package com.emmettbrown.servidor.entidades;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
+
 import com.emmettbrown.servidor.entidades.SvBomberman;
-import com.emmettbrown.servidor.HiloCliente;
 import com.emmettbrown.servidor.entidades.SvEntidad;
 import com.emmettbrown.servidor.entidades.Explosion;
 import com.emmettbrown.servidor.mapa.ServerMap;
@@ -19,7 +19,6 @@ public class SvBomba extends SvEntidad {
 	private SvBomberman creador;
 	private boolean ignorarColisionCreador;
 	private Timer timer;
-	private HiloCliente hilo;
 
 	///////////////////////////////////////
 	// 									//
@@ -27,9 +26,8 @@ public class SvBomba extends SvEntidad {
 	// 									//
 	/////////////////////////////////////
 
-	public SvBomba(int posX, int posY, SvBomberman bman,HiloCliente hilo) {
+	public SvBomba(int posX, int posY, SvBomberman bman) {
 		super(posX, posY, DefConst.TILESIZE, DefConst.TILESIZE);
-		this.hilo = hilo;
 		segsExplosion = 3;
 		this.destructible = true;
 		this.rango = 2;
@@ -37,12 +35,12 @@ public class SvBomba extends SvEntidad {
 		this.ignorarColisionCreador = true;
 	}
 
-	public SvBomba(Ubicacion ubic, SvBomberman creador2) {
+	public SvBomba(Ubicacion ubic, SvBomberman creador) {
 		super(ubic, DefConst.TILESIZE, DefConst.TILESIZE);
 		segsExplosion = 3;
 		this.destructible = true;
 		this.rango = 2;
-		this.creador = creador2;
+		this.creador = creador;
 		this.ignorarColisionCreador = true;
 	}
 
