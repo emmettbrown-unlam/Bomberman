@@ -172,6 +172,7 @@ public class SvSala {
 		
 		//Le enviamos a cada cliente el nuevo mapa
 		for (HiloCliente hiloCliente : clientesConectados) {
+			hiloCliente.getMovementThread().matarHandle();
 			hiloCliente.inicializarCliente(map); 			
 		}
 		

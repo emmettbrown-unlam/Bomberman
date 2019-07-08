@@ -115,9 +115,6 @@ public class HiloCliente extends Thread {
 		this.map = map;
 		Ubicacion ubic = map.obtenerUbicacionInicio();		
 		this.bomber = new SvBomberman(ubic.getPosX()*75, ubic.getPosY()*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT, this.getNombreUsuario());
-		if (movimiento.isAlive()) {
-			this.movimiento.matarHandle();
-		}
 		this.movimiento = new HandleMovement(this, salaConectada.getOutputStreams());
 		this.movimiento.start();
 		
