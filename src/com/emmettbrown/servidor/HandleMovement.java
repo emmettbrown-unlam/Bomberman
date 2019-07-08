@@ -16,6 +16,7 @@ public class HandleMovement extends Thread {
 	private ArrayList<ObjectOutputStream> outputStreams;
 	private Movimientos mov;
 	private SvBomberman bomberActual;
+	private boolean run;
 
 	public void setMovimiento(Movimientos mov) {
 		this.mov = mov;
@@ -25,6 +26,7 @@ public class HandleMovement extends Thread {
 		this.hilo = hilo;
 		this.mov = Movimientos.NULL;
 		this.outputStreams = outputStreams;
+		this.run = true;
 	}
 
 	public void handleInput() {
@@ -86,13 +88,16 @@ public class HandleMovement extends Thread {
 		}
 	}
 
+	public void matarHandle() {
+		this.run = false;
+	}
 	public void run() {
 		long initialTime = System.nanoTime();
 		final double timeF = 1000000000 / DefConst.FPS;
 
 		double deltaF = 0; // deltaU = 0,
 
-		while (hilo.siEstaConectado()) {
+		while (run) {
 			long currentTime = System.nanoTime();
 			deltaF += (currentTime - initialTime) / timeF;
 			initialTime = currentTime;
