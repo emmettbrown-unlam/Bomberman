@@ -25,11 +25,12 @@ public class MsgAgregarBomberman extends Msg {
 		Cliente cliente = ((Cliente) obj);
 		
 		Bomberman bomber = new Bomberman(bomberman.getX(), bomberman.getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT,bomberman.getIdBomberman(),bomberman.getNombre());
+		
 		if (cliente.getIdCliente() == idCliente) {
 			cliente.setBomber(bomber);
 		}
 		cliente.getMapa().agregarBomberman(bomber);
-		//cliente.agregarPuntaje(cliente.getUsername(), 0);
+		
 		return null;
 	}
 

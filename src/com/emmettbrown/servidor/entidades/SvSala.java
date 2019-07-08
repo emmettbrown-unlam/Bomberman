@@ -9,6 +9,7 @@ import java.util.List;
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.entorno.grafico.Tablero;
 import com.emmettbrown.mensajes.cliente.MsgActualizarPuntajes;
+import com.emmettbrown.mensajes.cliente.MsgActualizarRonda;
 import com.emmettbrown.mensajes.cliente.MsgFinPartida;
 import com.emmettbrown.mensajes.cliente.MsgFinRonda;
 import com.emmettbrown.mensajes.cliente.MsgIniciarMotor;
@@ -113,14 +114,20 @@ public class SvSala {
 		HiloCliente creador = clientesConectados.get(0);
 		creador.eliminarSala(creador.getIdCliente());
 		
+		//Inicializamos esta ronda
+		creador.broadcast(new MsgActualizarRonda(this.rondaActual), outputStreams);
+		
 		for (HiloCliente hiloCliente : clientesConectados) {
 			//Agregamos un usuario al tablero de puntuaciones
 			tablero.agregarPuntuacion(hiloCliente.getNombreUsuario(), 0);	
+			//Inicializamos al cliente
 			hiloCliente.inicializarCliente(map);
 			//Inicializamos el motor despues de todo asi le damos la ilusion al cliente de que todo es rapido
 			hiloCliente.enviarMsg(new MsgIniciarMotor());
 		}
 
+		//Indicamos a cada cliente de la sala que actualice el puntaje
+		creador.broadcast(new MsgActualizarPuntajes(tablero.getPuntajes()), outputStreams);	
 		reloj.startTimer(this);
 	}
 	
@@ -159,6 +166,9 @@ public class SvSala {
 		//Creamos y generamos un nuevo mapa
 		this.map = new ServerMap();
 		this.map.generarMapa();
+		
+		HiloCliente creador = clientesConectados.get(0);		
+		creador.broadcast(new MsgActualizarRonda(this.rondaActual), outputStreams);
 		
 		//Le enviamos a cada cliente el nuevo mapa
 		for (HiloCliente hiloCliente : clientesConectados) {
