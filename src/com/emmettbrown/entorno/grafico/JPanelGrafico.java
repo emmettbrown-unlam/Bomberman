@@ -38,13 +38,13 @@ public class JPanelGrafico extends JPanel {
 			g.drawImage(entidades[i].getImagen(), entidades[i].getX(), entidades[i].getY(), DefConst.TILESIZE, DefConst.TILESIZE, null);
 		}
 		
-		g.setColor(Color.GREEN);
+		g.setColor(Color.BLACK);
+		//g.setColor(Color.GREEN);
 		
 		//Dibujamos los bombermans con sus nombres
 		Bomberman bombermans[] = listaBomberman.toArray(new Bomberman[0]);
 		for (int i = 0; i < bombermans.length; i++) {
-			if (bombermans[i].verSiEsVisible()) {
-				g.setColor(Color.BLACK);
+			if (bombermans[i].verSiEsVisible()) {		
 				g.drawString(bombermans[i].getNombre(), bombermans[i].getX()+DefConst.DXNAME, bombermans[i].getY()+DefConst.DYNAME);
 				g.drawImage(bombermans[i].getImagen(), bombermans[i].getX(), bombermans[i].getY(), DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT, null);
 			}

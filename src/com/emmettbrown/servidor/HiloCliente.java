@@ -14,7 +14,6 @@ import java.util.Iterator;
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.mensajes.Msg;
-import com.emmettbrown.mensajes.cliente.MsgActualizarRonda;
 import com.emmettbrown.mensajes.cliente.MsgAgregarBomberman;
 import com.emmettbrown.mensajes.cliente.MsgEliminarBomberman;
 import com.emmettbrown.mensajes.cliente.MsgEliminarSala;

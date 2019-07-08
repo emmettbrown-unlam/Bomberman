@@ -35,42 +35,22 @@ public class HandleMovement extends Thread {
 			switch (mov) {
 			case IZQUIERDA:
 				hilo.getMap().moverBombermanIzq(bomberActual, DefConst.VELOCIDAD);
-				if (bomberActual.estaVivo() == false)
-					hilo.broadcast(new MsgEliminarBomberman(bomberActual.getIdBomberman()), outputStreams);
-				else
-					hilo.broadcast(
-							new MsgPosBomberman(bomberActual.obtenerID(), bomberActual.getX(), bomberActual.getY()),
-							outputStreams);
+				enviarNuevaPosicion();
 				break;
 
 			case DERECHA:
 				hilo.getMap().moverBombermanDer(bomberActual, DefConst.VELOCIDAD);
-				if (bomberActual.estaVivo() == false)
-					hilo.broadcast(new MsgEliminarBomberman(bomberActual.getIdBomberman()), outputStreams);
-				else
-					hilo.broadcast(
-							new MsgPosBomberman(bomberActual.obtenerID(), bomberActual.getX(), bomberActual.getY()),
-							outputStreams);
+				enviarNuevaPosicion();
 				break;
 
 			case ARRIBA:
 				hilo.getMap().moverBombermanArriba(bomberActual, DefConst.VELOCIDAD);
-				if (bomberActual.estaVivo() == false)
-					hilo.broadcast(new MsgEliminarBomberman(bomberActual.getIdBomberman()), outputStreams);
-				else
-					hilo.broadcast(
-							new MsgPosBomberman(bomberActual.obtenerID(), bomberActual.getX(), bomberActual.getY()),
-							outputStreams);
+				enviarNuevaPosicion();
 				break;
 
 			case ABAJO:
 				hilo.getMap().moverBombermanAbajo(bomberActual, DefConst.VELOCIDAD);
-				if (bomberActual.estaVivo() == false)
-					hilo.broadcast(new MsgEliminarBomberman(bomberActual.getIdBomberman()), outputStreams);
-				else
-					hilo.broadcast(
-							new MsgPosBomberman(bomberActual.obtenerID(), bomberActual.getX(), bomberActual.getY()),
-							outputStreams);
+				enviarNuevaPosicion();
 				break;
 
 			case BOMBA:
@@ -86,6 +66,13 @@ public class HandleMovement extends Thread {
 				break;
 			}
 		}
+		else //Anunciamos que nuestro chaboncito... se murio!
+			hilo.broadcast(new MsgEliminarBomberman(bomberActual.getIdBomberman()), outputStreams);
+	}
+	
+	public void enviarNuevaPosicion() {
+		hilo.broadcast(new MsgPosBomberman(bomberActual.obtenerID(), bomberActual.getX(), bomberActual.getY()),
+				outputStreams);
 	}
 
 	public void matarHandle() {
@@ -96,7 +83,7 @@ public class HandleMovement extends Thread {
 		long initialTime = System.nanoTime();
 		final double timeF = 1000000000 / DefConst.FPS;
 
-		double deltaF = 0; // deltaU = 0,
+		double deltaF = 0;
 
 		while (run && hilo.siEstaConectado()) {
 			long currentTime = System.nanoTime();
