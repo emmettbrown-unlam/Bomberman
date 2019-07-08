@@ -114,11 +114,11 @@ public class SvSala {
 		creador.eliminarSala(creador.getIdCliente());
 		
 		for (HiloCliente hiloCliente : clientesConectados) {
+			//Agregamos un usuario al tablero de puntuaciones
+			tablero.agregarPuntuacion(hiloCliente.getNombreUsuario(), 0);	
 			hiloCliente.inicializarCliente(map);
 			//Inicializamos el motor despues de todo asi le damos la ilusion al cliente de que todo es rapido
 			hiloCliente.enviarMsg(new MsgIniciarMotor());
-			//Agregamos un usuario al tablero de puntuaciones
-			tablero.agregarPuntuacion(hiloCliente.getNombreUsuario(), 0);			
 		}
 
 		reloj.startTimer(this);

@@ -13,6 +13,7 @@ import java.util.Iterator;
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.mensajes.Msg;
+import com.emmettbrown.mensajes.cliente.MsgActualizarPuntajes;
 import com.emmettbrown.mensajes.cliente.MsgActualizarRonda;
 import com.emmettbrown.mensajes.cliente.MsgAgregarBomberman;
 import com.emmettbrown.mensajes.cliente.MsgEliminarBomberman;
@@ -117,7 +118,7 @@ public class HiloCliente extends Thread {
 		this.movimiento = new HandleMovement(this, salaConectada.getOutputStreams());
 		this.movimiento.start();
 		
-		
+		this.enviarMsg(new MsgActualizarPuntajes(salaConectada.obtenerTablero().getPuntajes()));
 		this.enviarMsg(new MsgActualizarRonda(salaConectada.getRondaActual()));
 		//Enviamos los obtasculos al cliente actual
 		this.enviarMsg(new MsgGenerarObstaculos(map.getObstaculos()));

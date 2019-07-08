@@ -28,11 +28,6 @@ public class MsgActualizarPuntajes extends Msg {
 		for (Entry<String, Integer> entry : hash.entrySet()) {
 			sala.agregarPuntaje(entry.getKey(), entry.getValue());
 		}
-		
-		/*for (Entry<String, Integer> entry : hash.entrySet()) {
-			//System.out.println("Datos: "+entry.getKey()+"-"+entry.getValue());
-			cli.agregarPuntaje(entry.getKey(), entry.getValue());
-		}*/
 		return null;
 	}
 
