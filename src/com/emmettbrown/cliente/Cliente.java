@@ -47,7 +47,7 @@ public class Cliente implements Serializable {
 			this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
 			this.inputStream = new ObjectInputStream(readSocket.getInputStream());
 			
-			//this.mapa = new Mapa();
+			this.mapa = new Mapa();
 			this.listaSalas = new ConcurrentLinkedQueue<Sala>();
 
 			//Creamos un hilo escucha que se encargará de leer las cosas que se envíen al readSocket

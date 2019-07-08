@@ -22,9 +22,9 @@ public class MsgActualizarRonda extends Msg {
 		Cliente cliente = (Cliente) obj;		
 		Sala sala = cliente.getSalaActual();
 		
-		//Creamos un nuevo mapa
-		cliente.setMapa(new Mapa());
 		if (cliente.getPanelGrafico() != null) {
+			//Creamos un nuevo mapa
+			cliente.setMapa(new Mapa());
 			cliente.getPanelGrafico().actualizarListas();
 			cliente.getVentanaGrafica().crearRefreshThread();
 		}

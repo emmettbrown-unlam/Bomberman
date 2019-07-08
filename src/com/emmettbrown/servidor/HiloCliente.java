@@ -117,8 +117,8 @@ public class HiloCliente extends Thread {
 		this.movimiento = new HandleMovement(this, salaConectada.getOutputStreams());
 		this.movimiento.start();
 		
-		//Le enviamos la ronda actual 
-		this.enviarMsg(new MsgActualizarRonda(salaConectada.getRondaActual()));		
+		
+		this.enviarMsg(new MsgActualizarRonda(salaConectada.getRondaActual()));
 		//Enviamos los obtasculos al cliente actual
 		this.enviarMsg(new MsgGenerarObstaculos(map.getObstaculos()));
 		//Agregamos el bomber del cliente al mapa

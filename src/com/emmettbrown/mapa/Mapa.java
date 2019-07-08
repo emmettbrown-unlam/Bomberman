@@ -29,6 +29,7 @@ public class Mapa {
 		conjuntoEntidades = new HashMap<Ubicacion, Entidad>();
 		listaBomberman = new ArrayList<Bomberman>();
 		this.fondo = new ImageIcon("./src/resources/game-map/fondo.jpg");
+		
 		for (int l = 0; l < DefConst.ALTOMAPA; l++) {
 			conjuntoEntidades.put(new Ubicacion(0, l), new Muro(0 * DefConst.TILESIZE, l * DefConst.TILESIZE));
 			conjuntoEntidades.put(new Ubicacion(l, 0), new Muro(l * DefConst.TILESIZE, 0 * DefConst.TILESIZE));
