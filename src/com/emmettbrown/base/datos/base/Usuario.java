@@ -8,10 +8,6 @@ public class Usuario {
 //	<!--
 //    <property name="hbm2ddl.auto">create</property>
 //-->
-
-	public Usuario() {
-		
-	}
 	
 	public Usuario( String usuario, String contraseña) {
 		

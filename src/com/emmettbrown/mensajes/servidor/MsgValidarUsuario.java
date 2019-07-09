@@ -2,10 +2,16 @@ package com.emmettbrown.mensajes.servidor;
 
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.cliente.MsgRespuestaConexion;
+import com.emmettbrown.servidor.ConexionEntrante;
 import com.emmettbrown.servidor.HiloCliente;
+import com.emmettbrown.servidor.Servidor;
 
 public class MsgValidarUsuario extends Msg {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String usuario;
 	private String contrasenia;
 	public MsgValidarUsuario(String usuario,String contrasenia)
@@ -15,11 +21,13 @@ public class MsgValidarUsuario extends Msg {
 	}
 	@Override
 	public Object realizarAccion(Object obj) {
-		HiloCliente hilo = (HiloCliente) obj;
-		
-		boolean pudoConectar;
+		ConexionEntrante conexion = (ConexionEntrante) obj;
+		Servidor servidor = conexion.getServidor();
+		boolean pudoConectar = servidor.validarUsuarioBD(usuario, contrasenia);
+		if(pudoConectar == true)
+			conexion.desconectar();
 		Msg respuestaConexion = new MsgRespuestaConexion(pudoConectar);
-		hilo.enviarMsg(respuestaConexion);
+		conexion.enviarMsg(respuestaConexion);
 		return null;
 	}
 

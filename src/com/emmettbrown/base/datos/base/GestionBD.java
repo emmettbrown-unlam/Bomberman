@@ -8,9 +8,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import com.emmettbrown.entorno.grafico.DefConst;
+
 public class GestionBD {
-	private final boolean DUPLICADO=false;
-	private final boolean EXITO=true;
 	private SessionFactory factory;
 	
 	
@@ -22,7 +22,13 @@ public class GestionBD {
 		return factory;
 	}
 
-	public List<Object[]> obtenerRegistro(Usuario usuario,String consultaString) {
+	public List<Object[]> validarUsuario(Usuario usuario) {
+		String consulta = "select p.contraseña from Usuario p " + "where p.usuario=" + "'" + usuario.getUsuario() + "'" + 
+				" and p.contraseña=" + "'" + usuario.getContraseña() + "'";
+		return obtenerRegistro(consulta);
+	}
+	
+	public List<Object[]> obtenerRegistro(String consultaString) {
 		Session session = factory.openSession();
 		Query q = session.createQuery(consultaString);
 		@SuppressWarnings("unchecked")
@@ -46,7 +52,7 @@ public class GestionBD {
 		System.out.println(listaUsuarios.size());
 		
 		if (listaUsuarios.size()==1 ) {
-			return DUPLICADO; 	
+			return DefConst.DUPLICADO; 	
 		}
 		else {
 			Transaction tx = session.beginTransaction();			
@@ -62,7 +68,7 @@ public class GestionBD {
 				return false;
 			}
 			session.close();
-			return EXITO;
+			return DefConst.EXITO;
 		}
 	}
 	
