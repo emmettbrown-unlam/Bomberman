@@ -19,6 +19,6 @@
   
   
   
-  <mapping resource="base/usuario.hbm.xml"/>
+  <mapping resource="com/emmettbrown/base/datos/base/usuario.hbm.xml"/>
  </session-factory>
 </hibernate-configuration>
