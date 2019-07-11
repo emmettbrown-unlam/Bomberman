@@ -37,6 +37,8 @@ public class Servidor {
 	// socket temporal
 	private transient Socket readSocket;
 	private transient Socket writeSocket;
+	private ObjectInputStream inputStream;
+	private ObjectOutputStream outputStream;
 	private int estaConectado = 0;
 
 	public Servidor(int puerto) {
@@ -64,9 +66,6 @@ public class Servidor {
 	public void iniciarServidor() {
 		try {
 			serverSocket = new ServerSocket(this.port);
-			// Sockets del cliente
-			Socket writeSocket;
-			Socket readSocket;
 			while (true) {
 				System.out.println("Servidor esperando clientes!");
 				// Este método bloquea la ejecución del Thread hasta que se reciba una conexión
@@ -75,19 +74,24 @@ public class Servidor {
 
 				// Aceptamos ambos sockets
 				writeSocket = serverSocket.accept();
+				System.out.println("Socket ESCRITURA EN SERVIDOR CREADO");
+				this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
+				System.out.println("OBJECT OUTPUT EN SERVIDOR CREADO");
 				readSocket = serverSocket.accept();
-
+				System.out.println("Socket LECTURA EN SERVIDOR CREADO");
+				this.inputStream = new ObjectInputStream(readSocket.getInputStream());
+				System.out.println("OBJECT INPUT EN SERVIDOR CREADO");
 				// Añadimos el socket del cliente a la lista de sockets
 				// this.usuariosConectados.add(writeSocket.get);
 				// this.usuariosConectados.add(new
 				// ObjectOutputStream(writeSocket.getOutputStream()));
 				System.out.println("¡Conexion aceptada!");
-				ConexionEntrante solicitudConexion = new ConexionEntrante(writeSocket, readSocket, this);
+				ConexionEntrante solicitudConexion = new ConexionEntrante(writeSocket, readSocket,outputStream,inputStream, this);
 				solicitudConexion.run();
 
 			}
 		} catch (IOException ex) {
-			System.out.println(ex);
+			System.out.println("ERROR EN SERVIDOR.JAVA");
 		}
 
 	}

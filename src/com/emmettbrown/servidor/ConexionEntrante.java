@@ -8,7 +8,7 @@ import java.net.Socket;
 import com.emmettbrown.base.datos.base.Usuario;
 import com.emmettbrown.mensajes.Msg;
 
-public class ConexionEntrante implements Runnable {
+public class ConexionEntrante extends Thread {
 
 	private transient Socket readSocket;
 	private transient Socket writeSocket;
@@ -17,12 +17,12 @@ public class ConexionEntrante implements Runnable {
 	private Servidor servidor;
 	private boolean buscaConexion = true;
 
-	public ConexionEntrante(Socket readSocket, Socket writeSocket, Servidor servidor) throws IOException {
+	public ConexionEntrante(Socket readSocket, Socket writeSocket,ObjectOutputStream output,ObjectInputStream input, Servidor servidor) throws IOException {
 		this.readSocket = readSocket;
 		this.writeSocket = writeSocket;
 		this.servidor = servidor;
-		this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
-		this.inputStream = new ObjectInputStream(readSocket.getInputStream());
+		this.outputStream = output;
+		this.inputStream = input;
 	}
 
 	public void desconectar() {

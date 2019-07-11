@@ -198,7 +198,6 @@ public class Login extends JFrame implements Serializable {
 		});
 		this.writeSocket = new Socket(DefConst.IP, DefConst.PORT);
 		this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
-		
 		this.readSocket = new Socket(DefConst.IP, DefConst.PORT);
 		this.inputStream = new ObjectInputStream(readSocket.getInputStream());
 	}
