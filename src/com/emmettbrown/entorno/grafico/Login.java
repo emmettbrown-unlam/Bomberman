@@ -196,10 +196,15 @@ public class Login extends JFrame implements Serializable {
 				}
 			}
 		});
-		this.writeSocket = new Socket(DefConst.IP, DefConst.PORT);
-		this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
+		
+		//El readSocket del cliente, será el writeSocket en el servidor
+		//A su vez, el writeSocket del cliente, será el readSocket en el servidor
+		//Si de un lado escribo, del otro me escuchan
+		//Si de un lado escucho, del otro me esriben
 		this.readSocket = new Socket(DefConst.IP, DefConst.PORT);
 		this.inputStream = new ObjectInputStream(readSocket.getInputStream());
+		this.writeSocket = new Socket(DefConst.IP, DefConst.PORT);
+		this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
 	}
 
 	public Login obtenerVentana() {

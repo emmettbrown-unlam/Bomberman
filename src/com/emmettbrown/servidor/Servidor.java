@@ -92,6 +92,7 @@ public class Servidor {
 			}
 		} catch (IOException ex) {
 			System.out.println("ERROR EN SERVIDOR.JAVA");
+			ex.printStackTrace();
 		}
 
 	}
