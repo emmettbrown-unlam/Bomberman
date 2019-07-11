@@ -51,8 +51,8 @@ public class ConexionEntrante implements Runnable {
 
 	public void enviarMsg(Msg msg) {
 		try {
-			outputStream.writeObject(msg);
 			outputStream.reset();
+			outputStream.writeObject(msg);
 		} catch (Exception e) {
 			System.out.println("¡No se pudo enviar el mensaje! :)");
 		}

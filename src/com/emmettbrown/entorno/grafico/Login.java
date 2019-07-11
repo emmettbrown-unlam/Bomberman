@@ -13,18 +13,19 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+import java.io.Serializable;
 
 import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.mensajes.Msg;
+import com.emmettbrown.mensajes.cliente.MsgPudoCrearUsuario;
 import com.emmettbrown.mensajes.servidor.MsgCrearUsuario;
 import com.emmettbrown.mensajes.servidor.MsgValidarUsuario;
 
-public class Login extends JFrame {
+public class Login extends JFrame implements Serializable {
 
 	/**
 	 * 
@@ -59,14 +60,14 @@ public class Login extends JFrame {
 			}
 		});
 	}
-	
+
 	public void setRespuestaCrearUsuario(boolean exito) {
-		if(exito == DefConst.DUPLICADO)
+		if (exito == DefConst.DUPLICADO)
 			this.respuestaCrearUsuario = DUPLICADO;
 		else
 			this.respuestaCrearUsuario = CREADO;
 	}
-	
+
 	public Login() throws UnknownHostException, IOException {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/resources/icons/bomb.png")));
 		setTitle("Iniciar sesi\u00F3n");
@@ -88,7 +89,7 @@ public class Login extends JFrame {
 		txtUsername = new JTextField();
 		txtUsername.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//validarUsuario(txtUsername.getText(),new String (txtPassword.getPassword()));
+				// validarUsuario(txtUsername.getText(),new String (txtPassword.getPassword()));
 			}
 		});
 		txtUsername.setBounds(197, 47, 107, 20);
@@ -98,7 +99,8 @@ public class Login extends JFrame {
 		txtPassword = new JPasswordField();
 		txtPassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//validarUsuarioBD(txtUsername.getText(),new String (txtPassword.getPassword()));
+				// validarUsuarioBD(txtUsername.getText(),new String
+				// (txtPassword.getPassword()));
 			}
 		});
 		txtPassword.setBounds(197, 72, 107, 20);
@@ -134,7 +136,7 @@ public class Login extends JFrame {
 						// Recibo mensajes del servidor
 						Msg msgRecibido = (Msg) obj;
 						// Ejecuto la acción
-						msgRecibido.realizarAccion(this);
+						msgRecibido.realizarAccion(obtenerVentana());
 					}
 
 					if (respuestaRecibida == 1) {
@@ -177,9 +179,7 @@ public class Login extends JFrame {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
-					
-					
+
 					respuestaCrearUsuario = CICLAR;
 					while (respuestaCrearUsuario == CICLAR) {
 						Object obj = null;
@@ -190,33 +190,38 @@ public class Login extends JFrame {
 							System.out.println(mensajeError);
 						}
 						// Recibo mensajes del servidor
-						Msg msgRecibido = (Msg) obj;
+						MsgPudoCrearUsuario msgRecibido = (MsgPudoCrearUsuario) obj;
 						// Ejecuto la acción
-						msgRecibido.realizarAccion(this);
-						
-						if(respuestaCrearUsuario == DUPLICADO)
+						msgRecibido.realizarAccion(obtenerVentana());
+
+						if (respuestaCrearUsuario == DUPLICADO)
 							JOptionPane.showMessageDialog(null, "El usuario ya existe", "Error",
 									JOptionPane.ERROR_MESSAGE);
-						if(respuestaCrearUsuario == CREADO)
+						if (respuestaCrearUsuario == CREADO)
 							JOptionPane.showMessageDialog(null, "Usuario creado exitosamente", "Felicidades",
 									JOptionPane.INFORMATION_MESSAGE);
 					}
-					
+
 				}
 			}
 		});
-		
+
 		/**
-		 * Inicializamos sockets para conectar al servidor
-		 * FALTA AGREGAR ESTO, NO ARRANCA EL LOGIN
+		 * Inicializamos sockets para conectar al servidor FALTA AGREGAR ESTO, NO
+		 * ARRANCA EL LOGIN
 		 * 
 		 */
-//		this.readSocket = new Socket(DefConst.IP, DefConst.PORT);
-//		this.writeSocket = new Socket(DefConst.IP, DefConst.PORT);
-//
-//		this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
-//		this.inputStream = new ObjectInputStream(readSocket.getInputStream());
+		this.writeSocket = new Socket(DefConst.IP, DefConst.PORT);
+		this.readSocket = new Socket(DefConst.IP, DefConst.PORT);
+
+		this.inputStream = new ObjectInputStream(readSocket.getInputStream());
+		this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
+
 		/// termina
+	}
+
+	public Login obtenerVentana() {
+		return this;
 	}
 
 	public void setRespuestaRecibida(int respuesta) {

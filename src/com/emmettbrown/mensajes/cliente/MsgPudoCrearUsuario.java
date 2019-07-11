@@ -19,6 +19,7 @@ public class MsgPudoCrearUsuario extends Msg {
 	@Override
 	public Object realizarAccion(Object obj) {
 		Login login = (Login)obj;
+		System.out.println("VerificarCrearUsuario");
 		if(verificar == DefConst.DUPLICADO)
 			login.setRespuestaCrearUsuario(DefConst.DUPLICADO);
 		else
