@@ -39,20 +39,12 @@ public class Cliente implements Serializable {
 	public Cliente(String ip, int puerto, String username, Socket writeSocket, Socket readSocket, ObjectOutputStream output, ObjectInputStream input) {
 		this.username = username;
 		this.host = ip;
-		//Creamos los sockets de escritura y lectura
 		//---En lugar de crear Sockets nuevos, voy a usar los que 
 		//---recibi por parametro
-		//this.readSocket = new Socket(host, puerto);
-		//this.writeSocket = new Socket(host, puerto);
-		
 		this.writeSocket = writeSocket;
 		this.readSocket = readSocket;
-		
 		//---En lugar de crear outputStream e inputStream nuevos,
-		//---voy a usar los que recibi por parametro
-//			this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
-//			this.inputStream = new ObjectInputStream(readSocket.getInputStream());
-		
+		//---voy a usar los que recibi por parametro	
 		this.outputStream = output;
 		this.inputStream = input;
 		

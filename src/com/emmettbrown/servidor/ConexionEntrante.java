@@ -31,23 +31,17 @@ public class ConexionEntrante implements Runnable {
 
 	@Override
 	public void run() {
-		while(buscaConexion)
-		{
-			try {			
-					/* Recibo Consulta de cliente */
-					Msg msgRecibo = (Msg) inputStream.readObject();
-					msgRecibo.realizarAccion(this);
-					
+		while (buscaConexion) {
+			try {
+				/* Recibo Consulta de cliente */
+				Msg msgRecibo = (Msg) inputStream.readObject();
+				msgRecibo.realizarAccion(this);
+
 			} catch (IOException | ClassNotFoundException ex) {
-				//this.desconectar();
 				System.out.println("NO SE RECIBIO EL MENSAJE EN CONEXION ENTRANTE");
 			}
-			
-			
 		}
-		
-		servidor.iniciarHiloCliente(readSocket, writeSocket,outputStream,inputStream);
-		
+		servidor.iniciarHiloCliente(readSocket, writeSocket, outputStream, inputStream);
 	}
 
 	public void enviarMsg(Msg msg) {

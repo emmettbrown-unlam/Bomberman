@@ -105,8 +105,6 @@ public class Login extends JFrame implements Serializable {
 		});
 		txtPassword.setBounds(197, 72, 107, 20);
 		contentPane.add(txtPassword);
-//		txtUsername.setText("Nico");
-//		txtPassword.setText("1234");
 		JButton btnIniciarSesin = new JButton("Iniciar Sesi\u00F3n");
 		btnIniciarSesin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -140,13 +138,6 @@ public class Login extends JFrame implements Serializable {
 					}
 
 					if (respuestaRecibida == 1) {
-//						try {
-//							readSocket.close();
-//							writeSocket.close();
-//						} catch (IOException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
 						cliente = new Cliente(DefConst.IP, DefConst.PORT, txtUsername.getText(), writeSocket, readSocket, outputStream, inputStream);
 						JVentanaInicial inicial = new JVentanaInicial(cliente);
 						inicial.setVisible(true);
@@ -205,19 +196,11 @@ public class Login extends JFrame implements Serializable {
 				}
 			}
 		});
-
-		/**
-		 * Inicializamos sockets para conectar al servidor FALTA AGREGAR ESTO, NO
-		 * ARRANCA EL LOGIN
-		 * 
-		 */
 		this.writeSocket = new Socket(DefConst.IP, DefConst.PORT);
 		this.readSocket = new Socket(DefConst.IP, DefConst.PORT);
 
 		this.inputStream = new ObjectInputStream(readSocket.getInputStream());
 		this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
-
-		/// termina
 	}
 
 	public Login obtenerVentana() {
@@ -227,14 +210,4 @@ public class Login extends JFrame implements Serializable {
 	public void setRespuestaRecibida(int respuesta) {
 		this.respuestaRecibida = respuesta;
 	}
-
-	// Esto deber�a ser server side...
-//	public boolean validarUsuario(String user, String pass){
-//		if (pass.equals("1234")){ //if (user.equals("bomber") && pass.equals("1234")){
-//			return true;
-//		} else {
-//			JOptionPane.showMessageDialog(null, "Incorrecto, intente de nuevo", "Acceso denegado", JOptionPane.ERROR_MESSAGE);
-//			return false;
-//		}
-//	}
 }

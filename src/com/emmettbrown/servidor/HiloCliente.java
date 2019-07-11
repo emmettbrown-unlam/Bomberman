@@ -55,9 +55,7 @@ public class HiloCliente extends Thread {
 		this.readSocket = readSocket;
 		this.inputStream = input;
 		this.outputStream = output;
-		//	this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
 		usuariosConectados.add(outputStream);
-//	this.inputStream = new ObjectInputStream(readSocket.getInputStream());
 
 		this.usuariosConectados = usuariosConectados;
 		this.estaConectado = true;
