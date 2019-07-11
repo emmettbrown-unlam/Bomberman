@@ -39,22 +39,23 @@ public class ConexionEntrante implements Runnable {
 					msgRecibo.realizarAccion(this);
 					
 			} catch (IOException | ClassNotFoundException ex) {
-				this.desconectar();
+				//this.desconectar();
+				System.out.println("NO SE RECIBIO EL MENSAJE EN CONEXION ENTRANTE");
 			}
 			
 			
 		}
 		
-		servidor.iniciarHiloCliente(readSocket, writeSocket);
+		servidor.iniciarHiloCliente(readSocket, writeSocket,outputStream,inputStream);
 		
 	}
 
 	public void enviarMsg(Msg msg) {
 		try {
-			outputStream.reset();
 			outputStream.writeObject(msg);
+			outputStream.reset();
 		} catch (Exception e) {
-			System.out.println("¡No se pudo enviar el mensaje! :)");
+			System.out.println("NO SE ENVIO EL MENSAJE EN CONEXION ENTRANTE");
 		}
 	}
 

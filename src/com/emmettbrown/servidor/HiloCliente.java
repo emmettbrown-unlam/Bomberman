@@ -48,19 +48,16 @@ public class HiloCliente extends Thread {
 	private String nombreUsuario;
 	private HashMap<String, Integer> puntajes;
 
-	public HiloCliente(Socket writeSocket, Socket readSocket, ArrayList<ObjectOutputStream> usuariosConectados,
+	public HiloCliente(Socket writeSocket, Socket readSocket,ObjectOutputStream output,ObjectInputStream input, ArrayList<ObjectOutputStream> usuariosConectados,
 			ArrayList<SvSala> salas) {
 		this.idCliente = idCounter++;
 		this.writeSocket = writeSocket;
 		this.readSocket = readSocket;
-
-		try {
-			this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
-			usuariosConectados.add(outputStream);
-			this.inputStream = new ObjectInputStream(readSocket.getInputStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.inputStream = input;
+		this.outputStream = output;
+		//	this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
+		usuariosConectados.add(outputStream);
+//	this.inputStream = new ObjectInputStream(readSocket.getInputStream());
 
 		this.usuariosConectados = usuariosConectados;
 		this.estaConectado = true;
@@ -131,7 +128,7 @@ public class HiloCliente extends Thread {
 			outputStream.writeObject(msg);
 			outputStream.reset();
 		} catch (Exception e) {
-			System.out.println("¡No se pudo enviar el mensaje! :)");
+			System.out.println("NO SE PUDO ENVIAR MENSAJE EN HILOCLIENTE");
 		}
 	}
 
@@ -158,7 +155,7 @@ public class HiloCliente extends Thread {
 			inputStream.close();
 			readSocket.close();
 		} catch (IOException | ClassNotFoundException ex) {
-			System.out.println("Problemas al querer leer otra petición: " + ex.getMessage());
+			System.out.println("Problemas al querer leer otra petición EN HILOCLIENTE: " + ex.getMessage());
 			this.salaConectada.getMap().eliminarBomberman(this.bomber);
 			this.usuariosConectados.remove(outputStream);
 			eliminarSala(this.idCliente);

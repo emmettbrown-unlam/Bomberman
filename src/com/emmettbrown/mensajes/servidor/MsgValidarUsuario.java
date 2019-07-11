@@ -24,10 +24,10 @@ public class MsgValidarUsuario extends Msg {
 		ConexionEntrante conexion = (ConexionEntrante) obj;
 		Servidor servidor = conexion.getServidor();
 		boolean pudoConectar = servidor.validarUsuarioBD(usuario, contrasenia);
-		if(pudoConectar == true)
-			conexion.desconectar();
 		Msg respuestaConexion = new MsgRespuestaConexion(pudoConectar);
 		conexion.enviarMsg(respuestaConexion);
+		if(pudoConectar == true)
+			conexion.desconectar();
 		return null;
 	}
 

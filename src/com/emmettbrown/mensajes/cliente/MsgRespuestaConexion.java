@@ -30,7 +30,7 @@ public class MsgRespuestaConexion extends Msg {
 			
 		}
 			
-		return this;
+		return null;
 	}
 
 }

@@ -116,12 +116,12 @@ public class Login extends JFrame implements Serializable {
 				else {
 
 					try {
-						outputStream.reset();
 						Msg consultaCuenta = new MsgValidarUsuario(txtUsername.getText(),
 								new String(txtPassword.getPassword()));
 						outputStream.writeObject(consultaCuenta);
+						outputStream.reset();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
+						System.out.println("NO SE ENVIO MENSAJEN EN INICIAR SESION AC LIS");
 						e.printStackTrace();
 					}
 
@@ -140,14 +140,14 @@ public class Login extends JFrame implements Serializable {
 					}
 
 					if (respuestaRecibida == 1) {
-						try {
-							readSocket.close();
-							writeSocket.close();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						cliente = new Cliente(DefConst.IP, DefConst.PORT, txtUsername.getText());
+//						try {
+//							readSocket.close();
+//							writeSocket.close();
+//						} catch (IOException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+						cliente = new Cliente(DefConst.IP, DefConst.PORT, txtUsername.getText(), writeSocket, readSocket, outputStream, inputStream);
 						JVentanaInicial inicial = new JVentanaInicial(cliente);
 						inicial.setVisible(true);
 						dispose();

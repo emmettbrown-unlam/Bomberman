@@ -96,13 +96,13 @@ public class Servidor {
 		estaConectado = 1;
 	}
 
-	public void iniciarHiloCliente(Socket readSocketHilo, Socket writeSocketHilo) {
+	public void iniciarHiloCliente(Socket readSocketHilo, Socket writeSocketHilo, ObjectOutputStream outputStream, ObjectInputStream inputStream) {
 		// Creamos un hilo para el cliente (evitando así el bloqueo que se genera en
 		// este mismo hilo)
 		// Le envíamos como datos el socket del cliente, y la lista de usuarios
 		// conectados
 
-		HiloCliente hiloCliente = new HiloCliente(writeSocketHilo, readSocketHilo, usuariosConectados, listaSalas);
+		HiloCliente hiloCliente = new HiloCliente(writeSocketHilo, readSocketHilo, outputStream, inputStream, usuariosConectados, listaSalas);
 		// Iniciamos el hilo
 		hiloCliente.start();
 	}
