@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.emmettbrown.cliente.Cliente;
+import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.mensajes.servidor.MsgMover;
 
 public class Teclado implements KeyListener {
@@ -32,7 +33,7 @@ public class Teclado implements KeyListener {
 				this.cliente.enviarMsg(new MsgMover(Movimientos.ABAJO));
 			}
 			if (key == KeyEvent.VK_L) {
-				if(this.cliente.getBomber().cantBombasAct() < 2)
+				if(this.cliente.getBomber().cantBombasAct() < DefConst.CANTBOMBASMAX)
 				this.cliente.enviarMsg(new MsgMover(Movimientos.BOMBA));
 			}
 		}

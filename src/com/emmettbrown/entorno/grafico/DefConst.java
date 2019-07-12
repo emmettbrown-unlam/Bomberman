@@ -23,4 +23,5 @@ public final class DefConst {
 	public static final String TITLETAB ="PUNTUACIONES";
 	public static final int MAXROUND = 4;
 	public static final int PUNTAJEMAXIMO = 3;
+	public static final int CANTBOMBASMAX = 2;
 }
