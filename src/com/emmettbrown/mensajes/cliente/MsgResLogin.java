@@ -14,8 +14,8 @@ public class MsgResLogin extends Msg {
 	private static final long serialVersionUID = 1L;
 	private boolean resultado;
 
-	public MsgResLogin(boolean r) {
-		this.resultado = r;
+	public MsgResLogin(boolean result) {
+		this.resultado = result;
 	}
 
 	@Override

@@ -15,8 +15,8 @@ public class MsgCrearSala extends Msg {
 	private static final long serialVersionUID = 1L;
 	private int idCliente; 
 	
-	public MsgCrearSala(int s) {
-		this.idCliente = s;
+	public MsgCrearSala(int idCli) {
+		this.idCliente = idCli;
 	}
 	
 	@Override
