@@ -55,6 +55,8 @@ public class HiloCliente extends Thread {
 		this.gestionBD = gestion;
 		try {
 			this.outputStream = new ObjectOutputStream(new BufferedOutputStream(writeSocket.getOutputStream()));
+			//Necesitamos flushear el buffer ni bien creamos el outputStream. De otra forma, al crear el inputStream,
+			//va a quedar todo bloqueado para siempre
 			outputStream.flush();
 			usuariosConectados.add(outputStream);
 			this.inputStream = new ObjectInputStream(new BufferedInputStream(readSocket.getInputStream()));
@@ -121,7 +123,7 @@ public class HiloCliente extends Thread {
 		this.enviarMsg(new MsgGenerarObstaculos(map.getObstaculos()));
 		//Agregamos el bomber del cliente al mapa
 		map.agregarBomberman(bomber);
-		//Le decimos a los clientes que aï¿½adan el bomber
+		//Le decimos a los clientes que añadan el bomber
 		this.broadcast(new MsgAgregarBomberman(bomber, idCliente), salaConectada.getOutputStreams());
 	}
 	
@@ -162,7 +164,7 @@ public class HiloCliente extends Thread {
 			inputStream.close();
 			readSocket.close();
 		} catch (IOException | ClassNotFoundException ex) {
-			System.out.println("Un mensaje no se recibiï¿½ correctamente en HiloCliente: " + ex.getMessage());
+			System.out.println("Un mensaje no se recibio correctamente en HiloCliente: " + ex.getMessage());
 			desconectarDeSala();
 			this.usuariosConectados.remove(outputStream);			
 			eliminarSala(this.idCliente);

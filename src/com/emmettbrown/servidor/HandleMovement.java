@@ -1,8 +1,8 @@
 package com.emmettbrown.servidor;
 
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import com.emmettbrown.controles.Movimientos;
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.mensajes.cliente.MsgEliminarBomberman;

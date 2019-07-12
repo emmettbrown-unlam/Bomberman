@@ -49,6 +49,8 @@ public class Cliente implements Serializable {
 			this.writeSocket = new Socket(host, puerto);
 			
 			this.outputStream = new ObjectOutputStream(new BufferedOutputStream(writeSocket.getOutputStream()));
+			//Necesitamos flushear el buffer ni bien creamos el outputStream. De otra forma, al crear el inputStream,
+			//va a quedar todo bloqueado para siempre
 			outputStream.flush();
 			this.inputStream = new ObjectInputStream(new BufferedInputStream(readSocket.getInputStream()));
 			
@@ -113,7 +115,7 @@ public class Cliente implements Serializable {
 		}
 	}
 
-	public Object recibirMsg() {
+	public 	Object recibirMsg() {
 		Object obj = null;
 		try {
 			obj = inputStream.readObject();

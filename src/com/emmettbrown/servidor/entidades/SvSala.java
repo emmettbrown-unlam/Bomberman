@@ -121,7 +121,9 @@ public class SvSala {
 	
 	public void removerCliente(HiloCliente hiloCliente) {
 		int nuevoIdCliente;
-		map.eliminarBomberman(hiloCliente.getBomber());
+		
+		if (map != null)
+			map.eliminarBomberman(hiloCliente.getBomber());
 		clientesConectados.remove(hiloCliente);
 		outputStreams.remove(hiloCliente.getOutputStream());
 		if(clientesConectados.size() > 0 && idCreador != (nuevoIdCliente = clientesConectados.get(0).getIdCliente())){
