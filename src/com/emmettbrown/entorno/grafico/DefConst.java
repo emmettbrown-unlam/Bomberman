@@ -1,6 +1,5 @@
 package com.emmettbrown.entorno.grafico;
 public final class DefConst {
-	
 	public static final int DEFAULTWIDTH = 60;
 	public static final int DEFAULTHEIGHT = 60;
 	public static final int VELOCIDAD = 4;
@@ -18,7 +17,6 @@ public final class DefConst {
 	public static final int LIMITEJUGADORES = 4;
 	public static final int DXNAME =  9;
 	public static final int DYNAME =  -5;
-	public static final int TIMEOUT = 60*11;//11s
 	public static final int SEG = 20;
 	public static final String TITLETAB ="PUNTUACIONES";
 	public static final int MAXROUND = 4;
