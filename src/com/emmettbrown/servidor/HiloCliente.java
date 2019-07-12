@@ -136,17 +136,7 @@ public class HiloCliente extends Thread {
 	}
 	
 	public void broadcast(Msg msg, ArrayList<ObjectOutputStream> usuariosConectados) {		
-		
-		try {
-			//Primero refresco en el cliente que solicito. Luego lo demas
-			outputStream.writeObject(msg);
-			outputStream.reset();
-			outputStream.flush();
-		} catch (Exception e) {
-			System.out.println("NO SE PUDO ENVIAR EL MENSAJE EN HILOCLIENTE");
-		}
-		
-		
+		this.enviarMsg(msg);	
 		for (ObjectOutputStream salidaACliente : usuariosConectados) {
 			try {
 				if (!salidaACliente.equals(outputStream) ) {
