@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.entorno.grafico.JVentanaInicial;
+import com.emmettbrown.mensajes.servidor.MsgDesconectarDeServidor;
 import com.emmettbrown.mensajes.servidor.MsgMover;
 
 public class Teclado implements KeyListener {
@@ -23,6 +24,7 @@ public class Teclado implements KeyListener {
 				JVentanaInicial ventAct = new JVentanaInicial(cliente);
 				ventAct.setVisible(true);
 				cliente.getVentanaGrafica().dispose();
+				cliente.enviarMsg(new MsgDesconectarDeServidor());
 			}
 			if (key == KeyEvent.VK_RIGHT) {
 				this.cliente.enviarMsg(new MsgMover(Movimientos.DERECHA));

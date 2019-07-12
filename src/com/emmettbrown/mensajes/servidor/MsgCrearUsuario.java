@@ -1,6 +1,5 @@
 package com.emmettbrown.mensajes.servidor;
 
-import java.io.Serializable;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -13,6 +12,10 @@ import com.emmettbrown.servidor.HiloCliente;
 
 public class MsgCrearUsuario extends Msg {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String usuario;
 	private String clave;
 

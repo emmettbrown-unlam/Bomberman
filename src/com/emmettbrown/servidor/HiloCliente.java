@@ -16,7 +16,6 @@ import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.cliente.MsgAgregarBomberman;
-import com.emmettbrown.mensajes.cliente.MsgEliminarBomberman;
 import com.emmettbrown.mensajes.cliente.MsgEliminarSala;
 import com.emmettbrown.mensajes.cliente.MsgGenerarObstaculos;
 import com.emmettbrown.mensajes.cliente.MsgIdCliente;
@@ -160,13 +159,17 @@ public class HiloCliente extends Thread {
 			readSocket.close();
 		} catch (IOException | ClassNotFoundException ex) {
 			System.out.println("Un mensaje no se recibió correctamente en HiloCliente: " + ex.getMessage());
-			//Si se encuentra en una sala, lo borramos de ahi
-			if (this.salaConectada != null)
-				this.salaConectada.removerCliente(this);
-			this.usuariosConectados.remove(outputStream);			
-			eliminarSala(this.idCliente);
-			this.estaConectado = false;
+			desconectarDeServidor();
 		}
+	}
+	
+	public void desconectarDeServidor() {
+		//Si se encuentra en una sala, lo borramos de ahi
+		if (this.salaConectada != null)
+			this.salaConectada.removerCliente(this);
+		this.usuariosConectados.remove(outputStream);			
+		eliminarSala(this.idCliente);
+		this.estaConectado = false;
 	}
 
 	public void agregarSala(SvSala sala) {

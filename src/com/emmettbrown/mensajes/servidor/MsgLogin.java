@@ -1,7 +1,5 @@
 package com.emmettbrown.mensajes.servidor;
 
-import java.io.ObjectOutputStream;
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -39,24 +37,6 @@ public class MsgLogin extends Msg {
 			resultado = false;
 		}
 		hilo.enviarMsg(new MsgResLogin(resultado));
-		
-//		try { 
-//			ObjectOutputStream salidaACliente = new ObjectOutputStream(hilo.getWriteSocket().getOutputStream()); 
-//			
-//			if ((this.usuario.equals("Usuario") && this.clave.equals("clave"))
-//					|| (this.usuario.equals("Usuario2") && this.clave.equals("clave2"))) {
-//
-//				//hilo.getUsuariosConectados().add(hilo.getWriteSocket());			
-//				//Le mandamos un OK al cliente
-//				salidaACliente.writeObject("OK");				
-//			}
-//			else {
-//				//Le mandamos un FAIL al cliente
-//				salidaACliente.writeObject("FAIL");
-//			}
-//		} catch (Exception e) {
-//			System.out.println(e);
-//		}
 		return null;
 	}
 }
