@@ -1,9 +1,7 @@
 package com.emmettbrown.cliente;
 
-import java.awt.Window;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
