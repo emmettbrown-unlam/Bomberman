@@ -54,8 +54,6 @@ public class JVentanaGrafica extends JFrame {
 		try {
 			Clip sonido = AudioSystem.getClip();
 			sonido.open(AudioSystem.getAudioInputStream(new File("./src/resources/music/cancBomb.wav")));
-			//sonido.open(AudioSystem.getAudioInputStream(getClass().getResourceAsStream("C:/Users/agust/Desktop/GIT/Bomberman/src/resources/music/cancBomb.wav")));
-			//sonido.start();
 			sonido.loop(Clip.LOOP_CONTINUOUSLY);
 		} catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
 			System.out.println("ERROR AL ABRIR EL SONIDO EN JVENTANAGRAFICA");
@@ -63,7 +61,7 @@ public class JVentanaGrafica extends JFrame {
 		}
 		
 	}
-	///http://picarcodigo.blogspot.com/2013/01/poner-sonido-nuestras-aplicaciones-java.html
+	
 	public Teclado getTeclado() {
 		return this.teclado;
 	}
@@ -94,6 +92,8 @@ public class JVentanaGrafica extends JFrame {
 	public void finPartida() {
 		refresh.matarThread();
 		JOptionPane.showMessageDialog(null, "La partida ha finalizado.");
-		
+		JVentanaInicial ventAct = new JVentanaInicial(cliente);
+		ventAct.setVisible(true);
+		dispose();
 	}
 }

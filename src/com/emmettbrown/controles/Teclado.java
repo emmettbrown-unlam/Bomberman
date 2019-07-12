@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 
 import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.entorno.grafico.DefConst;
+import com.emmettbrown.entorno.grafico.JVentanaInicial;
 import com.emmettbrown.mensajes.servidor.MsgMover;
 
 public class Teclado implements KeyListener {
@@ -19,6 +20,9 @@ public class Teclado implements KeyListener {
 		int key = e.getKeyCode();
 		if (cliente.getBomber() != null && cliente.getBomber().verSiEsVisible()) {
 			if (key == KeyEvent.VK_ESCAPE) {
+				JVentanaInicial ventAct = new JVentanaInicial(cliente);
+				ventAct.setVisible(true);
+				cliente.getVentanaGrafica().dispose();
 			}
 			if (key == KeyEvent.VK_RIGHT) {
 				this.cliente.enviarMsg(new MsgMover(Movimientos.DERECHA));
