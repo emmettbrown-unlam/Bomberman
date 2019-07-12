@@ -159,8 +159,14 @@ public class SvSala {
 		//Indicamos a cada cliente de la sala que actualice el puntaje
 		creador.broadcast(new MsgActualizarPuntajes(puntajes), outputStreams);	
 		
-
-		if (rondaActual > cantRondas) {
+		boolean finalizar = false;
+		for (String key : puntajes.keySet()) {
+			if(puntajes.get(key) == DefConst.PUNTAJEMAXIMO)
+				finalizar = true;
+		}
+		
+		
+		if (finalizar == true) {
 			creador.broadcast(new MsgFinPartida(), outputStreams);
 			///aca se computa el puntaje con tablero
 		} else {
