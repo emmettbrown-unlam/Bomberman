@@ -5,7 +5,14 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.emmettbrown.base.datos.base.Configuracion;
+import com.emmettbrown.base.datos.base.GestionBD;
+import com.emmettbrown.base.datos.base.Usuario;
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.entorno.grafico.Tablero;
 import com.emmettbrown.mensajes.cliente.MsgActualizarPuntajes;
@@ -33,6 +40,7 @@ public class SvSala {
 	private int rondaActual;
 	private int cantRondas;
 	private SvControlVivos hiloVivos;
+	private GestionBD gestion;
 
 	public SvSala(int id, int idCreador, String nombre, int limJugadores) {
 		this.idSala = id;
@@ -185,6 +193,45 @@ public class SvSala {
 		if (finalizar == true) {
 			creador.broadcast(new MsgFinPartida(), outputStreams);
 			///aca se computa el puntaje con tablero
+			Configuracion configuracion= new Configuracion();
+			gestion=new GestionBD(configuracion.getFactory());
+			HashMap<String, Integer> puntuacionParaBD=tablero.getPuntajes();
+			String usuarioPuntajeMaximo;
+			int puntajeMaximo=0;
+			
+			//guardamos el puntaje maximo:
+			for(Map.Entry<String, Integer> entry :puntuacionParaBD.entrySet()) {
+				if(entry.getValue() > puntajeMaximo) {
+					puntajeMaximo = entry.getValue();
+					usuarioPuntajeMaximo = entry.getKey();
+				}
+			}
+			//recorremos el array por si hay empate en cant. de rondas ganadas
+			for(Map.Entry<String, Integer> entry :puntuacionParaBD.entrySet()) {
+				
+				if(entry.getValue() == puntajeMaximo) {
+					puntajeMaximo = entry.getValue();
+					usuarioPuntajeMaximo = entry.getKey();
+
+
+					
+					Session s = gestion.getFactory().openSession();
+					Transaction t = s.beginTransaction();
+					Usuario user = s.get(Usuario.class, usuarioPuntajeMaximo);
+//					System.out.println("usuario "+user.getUsuario()+
+//							" "+ "contraseña"+user.getContraseña()+
+//							"puntajes"+ user.getPuntaje());
+					user.setPuntaje(user.getPuntaje()+1);
+					s.update(user);
+					
+//					System.out.println("usuario "+user.getUsuario()+
+//							" "+ "contraseña"+user.getContraseña()+
+//							"puntajes"+ user.getPuntaje());
+					t.commit();
+					s.close();
+					
+				}
+			}
 		} else {
 			creador.broadcast(new MsgFinRonda(), outputStreams);
 		}

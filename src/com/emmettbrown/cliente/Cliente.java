@@ -107,7 +107,7 @@ public class Cliente implements Serializable {
 			outputStream.reset();
 			outputStream.writeObject(consultaAlServidor);
 		} catch (IOException e) {
-			System.out.println("Error al querer enviar peticion al sv " + e);
+			System.out.println("PROBLEMA AL ENVIAR MENSAJE EN CLIENTE " + e);
 		}
 	}
 
