@@ -10,15 +10,20 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+import java.io.Serializable;
 
 import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.mensajes.servidor.MsgCrearUsuario;
 import com.emmettbrown.mensajes.servidor.MsgLogin;
 
-
-public class Login extends JFrame {
+public class Login extends JFrame implements Serializable {
 
 	/**
 	 * 
@@ -28,7 +33,7 @@ public class Login extends JFrame {
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
 	private Cliente cliente;
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -45,7 +50,7 @@ public class Login extends JFrame {
 		});
 	}
 
-	public Login() {
+	public Login() throws UnknownHostException, IOException {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/resources/icons/bomb.png")));
 		setTitle("Iniciar sesi\u00F3n");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,8 +76,6 @@ public class Login extends JFrame {
 		txtPassword = new JPasswordField();
 		txtPassword.setBounds(197, 72, 107, 20);
 		contentPane.add(txtPassword);
-		txtUsername.setText("Nico");
-		txtPassword.setText("1234");
 		JButton btnIniciarSesin = new JButton("Iniciar Sesi\u00F3n");
 		btnIniciarSesin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -106,6 +109,7 @@ public class Login extends JFrame {
 		});
 		btnCrearUsuario.setBounds(50, 213, 142, 23);
 		contentPane.add(btnCrearUsuario);
+
 	}
 	
 	private void setPantallaLoginEnCliente() {

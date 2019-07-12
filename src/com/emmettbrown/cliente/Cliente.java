@@ -40,29 +40,26 @@ public class Cliente implements Serializable {
 	private JVentanaGrafica ventanaGrafica;
 	private Login pantallaLogin;
 
-	public Cliente(String ip, int puerto, String username) {
-		try {
-			this.username = username;
-			this.host = ip;
-			//Creamos los sockets de escritura y lectura
-			this.readSocket = new Socket(host, puerto);
-			this.writeSocket = new Socket(host, puerto);
-			
-			this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
-			this.inputStream = new ObjectInputStream(readSocket.getInputStream());
-			
-			this.mapa = new Mapa();
-			this.listaSalas = new ConcurrentLinkedQueue<Sala>();
+	public Cliente(String ip, int puerto, String username, Socket writeSocket, Socket readSocket, ObjectOutputStream output, ObjectInputStream input) {
+		this.username = username;
+		this.host = ip;
+		//---En lugar de crear Sockets nuevos, voy a usar los que 
+		//---recibi por parametro
+		this.writeSocket = writeSocket;
+		this.readSocket = readSocket;
+		//---En lugar de crear outputStream e inputStream nuevos,
+		//---voy a usar los que recibi por parametro	
+		this.outputStream = output;
+		this.inputStream = input;
+		
+		this.mapa = new Mapa();
+		this.listaSalas = new ConcurrentLinkedQueue<Sala>();
 
-			//Creamos un hilo escucha que se encargará de leer las cosas que se envíen al readSocket
-			ListenerThread listener = new ListenerThread(this);
-			listener.start();
-			//Enviamos un mensaje al servidor para que setee el nombre de usuario del cliente
-			enviarMsg(new MsgActualizarNombre(this.username));
-		} catch (IOException e) {
-			this.mensajeError = "No se encontro ningun servidor al cual conectarse!";
-			System.out.println(mensajeError);
-		}
+		//Creamos un hilo escucha que se encargará de leer las cosas que se envíen al readSocket
+		ListenerThread listener = new ListenerThread(this);
+		listener.start();
+		//Enviamos un mensaje al servidor para que setee el nombre de usuario del cliente
+		enviarMsg(new MsgActualizarNombre(this.username));
 	}
 	
 	public int getIdCliente() {

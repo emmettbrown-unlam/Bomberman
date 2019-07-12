@@ -2,14 +2,13 @@ package com.emmettbrown.servidor;
 
 import java.io.IOException;
 
-
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import com.emmettbrown.base.datos.base.GestionBD;
 import com.emmettbrown.entorno.grafico.DefConst;
@@ -24,7 +23,6 @@ import com.emmettbrown.servidor.entidades.SvBomberman;
 import com.emmettbrown.servidor.entidades.SvSala;
 import com.emmettbrown.servidor.mapa.ServerMap;
 
-
 public class HiloCliente extends Thread {
 
 	private int idCliente;
@@ -33,17 +31,17 @@ public class HiloCliente extends Thread {
 	private transient Socket writeSocket;
 	private ObjectInputStream inputStream;
 	private ObjectOutputStream outputStream;
-	//Bomberman relacionado a este cliente
+	// Bomberman relacionado a este cliente
 	private SvBomberman bomber;
-	//Lista de usuarios conectados (de todo el server)
-	//private ArrayList<Socket> usuariosConectados;
+	// Lista de usuarios conectados (de todo el server)
+	// private ArrayList<Socket> usuariosConectados;
 	private ArrayList<ObjectOutputStream> usuariosConectados;
-	//Thread de movimiento
-	private HandleMovement movimiento;	
-	//Listado de salas del servidor
+	// Thread de movimiento
+	private HandleMovement movimiento;
+	// Listado de salas del servidor
 	private ArrayList<SvSala> listaSalas;
-	//Contador estático de ids de los clientes
-	private static int idCounter = 0;	
+	// Contador estï¿½tico de ids de los clientes
+	private static int idCounter = 0;
 	private SvSala salaConectada;
 	private ServerMap map;
 	private String nombreUsuario;
@@ -67,15 +65,15 @@ public class HiloCliente extends Thread {
 		this.usuariosConectados = usuariosConectados;
 		this.estaConectado = true;
 		this.listaSalas = salas;
-		//Le comunicamos al cliente cual es su ID
+		// Le comunicamos al cliente cual es su ID
 		enviarMsg(new MsgIdCliente(this.idCliente));
 		this.puntajes = new HashMap<>();
 	}
-	
+
 	public ObjectOutputStream getOutputStream() {
 		return this.outputStream;
 	}
-	
+
 	public Socket getWriteSocket() {
 		return this.writeSocket;
 	}
@@ -91,52 +89,53 @@ public class HiloCliente extends Thread {
 	public ArrayList<ObjectOutputStream> getUsuariosConectados() {
 		return usuariosConectados;
 	}
-	
+
 	public ServerMap getMap() {
 		return this.map;
 	}
-	
+
 	public HandleMovement getMovementThread() {
 		return this.movimiento;
 	}
-	
+
 	public SvBomberman getBomber() {
 		return this.bomber;
 	}
-	
+
 	public ArrayList<SvSala> getSalas() {
 		return this.listaSalas;
 	}
-	
+
 	public SvSala getSalaConectada() {
 		return this.salaConectada;
 	}
 
 	public void inicializarCliente(ServerMap map) {
 		this.map = map;
-		Ubicacion ubic = map.obtenerUbicacionInicio();		
-		this.bomber = new SvBomberman(ubic.getPosX()*75, ubic.getPosY()*75, DefConst.DEFAULTWIDTH, DefConst.DEFAULTHEIGHT, this.getNombreUsuario());
+		Ubicacion ubic = map.obtenerUbicacionInicio();
+		this.bomber = new SvBomberman(ubic.getPosX() * 75, ubic.getPosY() * 75, DefConst.DEFAULTWIDTH,
+				DefConst.DEFAULTHEIGHT, this.getNombreUsuario());
 		this.movimiento = new HandleMovement(this, salaConectada.getOutputStreams());
 		this.movimiento.start();
-		
-		//Enviamos los obtasculos al cliente actual
+
+		// Enviamos los obtasculos al cliente actual
 		this.enviarMsg(new MsgGenerarObstaculos(map.getObstaculos()));
-		//Agregamos el bomber del cliente al mapa
+		// Agregamos el bomber del cliente al mapa
 		map.agregarBomberman(bomber);
-		//Le decimos a los clientes que añadan el bomber
+		// Le decimos a los clientes que aï¿½adan el bomber
 		this.broadcast(new MsgAgregarBomberman(bomber, idCliente), salaConectada.getOutputStreams());
 	}
-	
+
 	public void enviarMsg(Msg msg) {
 		try {
 			outputStream.writeObject(msg);
 			outputStream.reset();
 		} catch (Exception e) {
-			System.out.println("¡No se pudo enviar el mensaje! :)");
+			System.out.println("NO SE PUDO ENVIAR MENSAJE EN HILOCLIENTE");
 		}
 	}
-	
-	public void broadcast(Msg msg, ArrayList<ObjectOutputStream> usuariosConectados) {		
+
+	public void broadcast(Msg msg, ArrayList<ObjectOutputStream> usuariosConectados) {
 		for (ObjectOutputStream salidaACliente : usuariosConectados) {
 			try {
 				salidaACliente.reset();
@@ -149,7 +148,7 @@ public class HiloCliente extends Thread {
 
 	@Override
 	public void run() {
-		try {			
+		try {
 			while (estaConectado) {
 				/* Recibo Consulta de cliente */
 				Msg msgRecibo = (Msg) inputStream.readObject();
@@ -159,37 +158,38 @@ public class HiloCliente extends Thread {
 			inputStream.close();
 			readSocket.close();
 		} catch (IOException | ClassNotFoundException ex) {
-			System.out.println("Problemas al querer leer otra petición: " + ex.getMessage());
+			System.out.println("Problemas al querer leer otra peticiï¿½n EN HILOCLIENTE: " + ex.getMessage());
 			this.salaConectada.getMap().eliminarBomberman(this.bomber);
-			this.usuariosConectados.remove(outputStream);			
+			this.usuariosConectados.remove(outputStream);
 			eliminarSala(this.idCliente);
 			broadcast(new MsgEliminarBomberman(this.bomber.getIdBomberman()), usuariosConectados);
 			this.estaConectado = false;
 		}
+
 	}
 
 	public void agregarSala(SvSala sala) {
 		this.listaSalas.add(sala);
-	}	
-	
+	}
+
 	public void setSalaConectada(SvSala sala) {
 		this.salaConectada = sala;
 	}
-	
-	//Elimina una sala tanto del lado servidor como cliente
+
+	// Elimina una sala tanto del lado servidor como cliente
 	public void eliminarSala(int idCreador) {
 		Iterator<SvSala> iter = listaSalas.iterator();
-		
+
 		while (iter.hasNext()) {
 			SvSala sala = iter.next();
-			
+
 			if (sala.getIdCreador() == idCreador) {
 				broadcast(new MsgEliminarSala(sala.getId()), usuariosConectados);
 				iter.remove();
 			}
 		}
 	}
-	
+
 	public int getIdCliente() {
 		return this.idCliente;
 	}
@@ -197,6 +197,7 @@ public class HiloCliente extends Thread {
 	public void setNombreUsuario(String nombre) {
 		nombreUsuario = nombre;
 	}
+
 	public String getNombreUsuario() {
 		return nombreUsuario;
 	}

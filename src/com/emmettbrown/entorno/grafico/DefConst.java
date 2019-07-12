@@ -22,4 +22,6 @@ public final class DefConst {
 	public static final int SEG = 40;
 	public static final String TITLETAB ="PUNTUACIONES";
 	public static final int MAXROUND = 4;
+	public static final boolean DUPLICADO = false;
+	public static final boolean EXITO = true;
 }

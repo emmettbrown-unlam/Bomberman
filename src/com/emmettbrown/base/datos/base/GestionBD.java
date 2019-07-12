@@ -1,3 +1,4 @@
+
 package com.emmettbrown.base.datos.base;
 import java.util.List;
 
@@ -24,8 +25,8 @@ public class GestionBD {
 	
 //
 //	public List<Object[]> validarUsuario(Usuario usuario) {
-//		String consulta = "select p.contraseña from Usuario p " + "where p.usuario=" + "'" + usuario.getUsuario() + "'" + 
-//				" and p.contraseña=" + "'" + usuario.getContraseña() + "'";
+//		String consulta = "select p.contraseï¿½a from Usuario p " + "where p.usuario=" + "'" + usuario.getUsuario() + "'" + 
+//				" and p.contraseï¿½a=" + "'" + usuario.getContraseï¿½a() + "'";
 //		return obtenerRegistro(consulta);
 //	}
 //	
