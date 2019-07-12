@@ -168,6 +168,7 @@ public class HiloCliente extends Thread {
 	
 	public void desconectarDeSala() {
 		//Si se encuentra en una sala, lo borramos de ahi
+		
 		if (this.salaConectada != null)
 			this.salaConectada.removerCliente(this);
 	}
