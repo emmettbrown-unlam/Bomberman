@@ -17,16 +17,16 @@ import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.servidor.entidades.SvSala;
 
 public class Servidor {
-	// El puerto del servidor
+	//El puerto del servidor
 	private int port;
-	// El socket del servidor
+	//El socket del servidor
 	private ServerSocket serverSocket;
-	// Lista de Sockets de los clientes conectados
-	// private ArrayList<Socket> usuariosConectados;
+	//Lista de Sockets de los clientes conectados
+	//private ArrayList<Socket> usuariosConectados;
 	private ArrayList<ObjectOutputStream> usuariosConectados;
-	// Listado de salas creadas en el server
+	//Listado de salas creadas en el server
 	private ArrayList<SvSala> listaSalas;
-	// private int nroCliente;
+	//private int nroCliente;
 	public static int idSalas = 0;
 	Configuracion configuracion;
 	GestionBD gestion;
@@ -40,71 +40,40 @@ public class Servidor {
 	}
 
 	public static void main(String[] args) {
-		Servidor miServidor = new Servidor(DefConst.PORT);
-		miServidor.iniciarServidor();
+		Servidor sv = new Servidor(DefConst.PORT);
+		sv.iniciarServidor();
 	}
-
-	public boolean validarUsuarioBD(String usuario, String contrasenia) {
-		gestion.insertarRegistro(new Usuario(usuario, contrasenia));
-		List<Object[]> lista = gestion.validarUsuario(new Usuario(usuario, contrasenia));
-		return lista.size() == 0 ? false : true;
-	}
-
-	public void iniciarServidor() {
+	
+	public void iniciarServidor() {		
 		try {
 			serverSocket = new ServerSocket(this.port);
+			// Sockets del cliente
+			Socket writeSocket;
+			Socket readSocket;
 			while (true) {
 				System.out.println("Servidor esperando clientes!");
-				// Este mï¿½todo bloquea la ejecuciï¿½n del Thread hasta que se reciba una conexiï¿½n
-				// entrante
-				// de un cliente
-
-				// Aceptamos ambos sockets
-				writeSocket = serverSocket.accept();
-				System.out.println("Socket ESCRITURA EN SERVIDOR CREADO");
-				this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
-				System.out.println("OBJECT OUTPUT EN SERVIDOR CREADO");
-				readSocket = serverSocket.accept();
-				System.out.println("Socket LECTURA EN SERVIDOR CREADO");
-				this.inputStream = new ObjectInputStream(readSocket.getInputStream());
-				System.out.println("OBJECT INPUT EN SERVIDOR CREADO");
-				// Aï¿½adimos el socket del cliente a la lista de sockets
-				// this.usuariosConectados.add(writeSocket.get);
-				// this.usuariosConectados.add(new
-				// ObjectOutputStream(writeSocket.getOutputStream()));
-				System.out.println("ï¿½Conexion aceptada!");
+				//Este método bloquea la ejecución del Thread hasta que se reciba una conexión entrante
+				//de un cliente
 				
-				//Creamos un hilo para el cliente (evitando asï¿½ el bloqueo que se genera en este mismo hilo)
-				//Le envï¿½amos como datos el socket del cliente, y los la lista de usuarios conectados
+				//Aceptamos ambos sockets
+				writeSocket = serverSocket.accept();
+				readSocket = serverSocket.accept();
+				//Añadimos el socket del cliente a la lista de sockets
+				//this.usuariosConectados.add(writeSocket.get);
+				//this.usuariosConectados.add(new ObjectOutputStream(writeSocket.getOutputStream()));
+				System.out.println("¡Conexion aceptada!");
+				
+				//Creamos un hilo para el cliente (evitando así el bloqueo que se genera en este mismo hilo)
+				//Le envíamos como datos el socket del cliente, y los la lista de usuarios conectados
 				HiloCliente hiloCliente = new HiloCliente(writeSocket, readSocket, usuariosConectados, listaSalas,gestion);
 				//Iniciamos el hilo
 				hiloCliente.start();
 
 			}
 		} catch (IOException ex) {
-			System.out.println("ERROR EN SERVIDOR.JAVA");
-			ex.printStackTrace();
+			System.out.println(ex);
 		}
-
-	}
-
-	public void conectarClienteHilo() {
-		estaConectado = 1;
-	}
-
-	public void iniciarHiloCliente(Socket readSocketHilo, Socket writeSocketHilo, ObjectOutputStream outputStream, ObjectInputStream inputStream) {
-		// Creamos un hilo para el cliente (evitando asï¿½ el bloqueo que se genera en
-		// este mismo hilo)
-		// Le envï¿½amos como datos el socket del cliente, y la lista de usuarios
-		// conectados
-
-		HiloCliente hiloCliente = new HiloCliente(writeSocketHilo, readSocketHilo, outputStream, inputStream, usuariosConectados, listaSalas);
-		// Iniciamos el hilo
-		hiloCliente.start();
-	}
-	
-	public boolean crearUsuarioValido(String usuario, String contrasenia) {
-		return gestion.insertarRegistro(new Usuario(usuario,contrasenia));
+		
 	}
 
 }

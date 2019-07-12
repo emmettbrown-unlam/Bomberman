@@ -5,15 +5,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.net.UnknownHostException;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
@@ -102,8 +98,6 @@ public class Login extends JFrame implements Serializable {
 					cliente = new Cliente(DefConst.IP, DefConst.PORT, txtUsername.getText());
 					cliente.enviarMsg(new MsgCrearUsuario(txtUsername.getText(),new String(txtPassword.getPassword())));
 				}
-				
-				
 				setPantallaLoginEnCliente();			
 			}
 		});

@@ -14,7 +14,7 @@ public class Usuario implements Serializable{
 	@Column(name="usuario")
 	private String usuario;
 	@Column(name="contraseï¿½a")
-	private String contraseï¿½a;
+	private String contraseña;
 	@Column(name="puntaje")
 	private int puntaje;
 	
@@ -22,10 +22,10 @@ public class Usuario implements Serializable{
 //    <property name="hbm2ddl.auto">create</property>
 //-->
 	public Usuario(){}
-	public Usuario( String usuario, String contraseï¿½a,int puntaje) {
+	public Usuario( String usuario, String contraseña,int puntaje) {
 		
 		this.usuario=usuario;
-		this.contraseï¿½a=contraseï¿½a;
+		this.contraseña=contraseña;
 		this.puntaje= puntaje;
 		
 	}
@@ -38,11 +38,11 @@ public class Usuario implements Serializable{
 		this.usuario = usuario;
 	}	
 	
-	public String getContraseï¿½a() {
-		return contraseï¿½a;
+	public String getContraseña() {
+		return contraseña;
 	}
-	public void setContraseï¿½a(String contraseï¿½a) {
-		this.contraseï¿½a = contraseï¿½a;
+	public void setContraseña(String contraseña) {
+		this.contraseña= contraseña;
 	}
 	public int getPuntaje() {
 		return puntaje;
@@ -53,7 +53,7 @@ public class Usuario implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Usuario [usuario=" + usuario + ", contraseï¿½a=" + contraseï¿½a + ", puntaje=" + puntaje + "]";
+		return "Usuario [usuario=" + usuario + ", contraseï¿½a=" + contraseña + ", puntaje=" + puntaje + "]";
 	}
 
 	
