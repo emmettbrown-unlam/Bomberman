@@ -123,14 +123,17 @@ public class SvSala {
 		int nuevoIdCliente;
 		
 		if (map != null)
+		{
 			map.eliminarBomberman(hiloCliente.getBomber());
+			hiloCliente.broadcast(new MsgEliminarBomberman(hiloCliente.getBomber().getIdBomberman()), this.outputStreams);
+		}
 		clientesConectados.remove(hiloCliente);
 		outputStreams.remove(hiloCliente.getOutputStream());
 		if(clientesConectados.size() > 0 && idCreador != (nuevoIdCliente = clientesConectados.get(0).getIdCliente())){
 			idCreador = nuevoIdCliente;
 			hiloCliente.broadcast(new MsgActualizarCreadorSala(nuevoIdCliente), this.outputStreams);
 		}
-		hiloCliente.broadcast(new MsgEliminarBomberman(hiloCliente.getBomber().getIdBomberman()), this.outputStreams);
+
 	}
 	
 	public void iniciarPartida() {
