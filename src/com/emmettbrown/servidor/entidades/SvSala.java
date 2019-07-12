@@ -142,6 +142,7 @@ public class SvSala {
 	
 	//Finaliza la ronda anterior y comienza una nueva
 	public void finalizarRonda() {
+		int vivos = 0;
 		//Incrementamos en uno la cantidad de rondas
 		this.rondaActual++;
 		
@@ -149,10 +150,25 @@ public class SvSala {
 		List<SvBomberman> bombers = this.map.obtenerListaBomberman(); //creador.getMap().obtenerListaBomberman();
 		HashMap <String,Integer> puntajes = this.tablero.getPuntajes();				
 		
-		//Refrescamos los puntajes
-		for (SvBomberman bman : bombers) {
+		
+		for(SvBomberman bman : bombers) {
 			if (bman.estaVivo()) {
-				puntajes.put(bman.getNombre(), 1 + puntajes.get(bman.getNombre()));
+				vivos++;
+			}
+		}
+		
+		//Refrescamos los puntajes en caso de que haya quedado solo un bomber vivo
+		if(vivos > 1) {
+			for (SvBomberman bman : bombers) {
+				if (bman.estaVivo()) {
+					puntajes.put(bman.getNombre(), 0 + puntajes.get(bman.getNombre()));
+				}
+			}
+		}else {
+			for (SvBomberman bman : bombers) {
+				if (bman.estaVivo()) {
+					puntajes.put(bman.getNombre(), 1 + puntajes.get(bman.getNombre()));
+				}
 			}
 		}
 		
