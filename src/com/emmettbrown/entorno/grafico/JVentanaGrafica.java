@@ -53,7 +53,7 @@ public class JVentanaGrafica extends JFrame {
 	{
 		try {
 			Clip sonido = AudioSystem.getClip();
-			sonido.open(AudioSystem.getAudioInputStream(new File("C:/Users/agust/Desktop/GIT/Bomberman/src/resources/music/cancBomb.wav")));
+			sonido.open(AudioSystem.getAudioInputStream(new File("./src/resources/music/cancBomb.wav")));
 			//sonido.open(AudioSystem.getAudioInputStream(getClass().getResourceAsStream("C:/Users/agust/Desktop/GIT/Bomberman/src/resources/music/cancBomb.wav")));
 			//sonido.start();
 			sonido.loop(Clip.LOOP_CONTINUOUSLY);
