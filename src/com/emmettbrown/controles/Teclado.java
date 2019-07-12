@@ -22,10 +22,9 @@ public class Teclado implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
-		if (mov == Movimientos.NULL) {
+//		if (mov == Movimientos.NULL) {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_DOWN:
-					//Este if sirve para no enviar muchos mensajes en el caso que la tecla se mantenga presionada.
 					this.mov = Movimientos.ABAJO;
 					this.cliente.enviarMsg(new MsgMover(Movimientos.ABAJO));
 				break;
@@ -56,7 +55,7 @@ public class Teclado implements KeyListener {
 			default:
 				break;
 			}
-		}
+//		}
 
 //		if (cliente.getBomber() != null && cliente.getBomber().verSiEsVisible()) {
 //			if (key == KeyEvent.VK_ESCAPE) {
