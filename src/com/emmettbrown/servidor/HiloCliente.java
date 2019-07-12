@@ -141,6 +141,7 @@ public class HiloCliente extends Thread {
 			//Primero refresco en el cliente que solicito. Luego lo demas
 			outputStream.writeObject(msg);
 			outputStream.reset();
+			outputStream.flush();
 		} catch (Exception e) {
 			System.out.println("NO SE PUDO ENVIAR EL MENSAJE EN HILOCLIENTE");
 		}
