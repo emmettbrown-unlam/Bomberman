@@ -14,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
 import com.emmettbrown.cliente.Cliente;
+import com.emmettbrown.mensajes.servidor.MsgCrearUsuario;
+import com.emmettbrown.mensajes.servidor.MsgLogin;
 
 
 public class Login extends JFrame {
@@ -62,21 +64,11 @@ public class Login extends JFrame {
 		contentPane.add(lblIngreseContrasea);
 
 		txtUsername = new JTextField();
-		txtUsername.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				validarUsuario(txtUsername.getText(),new String (txtPassword.getPassword()));
-			}
-		});
 		txtUsername.setBounds(197, 47, 107, 20);
 		contentPane.add(txtUsername);
 		txtUsername.setColumns(10);
 
 		txtPassword = new JPasswordField();
-		txtPassword.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				validarUsuario(txtUsername.getText(),new String (txtPassword.getPassword()));
-			}
-		});
 		txtPassword.setBounds(197, 72, 107, 20);
 		contentPane.add(txtPassword);
 		txtUsername.setText("Nico");
@@ -84,29 +76,39 @@ public class Login extends JFrame {
 		JButton btnIniciarSesin = new JButton("Iniciar Sesi\u00F3n");
 		btnIniciarSesin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (validarUsuario(txtUsername.getText(),new String (txtPassword.getPassword()))) {
+				if (cliente != null) {
+					cliente.enviarMsg(new MsgLogin(txtUsername.getText(),new String(txtPassword.getPassword())));
+				}else {
 					cliente = new Cliente(DefConst.IP, DefConst.PORT, txtUsername.getText());
-					JVentanaInicial inicial = new JVentanaInicial(cliente);
-					inicial.setVisible(true);
-					dispose();					
+					cliente.enviarMsg(new MsgLogin(txtUsername.getText(),new String(txtPassword.getPassword())));
+					setPantallaLoginEnCliente();
 				}
+
+					
 			}
 		});
 		btnIniciarSesin.setBounds(162, 100, 142, 23);
 		contentPane.add(btnIniciarSesin);
 
 		JButton btnCrearUsuario = new JButton("Crear Usuario");
+		btnCrearUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (cliente != null) {
+					cliente.enviarMsg(new MsgCrearUsuario(txtUsername.getText(),new String(txtPassword.getPassword())));
+				}else {
+					cliente = new Cliente(DefConst.IP, DefConst.PORT, txtUsername.getText());
+					cliente.enviarMsg(new MsgCrearUsuario(txtUsername.getText(),new String(txtPassword.getPassword())));
+				}
+				
+				
+				setPantallaLoginEnCliente();			
+			}
+		});
 		btnCrearUsuario.setBounds(50, 213, 142, 23);
 		contentPane.add(btnCrearUsuario);
 	}
-
-	//Esto deber�a ser server side...
-	public boolean validarUsuario(String user, String pass){
-		if (pass.equals("1234")){ //if (user.equals("bomber") && pass.equals("1234")){
-			return true;
-		} else {
-			JOptionPane.showMessageDialog(null, "Incorrecto, intente de nuevo", "Acceso denegado", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
+	
+	private void setPantallaLoginEnCliente() {
+		cliente.setPantallaLogin(this);
 	}
 }

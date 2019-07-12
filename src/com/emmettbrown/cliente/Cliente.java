@@ -1,5 +1,7 @@
 package com.emmettbrown.cliente;
 
+import java.awt.Window;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import java.io.ObjectInputStream;
@@ -12,6 +14,7 @@ import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entorno.grafico.JPanelGrafico;
 import com.emmettbrown.entorno.grafico.JVentanaGrafica;
 import com.emmettbrown.entorno.grafico.JVentanaLobby;
+import com.emmettbrown.entorno.grafico.Login;
 import com.emmettbrown.entorno.grafico.Sala;
 import com.emmettbrown.mapa.Mapa;
 import com.emmettbrown.mensajes.Msg;
@@ -35,6 +38,7 @@ public class Cliente implements Serializable {
 	private Sala salaActual;
 	private JPanelGrafico panelGrafico;
 	private JVentanaGrafica ventanaGrafica;
+	private Login pantallaLogin;
 
 	public Cliente(String ip, int puerto, String username) {
 		try {
@@ -166,6 +170,15 @@ public class Cliente implements Serializable {
 	
 	public Sala getSalaActual() {
 		return this.salaActual;
+	}
+
+	public void setPantallaLogin(Login login) {
+		this.pantallaLogin = login;
+	}
+
+	public Login getPantallaLogin() {
+		// TODO Auto-generated method stub
+		return this.pantallaLogin;
 	}
 	
 }
