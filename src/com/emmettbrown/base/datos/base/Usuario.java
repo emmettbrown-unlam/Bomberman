@@ -1,11 +1,16 @@
 package com.emmettbrown.base.datos.base;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 @Entity
 @Table(name="USUARIO")
 public class Usuario implements Serializable{
@@ -56,6 +61,4 @@ public class Usuario implements Serializable{
 		return "Usuario [usuario=" + usuario + ", contraseña=" + contraseña + ", puntaje=" + puntaje + "]";
 	}
 
-	
-	
 }

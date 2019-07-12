@@ -1,9 +1,15 @@
 package com.emmettbrown.entorno.grafico;
 
 import java.awt.Color;
+import java.io.IOException;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+//import javax.sound.sampled;
 
 import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.controles.Teclado;
@@ -33,14 +39,28 @@ public class JVentanaGrafica extends JFrame {
 		contentPane.setBackground(new Color(32,155,221));
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
-		
+		sonido();
 		this.teclado = new Teclado(cliente);
 		
 		addKeyListener(teclado);
 		//Refresca esta ventana constantemente, 30 fps
+		
 		crearRefreshThread();
 	}
-
+	
+	void sonido()
+	{
+		try {
+			Clip sonido = AudioSystem.getClip();
+			sonido.open(AudioSystem.getAudioInputStream(getClass().getResourceAsStream("./src/resources/music/cancBomb.wav")));
+			sonido.start();
+		} catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
+			System.out.println("ERROR AL ABRIR EL SONIDO EN JVENTANAGRAFICA");
+			e.printStackTrace();
+		}
+		
+	}
+	///http://picarcodigo.blogspot.com/2013/01/poner-sonido-nuestras-aplicaciones-java.html
 	public Teclado getTeclado() {
 		return this.teclado;
 	}
