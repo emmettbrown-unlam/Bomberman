@@ -41,12 +41,10 @@ public class SvControlVivos extends Thread{
 				if(cont == 1) {
 					sala.finalizarRonda();
 					corriendo = false;
-					System.out.println("ACA TENDRIA QUE HABER MUERTO EL HILO P1");
 				}
 				deltaF--;
 			}
 		}
-		System.out.println("ACA TENDRIA QUE HABER MUERTO EL HILO P2");
 	}
 	
 	

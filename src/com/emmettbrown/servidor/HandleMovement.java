@@ -67,7 +67,11 @@ public class HandleMovement extends Thread {
 			}
 		}
 		else //Anunciamos que nuestro chaboncito... se murio!
+		{
 			hilo.broadcast(new MsgEliminarBomberman(bomberActual.getIdBomberman()), outputStreams);
+			matarHandle();
+		}
+			
 	}
 	
 	public void enviarNuevaPosicion() {
@@ -81,7 +85,7 @@ public class HandleMovement extends Thread {
 	
 	public void run() {
 		long initialTime = System.nanoTime();
-		final double timeF = 1000000000 / DefConst.FPS;
+		final double timeF = 500000000 / DefConst.FPS;
 
 		double deltaF = 0;
 
