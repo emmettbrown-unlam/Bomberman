@@ -40,7 +40,7 @@ public class HiloCliente extends Thread {
 	private HandleMovement movimiento;	
 	//Listado de salas del servidor
 	private ArrayList<SvSala> listaSalas;
-	//Contador estático de ids de los clientes
+	//Contador estï¿½tico de ids de los clientes
 	private static int idCounter = 0;	
 	private SvSala salaConectada;
 	private ServerMap map;
@@ -121,7 +121,7 @@ public class HiloCliente extends Thread {
 		this.enviarMsg(new MsgGenerarObstaculos(map.getObstaculos()));
 		//Agregamos el bomber del cliente al mapa
 		map.agregarBomberman(bomber);
-		//Le decimos a los clientes que añadan el bomber
+		//Le decimos a los clientes que aï¿½adan el bomber
 		this.broadcast(new MsgAgregarBomberman(bomber, idCliente), salaConectada.getOutputStreams());
 	}
 	
@@ -136,11 +136,23 @@ public class HiloCliente extends Thread {
 	}
 	
 	public void broadcast(Msg msg, ArrayList<ObjectOutputStream> usuariosConectados) {		
+		
+		try {
+			//Primero refresco en el cliente que solicito. Luego lo demas
+			outputStream.writeObject(msg);
+			outputStream.reset();
+		} catch (Exception e) {
+			System.out.println("NO SE PUDO ENVIAR EL MENSAJE EN HILOCLIENTE");
+		}
+		
+		
 		for (ObjectOutputStream salidaACliente : usuariosConectados) {
 			try {
-				salidaACliente.writeObject(msg);
-				salidaACliente.reset();
-				salidaACliente.flush();
+				if (!salidaACliente.equals(outputStream) ) {
+					  salidaACliente.writeObject(msg);
+					  salidaACliente.reset(); 
+					  salidaACliente.flush();
+				}
 			} catch (IOException e) {
 				System.out.println(e);
 			}
@@ -159,7 +171,7 @@ public class HiloCliente extends Thread {
 			inputStream.close();
 			readSocket.close();
 		} catch (IOException | ClassNotFoundException ex) {
-			System.out.println("Un mensaje no se recibió correctamente en HiloCliente: " + ex.getMessage());
+			System.out.println("Un mensaje no se recibiï¿½ correctamente en HiloCliente: " + ex.getMessage());
 			desconectarDeSala();
 			this.usuariosConectados.remove(outputStream);			
 			eliminarSala(this.idCliente);
