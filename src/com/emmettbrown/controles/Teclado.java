@@ -44,7 +44,10 @@ public class Teclado implements KeyListener {
 			case KeyEvent.VK_ESCAPE:
 				JVentanaInicial ventAct = new JVentanaInicial(cliente);
 				ventAct.setVisible(true);
-				cliente.getVentanaGrafica().dispose();
+				JVentanaGrafica ventGraf = cliente.getVentanaGrafica();
+				ventGraf.detenerSonido();
+				ventGraf.dispose();
+				cliente.enviarMsg(new MsgDesconectarDeSala());
 				break;
 			case KeyEvent.VK_L:
 				if(this.cliente.getBomber().cantBombasAct() < DefConst.CANTBOMBASMAX)
