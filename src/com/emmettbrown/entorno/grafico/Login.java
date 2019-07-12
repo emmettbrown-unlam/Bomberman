@@ -71,8 +71,8 @@ public class Login extends JFrame {
 		txtPassword = new JPasswordField();
 		txtPassword.setBounds(197, 72, 107, 20);
 		contentPane.add(txtPassword);
-		txtUsername.setText("Nico");
-		txtPassword.setText("1234");
+		//txtUsername.setText("Nico");
+		//txtPassword.setText("1234");
 		JButton btnIniciarSesin = new JButton("Iniciar Sesi\u00F3n");
 		btnIniciarSesin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

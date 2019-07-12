@@ -1,6 +1,7 @@
 package com.emmettbrown.entorno.grafico;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.IOException;
 
 import javax.sound.sampled.AudioSystem;
@@ -52,8 +53,10 @@ public class JVentanaGrafica extends JFrame {
 	{
 		try {
 			Clip sonido = AudioSystem.getClip();
-			sonido.open(AudioSystem.getAudioInputStream(getClass().getResourceAsStream("./src/resources/music/cancBomb.wav")));
-			sonido.start();
+			sonido.open(AudioSystem.getAudioInputStream(new File("C:/Users/agust/Desktop/GIT/Bomberman/src/resources/music/cancBomb.wav")));
+			//sonido.open(AudioSystem.getAudioInputStream(getClass().getResourceAsStream("C:/Users/agust/Desktop/GIT/Bomberman/src/resources/music/cancBomb.wav")));
+			//sonido.start();
+			sonido.loop(Clip.LOOP_CONTINUOUSLY);
 		} catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
 			System.out.println("ERROR AL ABRIR EL SONIDO EN JVENTANAGRAFICA");
 			e.printStackTrace();
