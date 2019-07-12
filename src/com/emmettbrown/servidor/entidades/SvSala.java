@@ -141,7 +141,6 @@ public class SvSala {
 		creador.broadcast(new MsgActualizarPuntajes(tablero.getPuntajes()), outputStreams);	
 		reloj.startTimer(this);
 		hiloVivos.start();
-		System.out.println("ACA INICIA EL PRIMER HILOS VIVOS");
 	}
 	
 	public void reiniciarReloj() {
@@ -153,12 +152,9 @@ public class SvSala {
 		int vivos = 0;
 		//Incrementamos en uno la cantidad de rondas
 		this.rondaActual++;
-		
 		HiloCliente creador = this.clientesConectados.get(0); //this.obtenerHilosSala().get(0);
 		List<SvBomberman> bombers = this.map.obtenerListaBomberman(); //creador.getMap().obtenerListaBomberman();
 		HashMap <String,Integer> puntajes = this.tablero.getPuntajes();				
-		
-		
 		for(SvBomberman bman : bombers) {
 			if (bman.estaVivo()) {
 				vivos++;
@@ -212,24 +208,13 @@ public class SvSala {
 				if(entry.getValue() == puntajeMaximo) {
 					puntajeMaximo = entry.getValue();
 					usuarioPuntajeMaximo = entry.getKey();
-
-
-					
 					Session s = gestion.getFactory().openSession();
 					Transaction t = s.beginTransaction();
 					Usuario user = s.get(Usuario.class, usuarioPuntajeMaximo);
-//					System.out.println("usuario "+user.getUsuario()+
-//							" "+ "contraseña"+user.getContraseña()+
-//							"puntajes"+ user.getPuntaje());
 					user.setPuntaje(user.getPuntaje()+1);
 					s.update(user);
-					
-//					System.out.println("usuario "+user.getUsuario()+
-//							" "+ "contraseña"+user.getContraseña()+
-//							"puntajes"+ user.getPuntaje());
 					t.commit();
-					s.close();
-					
+					s.close();	
 				}
 			}
 		} else {
@@ -253,11 +238,9 @@ public class SvSala {
 			hiloCliente.getMovementThread().matarHandle();
 			hiloCliente.inicializarCliente(map); 			
 		}
-		
 		//Comenzamos el reloj nuevamente
 		reiniciarReloj();		
 		this.hiloVivos = new SvControlVivos(this);
 		this.hiloVivos.start();
-		System.out.println("ACA INICIA EL SEGUNDO HILOS VIVOS");
 	}
 }
