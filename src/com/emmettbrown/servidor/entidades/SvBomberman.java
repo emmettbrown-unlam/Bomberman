@@ -98,6 +98,6 @@ public class SvBomberman extends SvEntidad implements Serializable{
 	}
 	
 	public int cantBombasAct() {
-		return bombas.size()
+		return bombas.size();
 	}
 }
