@@ -1,9 +1,8 @@
 package com.emmettbrown.servidor;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-
-
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -16,7 +15,6 @@ import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.mapa.Ubicacion;
 import com.emmettbrown.mensajes.Msg;
 import com.emmettbrown.mensajes.cliente.MsgAgregarBomberman;
-import com.emmettbrown.mensajes.cliente.MsgEliminarBomberman;
 import com.emmettbrown.mensajes.cliente.MsgEliminarSala;
 import com.emmettbrown.mensajes.cliente.MsgGenerarObstaculos;
 import com.emmettbrown.mensajes.cliente.MsgIdCliente;
@@ -56,13 +54,13 @@ public class HiloCliente extends Thread {
 		this.readSocket = readSocket;
 		this.gestionBD = gestion;
 		try {
-			this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
+			this.outputStream = new ObjectOutputStream(new BufferedOutputStream(writeSocket.getOutputStream()));
+			outputStream.flush();
 			usuariosConectados.add(outputStream);
-			this.inputStream = new ObjectInputStream(readSocket.getInputStream());
+			this.inputStream = new ObjectInputStream(new BufferedInputStream(readSocket.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		
 		this.usuariosConectados = usuariosConectados;
 		this.estaConectado = true;
@@ -131,6 +129,7 @@ public class HiloCliente extends Thread {
 		try {
 			outputStream.writeObject(msg);
 			outputStream.reset();
+			outputStream.flush();
 		} catch (Exception e) {
 			System.out.println("NO SE PUDO ENVIAR EL MENSAJE EN HILOCLIENTE");
 		}
@@ -139,8 +138,9 @@ public class HiloCliente extends Thread {
 	public void broadcast(Msg msg, ArrayList<ObjectOutputStream> usuariosConectados) {		
 		for (ObjectOutputStream salidaACliente : usuariosConectados) {
 			try {
-				salidaACliente.reset();
 				salidaACliente.writeObject(msg);
+				salidaACliente.reset();
+				salidaACliente.flush();
 			} catch (IOException e) {
 				System.out.println(e);
 			}

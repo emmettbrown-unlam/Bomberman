@@ -1,6 +1,8 @@
 package com.emmettbrown.cliente;
 
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -46,8 +48,9 @@ public class Cliente implements Serializable {
 			this.readSocket = new Socket(host, puerto);
 			this.writeSocket = new Socket(host, puerto);
 			
-			this.outputStream = new ObjectOutputStream(writeSocket.getOutputStream());
-			this.inputStream = new ObjectInputStream(readSocket.getInputStream());
+			this.outputStream = new ObjectOutputStream(new BufferedOutputStream(writeSocket.getOutputStream()));
+			outputStream.flush();
+			this.inputStream = new ObjectInputStream(new BufferedInputStream(readSocket.getInputStream()));
 			
 			this.mapa = new Mapa();
 			this.listaSalas = new ConcurrentLinkedQueue<Sala>();
@@ -101,9 +104,10 @@ public class Cliente implements Serializable {
 		
 	public void enviarMsg(Msg consultaAlServidor) {
 		try {
-			//Reseteamos el outputStream para enviar un nuevo mensaje
-			outputStream.reset();
 			outputStream.writeObject(consultaAlServidor);
+			//Reseteamos el outputStream desp de enviar un mensaje
+			outputStream.reset();
+			outputStream.flush();
 		} catch (IOException e) {
 			System.out.println("PROBLEMA AL ENVIAR MENSAJE EN CLIENTE " + e);
 		}
