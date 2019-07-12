@@ -11,14 +11,9 @@ public class Configuracion {
 		Configuration cfg =new Configuration();
 		cfg.configure("hibernate.cfg.xml");
 		factory=cfg.buildSessionFactory();
-		
-		
 	}
 
 	public SessionFactory getFactory() {
 		return factory;
-	}
-
-	
-		
+	}	
 }

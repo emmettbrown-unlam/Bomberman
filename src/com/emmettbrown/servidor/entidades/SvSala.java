@@ -39,7 +39,7 @@ public class SvSala {
 	private ServerMap map;
 	private SvReloj reloj;
 	private int rondaActual;
-	private int cantRondas;
+	private int cantRondas;  /// -------------------------------- NO SE USA
 	private SvControlVivos hiloVivos;
 	private GestionBD gestion;
 

@@ -26,7 +26,7 @@ public class JVentanaGrafica extends JFrame {
 	private Cliente cliente;
 	//private GameLoop gameloop;
 	private RefreshThread refresh;
-
+	private Clip sonido;
 	public JVentanaGrafica(int ancho, int alto, Cliente clien) {
 		super(DefConst.TITLE);
 		setResizable(false);
@@ -49,10 +49,10 @@ public class JVentanaGrafica extends JFrame {
 		crearRefreshThread();
 	}
 	
-	void sonido()
+	public void sonido()
 	{
 		try {
-			Clip sonido = AudioSystem.getClip();
+			sonido = AudioSystem.getClip();
 			sonido.open(AudioSystem.getAudioInputStream(new File("./src/resources/music/cancBomb.wav")));
 			sonido.loop(Clip.LOOP_CONTINUOUSLY);
 		} catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
@@ -60,6 +60,10 @@ public class JVentanaGrafica extends JFrame {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void detenerSonido() {
+		sonido.close();
 	}
 	
 	public Teclado getTeclado() {
@@ -90,6 +94,7 @@ public class JVentanaGrafica extends JFrame {
 	}
 	
 	public void finPartida() {
+		this.detenerSonido();
 		refresh.matarThread();
 		JOptionPane.showMessageDialog(null, "La partida ha finalizado.");
 		JVentanaInicial ventAct = new JVentanaInicial(cliente);

@@ -5,7 +5,9 @@ import java.awt.event.KeyListener;
 
 import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.entorno.grafico.DefConst;
+import com.emmettbrown.entorno.grafico.JVentanaGrafica;
 import com.emmettbrown.entorno.grafico.JVentanaInicial;
+import com.emmettbrown.mensajes.servidor.MsgDesconectarDeSala;
 import com.emmettbrown.mensajes.servidor.MsgMover;
 
 public class Teclado implements KeyListener {
