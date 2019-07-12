@@ -132,7 +132,7 @@ public class HiloCliente extends Thread {
 			outputStream.writeObject(msg);
 			outputStream.reset();
 		} catch (Exception e) {
-			System.out.println("¡No se pudo enviar el mensaje! :)");
+			System.out.println("NO SE PUDO ENVIAR EL MENSAJE EN HILOCLIENTE");
 		}
 	}
 	
@@ -159,7 +159,7 @@ public class HiloCliente extends Thread {
 			inputStream.close();
 			readSocket.close();
 		} catch (IOException | ClassNotFoundException ex) {
-			System.out.println("Problemas al querer leer otra petición: " + ex.getMessage());
+			System.out.println("PROBLEMA AL RECIBIR MENSAJE EN HILOCLIENTE " + ex.getMessage());
 			this.salaConectada.getMap().eliminarBomberman(this.bomber);
 			this.usuariosConectados.remove(outputStream);			
 			eliminarSala(this.idCliente);

@@ -5,6 +5,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.emmettbrown.base.datos.base.Configuracion;
 import com.emmettbrown.base.datos.base.GestionBD;
@@ -30,6 +32,8 @@ public class Servidor {
 		this.port = puerto;
 		this.usuariosConectados = new ArrayList<ObjectOutputStream>();
 		this.listaSalas = new ArrayList<SvSala>();
+		Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
+		//solo para que no muestre mucho
 		configuracion = new Configuracion();
 		gestion = new GestionBD(configuracion.getFactory());
 	}
