@@ -13,9 +13,10 @@ import com.emmettbrown.mensajes.servidor.MsgMover;
 public class Teclado implements KeyListener {
 	
 	private Cliente cliente;
-	private Movimientos mov ;
+	private Movimientos mov;
 	public Teclado(Cliente cliente) {
 		this.cliente = cliente;
+		mov = Movimientos.NULL;
 	}
 	
 	@Override
