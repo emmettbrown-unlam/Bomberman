@@ -24,22 +24,22 @@ public class MsgCrearUsuario extends Msg {
 	@Override
 	public Object realizarAccion(Object obj) {
 		HiloCliente hilo  = (HiloCliente)obj;
-		GestionBD g = hilo.getGestionBD();
+		GestionBD gestion = hilo.getGestionBD();
 		
-		Session s = g.getFactory().openSession();
-		Transaction t = s.beginTransaction();
+		Session sesion = gestion.getFactory().openSession();
+		Transaction transaccion = sesion.beginTransaction();
 		
-		Usuario userExistente = s.get(Usuario.class,this.usuario);
+		Usuario userExistente = sesion.get(Usuario.class,this.usuario);
 		boolean resultado = true;
 		if (userExistente != null) {
 			//El usuario existe. no puede crearse de nuevo
 			resultado = false;
 		}else {
-			s.save(new Usuario(this.usuario,this.clave,0));
+			sesion.save(new Usuario(this.usuario,this.clave,0));
 		}
 		hilo.enviarMsg(new MsgResCrearUsuario(resultado));
-		t.commit();
-		s.close();
+		transaccion.commit();
+		sesion.close();
 		
 		return null;
 	}

@@ -26,13 +26,13 @@ public class MsgLogin extends Msg {
 	@Override
 	public Object realizarAccion(Object obj) {
 		HiloCliente hilo =(HiloCliente) obj;
-		GestionBD g = hilo.getGestionBD();
+		GestionBD gestion = hilo.getGestionBD();
 		
-		Session s = g.getFactory().openSession();
-		Transaction t = s.beginTransaction();
-		Usuario user = s.get(Usuario.class, this.usuario);
-		t.commit();
-		s.close();
+		Session sesion = gestion.getFactory().openSession();
+		Transaction transaccion = sesion.beginTransaction();
+		Usuario user = sesion.get(Usuario.class, this.usuario);
+		transaccion.commit();
+		sesion.close();
 		
 		boolean resultado = true;
 		if (user == null || !user.getContraseña().equals(clave)) {
