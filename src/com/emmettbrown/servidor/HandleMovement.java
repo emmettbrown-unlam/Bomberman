@@ -86,7 +86,7 @@ public class HandleMovement extends Thread {
 
 	public void run() {
 		long initialTime = System.nanoTime();
-		final double timeF = 1000000000 / DefConst.FPS;
+		final double timeF = 1000000000 / DefConst.FPSHANDLEMOVEMENT;
 
 		double deltaF = 0;
 
