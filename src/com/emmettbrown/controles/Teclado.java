@@ -16,9 +16,6 @@ public class Teclado implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
-
-		//Jugador 1 (local)
-
 		if (cliente.getBomber() != null && cliente.getBomber().verSiEsVisible()) {
 			if (key == KeyEvent.VK_ESCAPE) {
 			}
@@ -35,6 +32,7 @@ public class Teclado implements KeyListener {
 				this.cliente.enviarMsg(new MsgMover(Movimientos.ABAJO));
 			}
 			if (key == KeyEvent.VK_L) {
+				if(this.cliente.getBomber().cantBombasAct() < 2)
 				this.cliente.enviarMsg(new MsgMover(Movimientos.BOMBA));
 			}
 		}
@@ -44,8 +42,6 @@ public class Teclado implements KeyListener {
 	public void keyReleased(KeyEvent e) {
 
 		int key = e.getKeyCode();
-		
-		//Jugador 1 (local)
 		if (cliente.getBomber() != null && cliente.getBomber().verSiEsVisible()) {
 			if (key == KeyEvent.VK_ESCAPE) {
 				//Agregar comando para salir
@@ -67,8 +63,6 @@ public class Teclado implements KeyListener {
 				this.cliente.enviarMsg(new MsgMover(Movimientos.NULL));
 			}
 		}
-
-		
 	}
 	
 	@Override

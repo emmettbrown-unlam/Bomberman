@@ -104,4 +104,7 @@ public class Bomberman extends Entidad {
 	public void removerBomba(Bomba bomba) {
 		this.bombas.remove(bomba);
 	}
+	public int cantBombasAct() {
+		return bombas.size();
+	}
 }
