@@ -78,4 +78,8 @@ public class Sala {
 	public void iniciarReloj() {
 		this.reloj.startTimer();
 	}
+
+	public void setIdCreador(int nueIdCreador) {
+		this.idCreador = nueIdCreador;
+	}
 }

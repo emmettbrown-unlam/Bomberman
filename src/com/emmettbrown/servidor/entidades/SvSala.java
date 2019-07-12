@@ -15,6 +15,7 @@ import com.emmettbrown.base.datos.base.GestionBD;
 import com.emmettbrown.base.datos.base.Usuario;
 import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.entorno.grafico.Tablero;
+import com.emmettbrown.mensajes.cliente.MsgActualizarCreadorSala;
 import com.emmettbrown.mensajes.cliente.MsgActualizarPuntajes;
 import com.emmettbrown.mensajes.cliente.MsgActualizarRonda;
 import com.emmettbrown.mensajes.cliente.MsgEliminarBomberman;
@@ -39,7 +40,7 @@ public class SvSala {
 	private ServerMap map;
 	private SvReloj reloj;
 	private int rondaActual;
-	private int cantRondas;
+	private int cantRondas;  /// -------------------------------- NO SE USA
 	private SvControlVivos hiloVivos;
 	private GestionBD gestion;
 
@@ -119,9 +120,14 @@ public class SvSala {
 	}
 	
 	public void removerCliente(HiloCliente hiloCliente) {
+		int nuevoIdCliente;
 		map.eliminarBomberman(hiloCliente.getBomber());
 		clientesConectados.remove(hiloCliente);
 		outputStreams.remove(hiloCliente.getOutputStream());
+		if(clientesConectados.size() > 0 && idCreador != (nuevoIdCliente = clientesConectados.get(0).getIdCliente())){
+			idCreador = nuevoIdCliente;
+			hiloCliente.broadcast(new MsgActualizarCreadorSala(nuevoIdCliente), this.outputStreams);
+		}
 		hiloCliente.broadcast(new MsgEliminarBomberman(hiloCliente.getBomber().getIdBomberman()), this.outputStreams);
 	}
 	
@@ -154,6 +160,7 @@ public class SvSala {
 	public void reiniciarReloj() {
 		reloj.startTimer(this);
 	}
+	
 	
 	//Finaliza la ronda anterior y comienza una nueva
 	public void finalizarRonda() {
