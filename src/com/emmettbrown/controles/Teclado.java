@@ -20,44 +20,40 @@ public class Teclado implements KeyListener {
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_DOWN:
-			if (mov == Movimientos.NULL) {
-				//Este if sirve para no enviar muchos mensajes en el caso que la tecla se mantenga presionada.
-				this.mov = Movimientos.ABAJO;
-				this.cliente.enviarMsg(new MsgMover(Movimientos.ABAJO));
+		
+		if (mov == Movimientos.NULL) {
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_DOWN:
+					//Este if sirve para no enviar muchos mensajes en el caso que la tecla se mantenga presionada.
+					this.mov = Movimientos.ABAJO;
+					this.cliente.enviarMsg(new MsgMover(Movimientos.ABAJO));
+				break;
+			case KeyEvent.VK_RIGHT:
+					this.cliente.enviarMsg(new MsgMover(Movimientos.DERECHA));
+					this.mov = Movimientos.DERECHA;
+				break;
+			case KeyEvent.VK_LEFT:
+					this.cliente.enviarMsg(new MsgMover(Movimientos.IZQUIERDA));
+					this.mov = Movimientos.IZQUIERDA;
+				break;
+			case KeyEvent.VK_UP:
+					this.cliente.enviarMsg(new MsgMover(Movimientos.ARRIBA));
+					this.mov = Movimientos.ARRIBA;
+				break;
+			case KeyEvent.VK_ESCAPE:
+				JVentanaInicial ventAct = new JVentanaInicial(cliente);
+				ventAct.setVisible(true);
+				cliente.getVentanaGrafica().dispose();
+				break;
+			case KeyEvent.VK_L:
+				if(this.cliente.getBomber().cantBombasAct() < DefConst.CANTBOMBASMAX)
+					this.cliente.enviarMsg(new MsgMover(Movimientos.BOMBA));
+				break;
+			default:
+				break;
 			}
-			break;
-		case KeyEvent.VK_RIGHT:
-			if (mov == Movimientos.NULL) {
-				this.cliente.enviarMsg(new MsgMover(Movimientos.DERECHA));
-				this.mov = Movimientos.DERECHA;
-			}
-			break;
-		case KeyEvent.VK_LEFT:
-			if (mov == Movimientos.NULL) {
-				this.cliente.enviarMsg(new MsgMover(Movimientos.IZQUIERDA));
-				this.mov = Movimientos.IZQUIERDA;
-			}
-			break;
-		case KeyEvent.VK_UP:
-			if (mov == Movimientos.NULL) {
-				this.cliente.enviarMsg(new MsgMover(Movimientos.ARRIBA));
-				this.mov = Movimientos.ARRIBA;
-			}
-			break;
-		case KeyEvent.VK_ESCAPE:
-			JVentanaInicial ventAct = new JVentanaInicial(cliente);
-			ventAct.setVisible(true);
-			cliente.getVentanaGrafica().dispose();
-			break;
-		case KeyEvent.VK_L:
-			if(this.cliente.getBomber().cantBombasAct() < DefConst.CANTBOMBASMAX)
-				this.cliente.enviarMsg(new MsgMover(Movimientos.BOMBA));
-			break;
-		default:
-			break;
 		}
+
 //		if (cliente.getBomber() != null && cliente.getBomber().verSiEsVisible()) {
 //			if (key == KeyEvent.VK_ESCAPE) {
 //				JVentanaInicial ventAct = new JVentanaInicial(cliente);
