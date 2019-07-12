@@ -5,8 +5,9 @@ import java.awt.event.KeyListener;
 
 import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.entorno.grafico.DefConst;
+import com.emmettbrown.entorno.grafico.JVentanaGrafica;
 import com.emmettbrown.entorno.grafico.JVentanaInicial;
-import com.emmettbrown.mensajes.servidor.MsgDesconectarDeServidor;
+import com.emmettbrown.mensajes.servidor.MsgDesconectarDeSala;
 import com.emmettbrown.mensajes.servidor.MsgMover;
 
 public class Teclado implements KeyListener {
@@ -23,8 +24,10 @@ public class Teclado implements KeyListener {
 			if (key == KeyEvent.VK_ESCAPE) {
 				JVentanaInicial ventAct = new JVentanaInicial(cliente);
 				ventAct.setVisible(true);
-				cliente.getVentanaGrafica().dispose();
-				cliente.enviarMsg(new MsgDesconectarDeServidor());
+				JVentanaGrafica ventGraf = cliente.getVentanaGrafica();
+				ventGraf.detenerSonido();
+				ventGraf.dispose();
+				cliente.enviarMsg(new MsgDesconectarDeSala());
 			}
 			if (key == KeyEvent.VK_RIGHT) {
 				this.cliente.enviarMsg(new MsgMover(Movimientos.DERECHA));
