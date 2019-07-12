@@ -159,11 +159,11 @@ public class HiloCliente extends Thread {
 			inputStream.close();
 			readSocket.close();
 		} catch (IOException | ClassNotFoundException ex) {
-			System.out.println("PROBLEMA AL RECIBIR MENSAJE EN HILOCLIENTE " + ex.getMessage());
-			this.salaConectada.getMap().eliminarBomberman(this.bomber);
+			System.out.println("Un mensaje no se recibió correctamente en HiloCliente: " + ex.getMessage());
+			//this.salaConectada.getMap().eliminarBomberman(this.bomber);
+			this.salaConectada.removerCliente(this);
 			this.usuariosConectados.remove(outputStream);			
 			eliminarSala(this.idCliente);
-			broadcast(new MsgEliminarBomberman(this.bomber.getIdBomberman()), usuariosConectados);
 			this.estaConectado = false;
 		}
 	}

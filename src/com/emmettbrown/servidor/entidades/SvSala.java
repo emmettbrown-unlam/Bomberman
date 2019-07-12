@@ -17,6 +17,7 @@ import com.emmettbrown.entorno.grafico.DefConst;
 import com.emmettbrown.entorno.grafico.Tablero;
 import com.emmettbrown.mensajes.cliente.MsgActualizarPuntajes;
 import com.emmettbrown.mensajes.cliente.MsgActualizarRonda;
+import com.emmettbrown.mensajes.cliente.MsgEliminarBomberman;
 import com.emmettbrown.mensajes.cliente.MsgFinPartida;
 import com.emmettbrown.mensajes.cliente.MsgFinRonda;
 import com.emmettbrown.mensajes.cliente.MsgIniciarMotor;
@@ -115,6 +116,13 @@ public class SvSala {
 	
 	public int getRondaActual() {
 		return this.rondaActual;
+	}
+	
+	public void removerCliente(HiloCliente hiloCliente) {
+		map.eliminarBomberman(hiloCliente.getBomber());
+		clientesConectados.remove(hiloCliente);
+		outputStreams.remove(hiloCliente.getOutputStream());
+		hiloCliente.broadcast(new MsgEliminarBomberman(hiloCliente.getBomber().getIdBomberman()), this.outputStreams);
 	}
 	
 	public void iniciarPartida() {
