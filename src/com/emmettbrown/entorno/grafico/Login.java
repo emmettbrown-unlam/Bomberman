@@ -99,8 +99,6 @@ public class Login extends JFrame {
 					cliente = new Cliente(DefConst.IP, DefConst.PORT, txtUsername.getText());
 					cliente.enviarMsg(new MsgCrearUsuario(txtUsername.getText(),new String(txtPassword.getPassword())));
 				}
-				
-				
 				setPantallaLoginEnCliente();			
 			}
 		});

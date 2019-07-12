@@ -14,6 +14,7 @@ import com.emmettbrown.mensajes.cliente.MsgFinPartida;
 import com.emmettbrown.mensajes.cliente.MsgFinRonda;
 import com.emmettbrown.mensajes.cliente.MsgIniciarMotor;
 import com.emmettbrown.servidor.HiloCliente;
+import com.emmettbrown.servidor.SvControlVivos;
 import com.emmettbrown.servidor.mapa.ServerMap;
 
 public class SvSala {
@@ -31,6 +32,7 @@ public class SvSala {
 	private SvReloj reloj;
 	private int rondaActual;
 	private int cantRondas;
+	private SvControlVivos hiloVivos;
 
 	public SvSala(int id, int idCreador, String nombre, int limJugadores) {
 		this.idSala = id;
@@ -44,6 +46,7 @@ public class SvSala {
 		this.reloj = new SvReloj(0, 0, DefConst.SEG);
 		this.cantRondas = DefConst.MAXROUND;
 		this.rondaActual = 1;
+		hiloVivos = new SvControlVivos(this);
 	}
 
 	public ArrayList<ObjectOutputStream> getOutputStreams() {
@@ -129,6 +132,8 @@ public class SvSala {
 		//Indicamos a cada cliente de la sala que actualice el puntaje
 		creador.broadcast(new MsgActualizarPuntajes(tablero.getPuntajes()), outputStreams);	
 		reloj.startTimer(this);
+		hiloVivos.start();
+		System.out.println("ACA INICIA EL PRIMER HILOS VIVOS");
 	}
 	
 	public void reiniciarReloj() {
@@ -157,9 +162,13 @@ public class SvSala {
 
 		if (rondaActual > cantRondas) {
 			creador.broadcast(new MsgFinPartida(), outputStreams);
+			///aca se computa el puntaje con tablero
 		} else {
 			creador.broadcast(new MsgFinRonda(), outputStreams);
-		}			
+		}
+		
+		reloj.stop();
+		hiloVivos.matarHilo();
 	}
 	
 	public void nuevaRonda() {
@@ -178,5 +187,8 @@ public class SvSala {
 		
 		//Comenzamos el reloj nuevamente
 		reiniciarReloj();		
+		this.hiloVivos = new SvControlVivos(this);
+		this.hiloVivos.start();
+		System.out.println("ACA INICIA EL SEGUNDO HILOS VIVOS");
 	}
 }

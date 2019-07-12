@@ -59,9 +59,11 @@ public class JVentanaGrafica extends JFrame {
 		refresh.matarThread();
 	
 		Sala sala = cliente.getSalaActual();
+		sala.getReloj().stop();
 		JOptionPane.showMessageDialog(null, "La ronda "+ cliente.getSalaActual().getRondaActual() +" ha finalizado! Esperando a que el creador inicie la siguiente ronda.");
 		
 		if (sala.getIdCreador() == cliente.getIdCliente()) {
+			System.out.println("Soy el creador. Inicio la siguiente ronda -VentanaGrafica");
 			cliente.enviarMsg(new MsgSiguienteRonda());
 		}
 	}
