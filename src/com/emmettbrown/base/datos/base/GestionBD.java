@@ -1,5 +1,7 @@
 package com.emmettbrown.base.datos.base;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.persistence.Query;
 
@@ -99,10 +101,9 @@ public class GestionBD {
 //	
 	
 	public static void main(String[] args) {
-		
+		Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
 		Configuracion conf = new Configuracion();
 		GestionBD g = new GestionBD(conf.getFactory());
-		
 		Session session = g.getFactory().openSession();
 		Transaction t = session.beginTransaction();
 		List<Object[]> listaUsuarios = null;
@@ -114,5 +115,6 @@ public class GestionBD {
 			Object fila[] = listaUsuarios.get(i);
 			System.out.println("Usuario: "+(String)fila[0]+ " Contrasenia: "+(String)fila[1] + " Puntaje: "+ (Integer)fila[2]);
 		}
+		
 	}
 }
