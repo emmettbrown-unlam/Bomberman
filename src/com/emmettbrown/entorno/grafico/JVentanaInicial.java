@@ -58,6 +58,8 @@ public class JVentanaInicial extends JFrame {
 		lstSalas.setModel(df);
 		contentPane.setDefaultModel(df);
 
+		this.password = new String();
+		
 		JButton btnUnirseALa = new JButton("Unirse a la Sala");
 
 		btnUnirseALa.addActionListener(new ActionListener() {
@@ -70,6 +72,7 @@ public class JVentanaInicial extends JFrame {
 		btnCrearSalaPublica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				crearSala();
+				crearLobbyCreador();
 			}
 		});
 
