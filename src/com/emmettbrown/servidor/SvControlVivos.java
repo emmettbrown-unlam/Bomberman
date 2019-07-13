@@ -1,6 +1,5 @@
 package com.emmettbrown.servidor;
 
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import com.emmettbrown.servidor.entidades.SvSala;

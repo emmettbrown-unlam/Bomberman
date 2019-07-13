@@ -1,16 +1,14 @@
 package com.emmettbrown.base.datos.base;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.persistence.Query;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.emmettbrown.entorno.grafico.DefConst;
 
 public class GestionBD {
 	private SessionFactory factory;

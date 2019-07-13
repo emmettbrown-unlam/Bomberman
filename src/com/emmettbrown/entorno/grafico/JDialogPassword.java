@@ -1,7 +1,5 @@
 package com.emmettbrown.entorno.grafico;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -10,7 +8,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
@@ -23,7 +20,7 @@ public class JDialogPassword extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JVentanaInicial ventana;
+	//private JVentanaInicial ventana;
 	private JTextField txtPassword;
 	private JButton btnAceptar;
 
@@ -40,7 +37,7 @@ public class JDialogPassword extends JDialog {
 		
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
-		this.ventana = ventana;
+		//this.ventana = ventana;
 		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
