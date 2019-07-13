@@ -35,8 +35,9 @@ public class JDialogPassword extends JDialog {
 		setTitle("Ingresar contrase\u00F1a");
 		setBounds(100, 100, 450, 163);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setVisible(true);
+		//Lo hacemos modal para bloquear todo lo demás hasta que se cierre
 		setLocationRelativeTo(null);
+		
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
 		this.ventana = ventana;
@@ -57,7 +58,6 @@ public class JDialogPassword extends JDialog {
 			btnAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					ventana.setPassword(txtPassword.getText());
-					ventana.crearSala();
 					dispose();					
 				}
 			});
@@ -99,5 +99,8 @@ public class JDialogPassword extends JDialog {
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		getContentPane().setLayout(groupLayout);
+		
+		setModal(true);
+		setVisible(true);
 	}
 }

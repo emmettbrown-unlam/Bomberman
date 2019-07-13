@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import com.emmettbrown.entidades.Bomberman;
 import com.emmettbrown.entorno.grafico.JPanelGrafico;
 import com.emmettbrown.entorno.grafico.JVentanaGrafica;
+import com.emmettbrown.entorno.grafico.JVentanaInicial;
 import com.emmettbrown.entorno.grafico.JVentanaLobby;
 import com.emmettbrown.entorno.grafico.Login;
 import com.emmettbrown.entorno.grafico.Sala;
@@ -39,6 +40,7 @@ public class Cliente implements Serializable {
 	private JPanelGrafico panelGrafico;
 	private JVentanaGrafica ventanaGrafica;
 	private Login pantallaLogin;
+	private JVentanaInicial ventanaInicial;
 
 	public Cliente(String ip, int puerto, String username) {
 		try {
@@ -166,6 +168,14 @@ public class Cliente implements Serializable {
 	
 	public JVentanaGrafica getVentanaGrafica() {
 		return this.ventanaGrafica;
+	}
+	
+	public void setVentanaInicial(JVentanaInicial ventana) {
+		this.ventanaInicial = ventana;
+	}
+	
+	public JVentanaInicial getVentanaInicial() {
+		return this.ventanaInicial;
 	}
 	
 	public void setSalaActual(Sala sala) {

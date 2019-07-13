@@ -18,6 +18,8 @@ import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.mensajes.servidor.MsgConectarseASala;
 import com.emmettbrown.mensajes.servidor.MsgCrearSala;
 import com.emmettbrown.mensajes.servidor.MsgObtenerSalas;
+import com.emmettbrown.mensajes.servidor.MsgVerificarContraseñaSala;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -42,6 +44,7 @@ public class JVentanaInicial extends JFrame {
 		setBounds(100, 100, 525, 500);
 		
 		this.cliente = cliente;
+		cliente.setVentanaInicial(this);
 		this.salasCreadas = cliente.getListaSalas();
 		contentPane = new JPanelInicial(salasCreadas);
 
@@ -67,16 +70,6 @@ public class JVentanaInicial extends JFrame {
 		btnCrearSalaPublica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				crearSala();
-				
-				Sala salaCreador = null;
-				
-				while (salaCreador == null) {
-					salaCreador = getSalaCreador();
-				}
-				JVentanaLobby sala = new JVentanaLobby(cliente, salaCreador, true);				
-				thread.matarThread();
-				sala.setVisible(true);
-				dispose();
 			}
 		});
 
@@ -160,27 +153,54 @@ public class JVentanaInicial extends JFrame {
 		}
 	}
 	
-	public void crearSalaPrivada() {
-		JDialogPassword dialog = new JDialogPassword(this);
-		//dialog.setVisible(true);
+	public void crearJDialogPassword() {
+		new JDialogPassword(this);		
+	}
+	
+	private void crearSalaPrivada() {
+		crearJDialogPassword();		
+		crearSala();		
+		crearLobbyCreador();
 	}
 
 	public void crearSala() {
-		cliente.enviarMsg(new MsgCrearSala(cliente.getIdCliente()));
+		cliente.enviarMsg(new MsgCrearSala(cliente.getIdCliente(), password));
 		refrescarListaSalas();
 	}
 
 	public void unirseASala() {		
 		Sala seleccionada = lstSalas.getSelectedValue();	
 		
-		if (seleccionada != null) {
-			JVentanaLobby sala = new JVentanaLobby(cliente, seleccionada, false);
-			sala.setVisible(true);
-			thread.matarThread();
-			dispose();	
-			cliente.enviarMsg(new MsgConectarseASala(seleccionada.getId()));			
+		if (seleccionada != null) {			
+			if (seleccionada.esPrivada()) {
+				crearJDialogPassword();
+				cliente.enviarMsg(new MsgVerificarContraseñaSala(password, seleccionada.getId()));				
+			} else {
+				crearLobbyInvitado();
+			}			
+		}		
+	}
+	
+	public void crearLobbyInvitado() {
+		Sala seleccionada = lstSalas.getSelectedValue();
+		JVentanaLobby sala = new JVentanaLobby(cliente, seleccionada, false);
+		sala.setVisible(true);
+		thread.matarThread();
+		dispose();	
+		cliente.enviarMsg(new MsgConectarseASala(seleccionada.getId()));
+	}
+	
+	public void crearLobbyCreador() {
+		Sala salaCreador = null;
+		
+		while (salaCreador == null) {
+			salaCreador = getSalaCreador();
 		}
-		System.out.println("No seleccionaste nada, bobo.");		
+		
+		JVentanaLobby sala = new JVentanaLobby(cliente, salaCreador, true);				
+		thread.matarThread();
+		sala.setVisible(true);
+		dispose();
 	}
 
 	public void obtenerSalas() {

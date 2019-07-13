@@ -45,7 +45,7 @@ public class SvSala {
 	
 	private String password;
 
-	public SvSala(int id, int idCreador, String nombre, int limJugadores) {
+	public SvSala(int id, int idCreador, String nombre, int limJugadores, String password) {
 		this.idSala = id;
 		this.idCreador = idCreador;
 		this.nombre = nombre;
@@ -56,6 +56,7 @@ public class SvSala {
 		this.tablero = new Tablero();
 		this.reloj = new SvReloj(0, 0, DefConst.SEG);
 		this.rondaActual = 1;
+		this.password = password;
 		hiloVivos = new SvControlVivos(this);
 	}
 
@@ -117,6 +118,14 @@ public class SvSala {
 	
 	public int getRondaActual() {
 		return this.rondaActual;
+	}
+	
+	public String getPassword() {
+		return this.password;
+	}
+	
+	public boolean esPrivada() {
+		return !password.equals("");
 	}
 	
 	public void removerCliente(HiloCliente hiloCliente) {
