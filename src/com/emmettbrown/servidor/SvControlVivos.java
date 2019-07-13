@@ -38,7 +38,7 @@ public class SvControlVivos extends Thread{
 					if(hiloCliente.getBomber().estaVivo() == true)
 						cont++;
 				}
-				if(cont == 1) {
+				if(cont == 1 || cont == 0) {
 					sala.finalizarRonda();
 					corriendo = false;
 				}

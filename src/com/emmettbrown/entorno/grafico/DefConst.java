@@ -18,7 +18,7 @@ public final class DefConst {
 	public static final int LIMITEJUGADORES = 4;
 	public static final int DXNAME =  9;
 	public static final int DYNAME =  -5;
-	public static final int SEG = 20;
+	public static final int SEG = 30;
 	public static final String TITLETAB ="PUNTUACIONES";
 	public static final int MAXROUND = 4;
 	public static final int PUNTAJEMAXIMO = 3;
