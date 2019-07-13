@@ -24,7 +24,6 @@ public class MsgResContraseñaSala extends Msg {
 		if (puedeConectarse) {
 			cliente.getVentanaInicial().crearLobbyInvitado();
 		} else {
-			//mostrar un cartelito, ni idea
 			JOptionPane.showMessageDialog(null, "La contraseña no es correcta", "Error al acceder",
 					JOptionPane.ERROR_MESSAGE);
 		}
