@@ -22,7 +22,7 @@ public class MsgResLogin extends Msg {
 	public Object realizarAccion(Object obj) {
 		Cliente cliente = (Cliente) obj;
 		if (!resultado) {
-			JOptionPane.showMessageDialog(null, "Datos de usuarios incorrectos. Vuelva a ingresarlos", "Datos erroneos", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Datos del usuario incorrectos. Vuelva a ingresarlos", "Datos erroneos", JOptionPane.ERROR_MESSAGE);
 		}else {
 			JVentanaInicial inicial = new JVentanaInicial(cliente);
 			inicial.setVisible(true);
