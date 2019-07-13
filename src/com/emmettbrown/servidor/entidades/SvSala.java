@@ -40,9 +40,10 @@ public class SvSala {
 	private ServerMap map;
 	private SvReloj reloj;
 	private int rondaActual;
-	private int cantRondas;  /// -------------------------------- NO SE USA
 	private SvControlVivos hiloVivos;
 	private GestionBD gestion;
+	
+	private String password;
 
 	public SvSala(int id, int idCreador, String nombre, int limJugadores) {
 		this.idSala = id;
@@ -54,7 +55,6 @@ public class SvSala {
 		this.outputStreams = new ArrayList<ObjectOutputStream>();
 		this.tablero = new Tablero();
 		this.reloj = new SvReloj(0, 0, DefConst.SEG);
-		this.cantRondas = DefConst.MAXROUND;
 		this.rondaActual = 1;
 		hiloVivos = new SvControlVivos(this);
 	}

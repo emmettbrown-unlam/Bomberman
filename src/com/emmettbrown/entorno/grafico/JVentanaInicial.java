@@ -18,6 +18,9 @@ import com.emmettbrown.cliente.Cliente;
 import com.emmettbrown.mensajes.servidor.MsgConectarseASala;
 import com.emmettbrown.mensajes.servidor.MsgCrearSala;
 import com.emmettbrown.mensajes.servidor.MsgObtenerSalas;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class JVentanaInicial extends JFrame {
 
@@ -35,19 +38,21 @@ public class JVentanaInicial extends JFrame {
 	public JVentanaInicial(Cliente cliente) {
 		setTitle("Bomberman");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 447);
-		contentPane = new JPanelInicial(this);
+		setBounds(100, 100, 525, 500);
+		
+		this.cliente = cliente;
+		this.salasCreadas = cliente.getListaSalas();
+		contentPane = new JPanelInicial(salasCreadas);
+
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-
-		this.cliente = cliente;
-
+	//	this.getContentPane().add(contentPane);
+		
 		lstSalas = new JList<Sala>();
-		lstSalas.setBounds(20, 141, 391, 222);
-		contentPane.add(lstSalas);
+		contentPane.setLstSalas(lstSalas);
 		df = new DefaultListModel<>();
 		lstSalas.setModel(df);
+		contentPane.setDefaultModel(df);
 
 		JButton btnUnirseALa = new JButton("Unirse a la Sala");
 
@@ -56,11 +61,9 @@ public class JVentanaInicial extends JFrame {
 				unirseASala();
 			}
 		});
-		btnUnirseALa.setBounds(304, 374, 107, 23);
-		contentPane.add(btnUnirseALa);
 
-		JButton btnCrearSala = new JButton("Crear Sala");
-		btnCrearSala.addActionListener(new ActionListener() {
+		JButton btnCrearSalaPublica = new JButton("Crear Sala Publica");
+		btnCrearSalaPublica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				crearSala();
 				
@@ -75,13 +78,9 @@ public class JVentanaInicial extends JFrame {
 				dispose();
 			}
 		});
-		btnCrearSala.setBounds(20, 374, 108, 23);
-		contentPane.add(btnCrearSala);
 
 		JLabel lblTextoSalas = new JLabel("Salas actuales en el servidor:");
 		lblTextoSalas.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblTextoSalas.setBounds(20, 116, 181, 14);
-		contentPane.add(lblTextoSalas);
 
 		JTextArea txtrBienvenidoAlBomberman = new JTextArea();
 		txtrBienvenidoAlBomberman.setEditable(false);
@@ -90,17 +89,62 @@ public class JVentanaInicial extends JFrame {
 		txtrBienvenidoAlBomberman.setLineWrap(true);
 		txtrBienvenidoAlBomberman.setText(
 				"Bienvenido al Bomberman desarrollado por Emmett-Brown. \r\n\r\nPara continuar, por favor cree una sala o seleccione una de las ya creadas y \u00FAnase a la misma.");
-		txtrBienvenidoAlBomberman.setBounds(20, 11, 391, 94);
-		contentPane.add(txtrBienvenidoAlBomberman);
+		
+		JButton btnSalaPrivada = new JButton("Crear Sala Privada");
+		btnSalaPrivada.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(btnCrearSalaPublica, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
+							.addGap(43)
+							.addComponent(btnSalaPrivada, GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+							.addGap(34)
+							.addComponent(btnUnirseALa, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addComponent(lstSalas, GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblTextoSalas, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+							.addGap(308))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(txtrBienvenidoAlBomberman, GroupLayout.PREFERRED_SIZE, 468, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(21, Short.MAX_VALUE))))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(6)
+					.addComponent(txtrBienvenidoAlBomberman, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblTextoSalas, GroupLayout.PREFERRED_SIZE, 14, Short.MAX_VALUE)
+					.addGap(11)
+					.addComponent(lstSalas, GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+					.addGap(11)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnCrearSalaPublica, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnSalaPrivada, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnUnirseALa, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
+		);
+		contentPane.setLayout(gl_contentPane);
 
 		obtenerSalas();
 		// Refresh rate = 1 frame per second
 		thread = new RefreshThread(this, 1);
 		thread.start();
+
 	}
 
 	public synchronized void refrescarListaSalas() {
-		this.salasCreadas = cliente.getListaSalas();
 		df.clear();
 		for (Sala sala : salasCreadas) {
 			df.addElement(sala);
