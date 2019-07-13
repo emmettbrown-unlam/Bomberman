@@ -31,6 +31,7 @@ public class JVentanaInicial extends JFrame {
 	private ConcurrentLinkedQueue<Sala> salasCreadas;
 	private DefaultListModel<Sala> df;
 	private RefreshThread thread;
+	private String password;
 
 	/**
 	 * Create the frame.
@@ -93,9 +94,11 @@ public class JVentanaInicial extends JFrame {
 		JButton btnSalaPrivada = new JButton("Crear Sala Privada");
 		btnSalaPrivada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				crearSalaPrivada();				
 			}
 		});
+		
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
@@ -136,19 +139,30 @@ public class JVentanaInicial extends JFrame {
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
+		
+		setLocationRelativeTo(null);
 
 		obtenerSalas();
 		// Refresh rate = 1 frame per second
 		thread = new RefreshThread(this, 1);
 		thread.start();
-
 	}
 
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
 	public synchronized void refrescarListaSalas() {
 		df.clear();
 		for (Sala sala : salasCreadas) {
 			df.addElement(sala);
 		}
+	}
+	
+	public void crearSalaPrivada() {
+		JDialogPassword dialog = new JDialogPassword(this);
+		//dialog.setVisible(true);
 	}
 
 	public void crearSala() {
