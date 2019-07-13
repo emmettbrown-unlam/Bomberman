@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -76,6 +77,10 @@ public class Login extends JFrame {
 		JButton btnIniciarSesin = new JButton("Iniciar Sesi\u00F3n");
 		btnIniciarSesin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if (txtUsername.getText().isEmpty() || new String(txtPassword.getPassword()).isEmpty())
+					JOptionPane.showMessageDialog(null, "Los dos campos deben estar completados", "Acceso denegado",
+							JOptionPane.ERROR_MESSAGE);
+				else {
 				if (cliente != null) {
 					cliente.enviarMsg(new MsgLogin(txtUsername.getText(),new String(txtPassword.getPassword())));
 				}else {
@@ -83,7 +88,7 @@ public class Login extends JFrame {
 					cliente.enviarMsg(new MsgLogin(txtUsername.getText(),new String(txtPassword.getPassword())));
 					setPantallaLoginEnCliente();
 				}
-
+				}
 					
 			}
 		});
@@ -93,6 +98,10 @@ public class Login extends JFrame {
 		JButton btnCrearUsuario = new JButton("Crear Usuario");
 		btnCrearUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if (txtUsername.getText().isEmpty() || new String(txtPassword.getPassword()).isEmpty())
+					JOptionPane.showMessageDialog(null, "Los dos campos deben estar completados", "Acceso denegado",
+							JOptionPane.ERROR_MESSAGE);
+				else {
 				if (cliente != null) {
 					cliente.enviarMsg(new MsgCrearUsuario(txtUsername.getText(),new String(txtPassword.getPassword())));
 				}else {
@@ -100,6 +109,7 @@ public class Login extends JFrame {
 					cliente.enviarMsg(new MsgCrearUsuario(txtUsername.getText(),new String(txtPassword.getPassword())));
 				}
 				setPantallaLoginEnCliente();			
+			}
 			}
 		});
 		btnCrearUsuario.setBounds(50, 213, 142, 23);
